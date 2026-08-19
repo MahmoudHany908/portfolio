@@ -86,7 +86,7 @@ export default function NodeMarker({ node, onSelect, isCompleted, x, y }) {
         </motion.div>
         
         {/* Permanent Label that highlights on hover */}
-        <div className={`absolute top-[130%] whitespace-nowrap font-pixel text-[10px] px-3 py-2 border-2 transition-all pointer-events-none ${
+        <div className={`absolute top-[130%] left-1/2 -translate-x-1/2 whitespace-nowrap font-pixel text-[10px] px-3 py-2 border-2 transition-all pointer-events-none ${
           isHovered 
             ? `text-retro-dark ${completedBgClass} border-current scale-110` 
             : isCompleted 

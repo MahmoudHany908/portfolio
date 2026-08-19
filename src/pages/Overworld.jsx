@@ -87,7 +87,7 @@ export default function Overworld() {
         setShowVictory(true);
         setTimeout(() => setShowVictory(false), 6000);
       } else {
-        setToastMessage(`Achievement Unlocked: Discovered ${node.title}`);
+        setToastMessage(`CHECKPOINT REACHED!`);
         if (!muted) playUnlock();
         setTimeout(() => setToastMessage(null), 3000);
       }
