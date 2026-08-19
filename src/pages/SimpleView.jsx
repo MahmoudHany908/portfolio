@@ -330,22 +330,14 @@ export default function SimpleView() {
                   <div className="absolute top-1/2 -left-4 w-0 h-0 border-y-[12px] border-y-transparent border-r-[16px] border-r-retro-light-green transform -translate-y-1/2 hidden md:block"></div>
                   <div className="absolute -top-4 left-1/2 w-0 h-0 border-x-[12px] border-x-transparent border-b-[16px] border-b-retro-light-green transform -translate-x-1/2 md:hidden"></div>
                   
-                  <p className="text-retro-light-blue text-base md:text-lg leading-relaxed font-sans">
+                  <p className="text-retro-light-blue text-base md:text-lg leading-relaxed font-sans mt-4">
                     Hey 👋 I'm Virtual Mahmoud - a tiny pixelated clone of the real developer. 
                     Slightly shorter, equally opinionated, and 37% more efficient. 
                     Ask me about games, Unity, AI, projects, hiring, life goals, or mysterious bugs.
                   </p>
                   
-                  <div className="mt-8 flex gap-4">
-                    <div className="flex-1 bg-retro-dark/50 border border-retro-gray p-3 text-slate-500 font-sans text-sm md:text-base cursor-not-allowed">
-                      Ask something...
-                    </div>
-                    <button className="pixel-btn bg-retro-dark border-2 border-retro-light-green text-retro-light-green hover:bg-retro-light-green hover:text-retro-dark px-6 shadow-[0_0_10px_rgba(131,235,114,0.4)]">
-                      ASK
-                    </button>
-                  </div>
-                  <p className="text-retro-gray text-xs md:text-sm mt-4 text-center">
-                    Need the real human? Email <a href={`mailto:${profile.email}`} className="text-retro-light-green hover:underline">{profile.email}</a>
+                  <p className="text-retro-gray text-sm md:text-base mt-8 border-t border-retro-dark/50 pt-4">
+                    Ready to collaborate? Email the real human at <a href={`mailto:${profile.email}`} className="text-retro-light-green hover:underline font-bold tracking-wide">{profile.email}</a>
                   </p>
                 </div>
               </div>
@@ -354,7 +346,7 @@ export default function SimpleView() {
           </div>
 
           <div className="mt-32 pt-10 border-t-[4px] border-retro-light-green text-center pb-10 shadow-[0_-15px_30px_-15px_rgba(131,235,114,0.3)]">
-            <p className="font-pixel text-retro-light-green text-xl md:text-2xl drop-shadow-[0_0_12px_rgba(131,235,114,0.8)] tracking-[0.2em] uppercase">GAME OVER? NEVER. KEEP PLAYING.</p>
+            <p className="font-pixel text-retro-light-green text-xl md:text-2xl drop-shadow-[0_0_12px_rgba(131,235,114,0.8)] tracking-[0.2em] uppercase">BUILT WITH PASSION AND PIXELS</p>
           </div>
         </motion.section>
       </div>
