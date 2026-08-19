@@ -130,8 +130,15 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
     trailSegments.push({ id: `trail-${curr.id}`, path, isActive });
   }
 
-  // Camera Follow logic for mobile: Offset by -150px so the player sits in the upper half of the screen
-  const cameraY = isMobileLayout && playerPos ? (CANVAS_HEIGHT / 2) - playerPos.y - 150 : 0;
+  // Camera Follow logic: mathematically position the canvas so playerPos sits at a specific screen coordinate
+  const targetLeft = isMobileLayout && playerPos
+    ? `calc(50% - ${playerPos.x * scale}px)`
+    : `calc(50% - ${(CANVAS_WIDTH / 2) * scale}px)`;
+
+  // On mobile, put the player at 35% height from the top of the screen to reveal the path below!
+  const targetTop = isMobileLayout && playerPos
+    ? `calc(35% - ${playerPos.y * scale}px)`
+    : `calc(50% - ${(CANVAS_HEIGHT / 2) * scale}px)`;
 
   return (
     <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-green relative">
@@ -144,9 +151,10 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
         style={{ 
           width: CANVAS_WIDTH, 
           height: CANVAS_HEIGHT, 
-          left: '50%',
-          top: '50%',
-          transform: `translate(-50%, calc(-50% + ${cameraY}px)) scale(${scale})`
+          transform: `scale(${scale})`,
+          transformOrigin: 'top left',
+          left: targetLeft,
+          top: targetTop
         }}
       >
         {/* Phase Regions */}
@@ -201,7 +209,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
             initial={false}
             animate={{ left: playerPos.x, top: playerPos.y }}
             transition={{ duration: walkDuration, ease: "linear" }}
-            style={{ x: '-50%', y: '-80%' }}
+            style={{ x: '-50%', y: '-100%' }}
             className="absolute z-40 pointer-events-none flex flex-col items-center justify-center"
           >
             {/* Speech Bubble */}
