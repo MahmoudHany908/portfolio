@@ -96,8 +96,8 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
     const handleResize = () => {
       const scaleX = window.innerWidth / 1600;
       const scaleY = window.innerHeight / 900;
-      // We take the smaller scale so it fits entirely, add a 0.87 padding factor so UI doesn't overlap, and cap it at 1.5 max for huge screens
-      const finalScale = Math.min(Math.min(scaleX, scaleY) * 0.87, 1.5);
+      // We take the smaller scale so it fits entirely, add a 0.75 padding factor so UI doesn't overlap, and cap it at 1.5 max for huge screens
+      const finalScale = Math.min(Math.min(scaleX, scaleY) * 0.75, 1.5);
       setScale(finalScale);
     };
 

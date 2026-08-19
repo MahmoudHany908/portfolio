@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star, Smartphone } from 'lucide-react';
 import MapCanvas from '../components/Overworld/MapCanvas';
 import ModalOverlay from '../components/UI/ModalOverlay';
 import GameHUD from '../components/UI/GameHUD';
+import SimpleViewToggle from '../components/UI/SimpleViewToggle';
 import portfolioData from '../data/portfolioData.json';
 import useGameAudio from '../hooks/useGameAudio';
 
@@ -114,6 +115,17 @@ export default function Overworld() {
         node={activeNode} 
         onClose={handleModalClose} 
       />
+
+      {/* Mobile Portrait Lock Screen */}
+      <div className="hidden max-md:portrait:flex fixed inset-0 z-[9999] bg-retro-dark flex-col items-center justify-center p-8 text-center pointer-events-auto">
+        <Smartphone size={80} className="text-retro-yellow mb-8 animate-[pulse_2s_ease-in-out_infinite] rotate-90" />
+        <h2 className="text-2xl md:text-3xl font-pixel mb-4 text-retro-yellow leading-loose tracking-widest">ROTATE DEVICE</h2>
+        <p className="text-lg text-slate-300 mb-12 max-w-sm leading-relaxed">
+          The Overworld map requires landscape mode for the best navigation experience.
+        </p>
+        <p className="text-sm text-retro-gray mb-4">Or use the standard scrolling view:</p>
+        <SimpleViewToggle />
+      </div>
     </div>
   );
 }

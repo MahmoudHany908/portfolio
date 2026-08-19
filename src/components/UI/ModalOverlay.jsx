@@ -134,7 +134,20 @@ export default function ModalOverlay({ node, onClose }) {
               )}
 
               {node.summary && node.type !== 'about' && node.type !== 'contact' && node.type !== 'skills' && (
-                <p className="text-lg border-l-4 border-retro-blue pl-4 text-slate-300">{node.summary}</p>
+                <div className="space-y-6">
+                  {node.video && (
+                    <div className="relative w-full aspect-video mb-6 pixel-border border-4 border-retro-gray shadow-lg">
+                      <iframe 
+                        src={node.video} 
+                        className="absolute inset-0 w-full h-full" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  )}
+                  <p className="text-lg border-l-4 border-retro-blue pl-4 text-slate-300">{node.summary}</p>
+                </div>
               )}
               
               {node.tech && (

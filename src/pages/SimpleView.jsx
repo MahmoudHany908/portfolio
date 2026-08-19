@@ -149,6 +149,18 @@ export default function SimpleView() {
                   )}
                 </div>
                 
+                {proj.video && (
+                  <div className="relative w-full aspect-video mb-6 pixel-border border-4 border-retro-gray shadow-lg">
+                    <iframe 
+                      src={proj.video} 
+                      className="absolute inset-0 w-full h-full" 
+                      frameBorder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                )}
+                
                 <p className="text-slate-300 mb-6 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
                 
                 <div className="flex flex-wrap gap-2">
