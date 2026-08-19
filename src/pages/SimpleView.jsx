@@ -240,19 +240,121 @@ export default function SimpleView() {
 
         <motion.section id="contact" 
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-          className="border-t-[6px] border-retro-gray pt-12 mt-24 flex flex-col md:flex-row justify-between items-center gap-8 scroll-mt-28"
+          className="pt-16 mt-32 scroll-mt-28"
         >
-          <div className="text-center md:text-left">
-            <div className="text-2xl font-bold hover:text-retro-yellow transition-colors cursor-pointer mb-3">{profile.email}</div>
-            <div className="text-retro-light-blue text-lg">{profile.phone}</div>
+          <div className="flex flex-col lg:flex-row gap-16 justify-between items-stretch">
+            
+            {/* Left Column: Let's Connect */}
+            <div className="lg:w-1/2 space-y-10">
+              <h3 className="font-pixel text-3xl md:text-4xl text-retro-light-blue drop-shadow-[0_0_10px_rgba(86,156,235,0.6)] tracking-widest uppercase">
+                Let's Connect
+              </h3>
+              <p className="text-retro-light-blue text-lg md:text-xl leading-relaxed">
+                I'm always interested in discussing new opportunities, collaborations, or just chatting about game development and AI. Feel free to reach out!
+              </p>
+              
+              <div className="space-y-8 pt-4">
+                <a href={`mailto:${profile.email}`} className="flex items-center gap-6 group hover:cursor-pointer">
+                  <div className="w-16 h-16 shrink-0 border-4 border-retro-light-blue flex items-center justify-center text-retro-light-blue group-hover:bg-retro-light-blue group-hover:text-retro-dark transition-all drop-shadow-[0_0_10px_rgba(86,156,235,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(86,156,235,0.8)]">
+                    <MailIcon />
+                  </div>
+                  <div>
+                    <h4 className="font-pixel text-2xl text-retro-light-green mb-2 tracking-wider">EMAIL</h4>
+                    <p className="text-retro-light-blue text-lg">{profile.email}</p>
+                  </div>
+                </a>
+                
+                <div className="flex items-center gap-6 group">
+                  <div className="w-16 h-16 shrink-0 border-4 border-retro-light-blue flex items-center justify-center text-retro-light-blue group-hover:bg-retro-light-blue group-hover:text-retro-dark transition-all drop-shadow-[0_0_10px_rgba(86,156,235,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(86,156,235,0.8)]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <h4 className="font-pixel text-2xl text-retro-light-green mb-2 tracking-wider">PHONE</h4>
+                    <p className="text-retro-light-blue text-lg">{profile.phone}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-6 group">
+                  <div className="w-16 h-16 shrink-0 border-4 border-retro-light-blue flex items-center justify-center text-retro-light-blue group-hover:bg-retro-light-blue group-hover:text-retro-dark transition-all drop-shadow-[0_0_10px_rgba(86,156,235,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(86,156,235,0.8)]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  </div>
+                  <div>
+                    <h4 className="font-pixel text-2xl text-retro-light-green mb-2 tracking-wider">LOCATION</h4>
+                    <p className="text-retro-light-blue text-lg">Egypt</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Knight Dialogue */}
+            <div className="lg:w-1/2 mt-12 lg:mt-0 relative flex flex-col justify-center">
+              <div className="border-4 border-retro-light-blue p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center bg-retro-dark/80 backdrop-blur-sm shadow-[0_0_30px_rgba(86,156,235,0.2)]">
+                
+                {/* Knight Avatar Box */}
+                <div className="flex flex-col items-center gap-6 shrink-0 z-10">
+                  <div className="w-32 h-32 md:w-40 md:h-40 border-4 border-retro-light-blue bg-retro-dark flex items-center justify-center overflow-hidden shadow-[0_0_20px_rgba(86,156,235,0.5)]">
+                    <svg width="128" height="128" viewBox="0 0 16 16" overflow="visible" className="transform scale-[2.5]">
+                      {/* Small Red Plume */}
+                      <rect x="7" y="0" width="2" height="1" fill="#d95763" />
+                      <rect x="8" y="1" width="3" height="2" fill="#d95763" />
+                      {/* Silver Helmet */}
+                      <rect x="5" y="2" width="6" height="2" fill="#a4a5a1" />
+                      <rect x="4" y="4" width="8" height="4" fill="#daddd8" />
+                      {/* Visor slit (T shape) */}
+                      <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
+                      <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
+                      <rect x="8" y="5" width="1" height="1" fill="#83eb72" /> {/* Glowing Eye */}
+                      {/* Silver Body Armor */}
+                      <rect x="5" y="8" width="6" height="4" fill="#a4a5a1" />
+                      {/* Belt & Trim */}
+                      <rect x="5" y="11" width="6" height="1" fill="#3b5dc9" />
+                      <rect x="7" y="10" width="2" height="2" fill="#f4b41b" />
+                      {/* Arms & Shoulders */}
+                      <rect x="3" y="8" width="2" height="3" fill="#a4a5a1" />
+                      <rect x="11" y="8" width="2" height="3" fill="#a4a5a1" />
+                      <rect x="2" y="10" width="1" height="2" fill="#1a1c2c" />
+                      <rect x="13" y="10" width="1" height="2" fill="#1a1c2c" />
+                      {/* Legs */}
+                      <rect x="5" y="12" width="2" height="3" fill="#a4a5a1" />
+                      <rect x="9" y="12" width="2" height="3" fill="#a4a5a1" />
+                      <rect x="5" y="15" width="2" height="1" fill="#1a1c2c" />
+                      <rect x="9" y="15" width="2" height="1" fill="#1a1c2c" />
+                    </svg>
+                  </div>
+                  <span className="font-pixel text-white text-sm md:text-base tracking-widest text-center whitespace-nowrap">Tiny Mahmoud ^_^</span>
+                </div>
+                
+                {/* Dialogue Box */}
+                <div className="flex-1 border-2 border-retro-light-green p-6 relative">
+                  {/* Speech bubbles arrow */}
+                  <div className="absolute top-1/2 -left-4 w-0 h-0 border-y-[12px] border-y-transparent border-r-[16px] border-r-retro-light-green transform -translate-y-1/2 hidden md:block"></div>
+                  <div className="absolute -top-4 left-1/2 w-0 h-0 border-x-[12px] border-x-transparent border-b-[16px] border-b-retro-light-green transform -translate-x-1/2 md:hidden"></div>
+                  
+                  <p className="text-retro-light-blue text-base md:text-lg leading-relaxed font-sans">
+                    Hey 👋 I'm Virtual Mahmoud - a tiny pixelated clone of the real developer. 
+                    Slightly shorter, equally opinionated, and 37% more efficient. 
+                    Ask me about games, Unity, AI, projects, hiring, life goals, or mysterious bugs.
+                  </p>
+                  
+                  <div className="mt-8 flex gap-4">
+                    <div className="flex-1 bg-retro-dark/50 border border-retro-gray p-3 text-slate-500 font-sans text-sm md:text-base cursor-not-allowed">
+                      Ask something...
+                    </div>
+                    <button className="pixel-btn bg-retro-dark border-2 border-retro-light-green text-retro-light-green hover:bg-retro-light-green hover:text-retro-dark px-6 shadow-[0_0_10px_rgba(131,235,114,0.4)]">
+                      ASK
+                    </button>
+                  </div>
+                  <p className="text-retro-gray text-xs md:text-sm mt-4 text-center">
+                    Need the real human? Email <a href={`mailto:${profile.email}`} className="text-retro-light-green hover:underline">{profile.email}</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <div className="flex gap-8">
-            <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-retro-light-blue hover:scale-125 transition-all drop-shadow-lg transform">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-            <a href={profile.links.github} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-retro-light-blue hover:scale-125 transition-all drop-shadow-lg transform">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-            </a>
+
+          <div className="mt-32 pt-10 border-t-[4px] border-retro-light-green text-center pb-10 shadow-[0_-15px_30px_-15px_rgba(131,235,114,0.3)]">
+            <p className="font-pixel text-retro-light-green text-xl md:text-2xl drop-shadow-[0_0_12px_rgba(131,235,114,0.8)] tracking-[0.2em] uppercase">GAME OVER? NEVER. KEEP PLAYING.</p>
           </div>
         </motion.section>
       </div>
