@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import VideoGallery from '../components/UI/VideoGallery';
 import portfolioData from '../data/portfolioData.json';
 
 const GithubIcon = () => (
@@ -149,17 +150,7 @@ export default function SimpleView() {
                   )}
                 </div>
                 
-                {proj.video && (
-                  <div className="relative w-full aspect-video mb-6 pixel-border border-4 border-retro-gray shadow-lg">
-                    <iframe 
-                      src={proj.video} 
-                      className="absolute inset-0 w-full h-full" 
-                      frameBorder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                )}
+                <VideoGallery singleVideo={proj.video} videos={proj.videos} />
                 
                 <p className="text-slate-300 mb-6 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
                 

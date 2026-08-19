@@ -123,7 +123,11 @@
       "tech": ["Unity", "C#", ".NET", "EF Core", "Python"],
       "summary": "Led backend development for a Unity-based VR/AR application. Developed services with .NET and EF Core while gaining a comprehensive understanding of the app's Unity architecture and gameplay systems.",
       "githubLink": "https://github.com/ali-hy/the-learning-lens",
-      "video": "https://www.youtube.com/embed/videoseries?list=PLxwu6CspzTKTWZwrkIClWTBr3Si2u0tnv",
+      "videos": [
+        { "title": "Part 1", "url": "https://www.youtube.com/embed/vdYVyyP65vw" },
+        { "title": "Part 2", "url": "https://www.youtube.com/embed/lbJjDwyG6B4" },
+        { "title": "Part 3", "url": "https://www.youtube.com/embed/mlR2QsI3T5w" }
+      ],
       "x": 950,
       "y": 700,
       "icon": "mobile"

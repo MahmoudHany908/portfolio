@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Gamepad2, Code, Box, Braces, Star, Wrench, Brain, GitBranch, Users } from 'lucide-react';
+import VideoGallery from './VideoGallery';
 import portfolioData from '../../data/portfolioData.json';
 
 const GithubIcon = () => (
@@ -135,17 +136,7 @@ export default function ModalOverlay({ node, onClose }) {
 
               {node.summary && node.type !== 'about' && node.type !== 'contact' && node.type !== 'skills' && (
                 <div className="space-y-6">
-                  {node.video && (
-                    <div className="relative w-full aspect-video mb-6 pixel-border border-4 border-retro-gray shadow-lg">
-                      <iframe 
-                        src={node.video} 
-                        className="absolute inset-0 w-full h-full" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-                  )}
+                  <VideoGallery singleVideo={node.video} videos={node.videos} />
                   <p className="text-lg border-l-4 border-retro-blue pl-4 text-slate-300">{node.summary}</p>
                 </div>
               )}
