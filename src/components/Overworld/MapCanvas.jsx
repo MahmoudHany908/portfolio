@@ -36,23 +36,23 @@ const PixelKnight = ({ isWalking, flipX }) => (
   <svg width="64" height="64" viewBox="0 0 16 16" overflow="visible"
        className={`drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] ${isWalking ? 'animate-[bounce_0.3s_infinite]' : ''}`} 
        style={{ transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', transformOrigin: 'center' }}>
-    {/* Red Plume */}
-    <rect x="7" y="0" width="2" height="2" fill="#d95763" />
-    <rect x="6" y="1" width="4" height="2" fill="#d95763" />
+    {/* Small Red Plume */}
+    <rect x="7" y="0" width="2" height="1" fill="#d95763" />
+    <rect x="8" y="1" width="3" height="2" fill="#d95763" />
     {/* Silver Helmet */}
-    <rect x="5" y="3" width="6" height="1" fill="#f4f4f4" />
-    <rect x="4" y="4" width="8" height="4" fill="#a4a5a1" />
+    <rect x="5" y="2" width="6" height="2" fill="#a4a5a1" />
+    <rect x="4" y="4" width="8" height="4" fill="#daddd8" />
     {/* Visor slit (T shape) */}
     <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
     <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
     <rect x="8" y="5" width="1" height="1" fill="#83eb72" /> {/* Glowing Eye */}
     {/* Silver Body Armor */}
-    <rect x="5" y="8" width="6" height="4" fill="#daddd8" />
+    <rect x="5" y="8" width="6" height="4" fill="#a4a5a1" />
     {/* Blue Cape */}
-    <rect x="3" y="8" width="2" height="6" fill="#569ceb" />
+    <rect x="3" y="8" width="2" height="5" fill="#569ceb" />
     {/* Arms/Shoulders */}
-    <rect x="4" y="8" width="1" height="3" fill="#a4a5a1" />
-    <rect x="11" y="8" width="1" height="3" fill="#a4a5a1" />
+    <rect x="4" y="8" width="1" height="3" fill="#daddd8" />
+    <rect x="11" y="8" width="1" height="3" fill="#daddd8" />
     {/* Sword */}
     <rect x="11" y="11" width="1" height="4" fill="#f4f4f4" />
     {/* Legs */}
@@ -161,7 +161,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
               strokeDasharray="32 32" 
               strokeLinecap="round"
               strokeLinejoin="round"
-              className={`transition-all duration-1000 ${segment.isActive ? 'opacity-90 drop-shadow-[0_0_12px_rgba(244,180,27,0.8)]' : 'opacity-30 grayscale'}`}
+              className={`transition-all duration-1000 ${segment.isActive ? 'opacity-100 drop-shadow-[0_0_16px_rgba(244,180,27,1)] brightness-110' : 'opacity-80 grayscale brightness-50'}`}
             />
           ))}
         </svg>
