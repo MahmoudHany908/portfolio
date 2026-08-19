@@ -1,5 +1,6 @@
 import React from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import SimpleViewToggle from './SimpleViewToggle';
 
 export default function GameHUD({ discoveredCount, totalNodes, muted, setMuted }) {
