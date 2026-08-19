@@ -1,69 +1,20 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
-import { Star } from 'lucide-react';
 import NodeMarker from './NodeMarker';
 import portfolioData from '../../data/portfolioData.json';
+import { TerrainGrassTile, PathTile } from './PixelAssets';
 
-// Procedural SVG grid for terrain
+// Procedural SVG grid for terrain using our pixel art grass tile
 const TerrainBackground = () => (
-  <div className="absolute inset-0 w-full h-full pointer-events-none opacity-30" style={{
-    backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40z' fill='%2383eb72' fill-opacity='0.1' fill-rule='evenodd'/%3E%3Cpath d='M40 0h40v40H40V0zM0 40h40v40H0V40z' fill='%2333984b' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
-    backgroundSize: '80px 80px'
-  }} />
+  <div 
+    className="absolute inset-0 w-full h-full pointer-events-none" 
+    style={{
+      backgroundImage: `url("${TerrainGrassTile}")`,
+      backgroundSize: '64px 64px',
+      imageRendering: 'pixelated'
+    }} 
+  />
 );
-
-const MapRegion = ({ x, y, width, height, title, zoneColor, isCircular, isGlowing, blobShape }) => {
-  const shapeClass = isCircular ? 'rounded-full' : '';
-  const customRadius = blobShape && !isCircular ? { borderRadius: blobShape } : {};
-  const shadowClass = isGlowing 
-    ? `0 0 80px ${zoneColor}, inset 0 0 60px ${zoneColor}, 16px 16px 0px rgba(0,0,0,0.25)` 
-    : '16px 16px 0px rgba(0,0,0,0.25)';
-
-  return (
-    <div 
-      className={`absolute pointer-events-none flex flex-col items-center justify-center ${shapeClass}`}
-      style={{ 
-        left: x, top: y, width, height,
-        border: `8px solid ${zoneColor}`,
-        boxShadow: shadowClass,
-        transition: 'all 1s ease-in-out',
-        ...customRadius
-      }}
-    >
-      <div className={`absolute inset-0 overflow-hidden ${shapeClass}`} style={{ ...customRadius }}>
-        <div className="absolute inset-0" style={{ backgroundColor: `${zoneColor}20` }} />
-        {/* Blueprint Grid Overlay */}
-        <div 
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `linear-gradient(${zoneColor} 2px, transparent 2px), linear-gradient(90deg, ${zoneColor} 2px, transparent 2px)`,
-            backgroundSize: '48px 48px'
-          }}
-        />
-        {/* Big floating watermark text */}
-        <div 
-          className="absolute inset-0 flex items-center justify-center font-pixel text-7xl opacity-[0.08]"
-          style={{ color: zoneColor }}
-        >
-          {title}
-        </div>
-      </div>
-
-      {/* Retro Tab Header */}
-      <div 
-        className={`absolute px-6 py-3 font-pixel text-2xl tracking-widest text-retro-dark shadow-[8px_8px_0px_rgba(0,0,0,0.25)] ${isGlowing ? 'animate-pulse' : ''}`}
-        style={{ 
-          backgroundColor: zoneColor,
-          top: '-32px',
-          left: '50%',
-          transform: 'translateX(-50%)'
-        }}
-      >
-        {title}
-      </div>
-    </div>
-  );
-};
 
 const PixelKnight = ({ isWalking, flipX }) => (
   <svg width="64" height="64" viewBox="0 0 16 16" overflow="visible"
@@ -147,7 +98,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
     : `calc(50% - ${(CANVAS_HEIGHT / 2) * scale}px)`;
 
   return (
-    <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-green relative">
+    <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-dark relative">
       {/* Background that fills screen regardless of scale */}
       <TerrainBackground />
 
@@ -168,36 +119,25 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
           y: dragY
         }}
       >
-        {/* Phase Regions */}
-        {isMobileLayout ? (
-          <>
-            <MapRegion x={300} y={150} width={300} height={300} title="START" zoneColor="#d95763" isCircular={true} isGlowing={discovered ? !discovered.has('about') : true} />
-            <MapRegion x={300} y={450} width={300} height={300} title="SKILLS" zoneColor="#f4b41b" isCircular={true} />
-            <MapRegion x={150} y={750} width={600} height={1100} title="PROJECTS" zoneColor="#569ceb" blobShape="50% 50% 50% 50% / 40% 40% 40% 40%" />
-            <MapRegion x={300} y={1850} width={300} height={300} title="CONTACT" zoneColor="#83eb72" isCircular={true} />
-          </>
-        ) : (
-          <>
-            <MapRegion x={100} y={560} width={250} height={250} title="START" zoneColor="#d95763" isCircular={true} isGlowing={discovered ? !discovered.has('about') : true} />
-            <MapRegion x={100} y={200} width={320} height={320} title="SKILLS" zoneColor="#f4b41b" blobShape="43% 57% 41% 59% / 54% 41% 59% 46%" />
-            <MapRegion x={460} y={100} width={820} height={700} title="PROJECTS" zoneColor="#569ceb" blobShape="62% 38% 51% 49% / 40% 58% 42% 60%" />
-            <MapRegion x={1320} y={560} width={230} height={230} title="CONTACT" zoneColor="#83eb72" blobShape="40% 60% 70% 30% / 40% 50% 60% 50%" />
-          </>
-        )}
-
         {/* The Guided Trail */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
+          <defs>
+            <pattern id="dirtPattern" patternUnits="userSpaceOnUse" width="32" height="32">
+              <image href={PathTile} x="0" y="0" width="32" height="32" style={{ imageRendering: 'pixelated' }} />
+            </pattern>
+          </defs>
+
           {trailSegments.map((segment) => (
             <path 
               key={segment.id}
               d={segment.path} 
               fill="none" 
-              stroke={segment.isActive ? "#f4b41b" : "rgba(255,255,255,0.2)"}
-              strokeWidth="4" 
-              strokeDasharray="12 12" 
+              stroke="url(#dirtPattern)"
+              strokeWidth="24" 
+              strokeDasharray="32 32" 
               strokeLinecap="round"
               strokeLinejoin="round"
-              className={`transition-all duration-1000 ${segment.isActive ? 'opacity-60 drop-shadow-[0_0_8px_rgba(244,180,27,0.8)] animate-[dash_2s_linear_infinite]' : 'opacity-30'}`}
+              className={`transition-all duration-1000 ${segment.isActive ? 'opacity-90 drop-shadow-[0_0_12px_rgba(244,180,27,0.8)]' : 'opacity-30 grayscale'}`}
             />
           ))}
         </svg>
