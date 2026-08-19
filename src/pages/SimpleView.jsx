@@ -46,10 +46,10 @@ export default function SimpleView() {
   const projects = nodes.filter(n => n.type === 'project');
 
   return (
-    <div className="min-h-screen bg-retro-dark text-retro-text font-sans p-8 relative">
+    <div className="min-h-screen bg-retro-dark text-retro-text font-sans px-4 md:px-8 py-8 relative">
       <RetroParticles />
       
-      <div className="max-w-4xl mx-auto space-y-16 pb-20 relative z-10">
+      <div className="max-w-6xl mx-auto space-y-12 md:space-y-16 pb-20 relative z-10">
         
         <motion.header 
           initial="hidden" animate="visible" variants={fadeUpVariant}
