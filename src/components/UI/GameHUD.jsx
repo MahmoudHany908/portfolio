@@ -25,8 +25,13 @@ export default function GameHUD({ discoveredCount, totalNodes, muted, setMuted }
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-16 md:h-20 bg-[#1a1c2c] border-t-4 border-retro-gray z-40 flex flex-row items-center justify-center gap-2 md:gap-4 pointer-events-auto shadow-2xl">
+      {/* Bottom Control Bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 md:h-20 bg-retro-dark border-t-4 border-slate-600 shadow-2xl flex items-center justify-between px-4 md:px-8 z-40 pointer-events-auto">
         <SimpleViewToggle />
+        
+        <Link to="/preview" className="pixel-btn bg-retro-yellow text-retro-dark hover:bg-white transition-colors text-[10px] md:text-sm px-4 py-2 border-4 mx-2">
+          SEE PREVIEW
+        </Link>
         
         <button 
           className="pixel-btn bg-[#569ceb] hover:bg-[#83eb72] transition-colors shadow-xl text-center text-[10px] md:text-lg px-2 md:px-8 py-2 md:py-4 border-4 flex items-center justify-center gap-2 text-white h-10 md:h-16 w-28 md:w-64"
