@@ -64,12 +64,31 @@ export default function SimpleView() {
                 className="relative w-32 h-32 md:w-48 md:h-48 object-cover pixel-border border-4 border-retro-dark shadow-xl z-10 filter grayscale group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
-            <div>
+            <div className="w-full mt-4 md:mt-0">
               <h1 className="text-4xl md:text-5xl font-pixel text-retro-yellow mb-4 leading-tight group-hover:text-retro-light-green transition-colors">{profile.name}</h1>
-              <h2 className="text-xl text-retro-light-blue font-pixel">{profile.role}</h2>
+              <h2 className="text-xl text-retro-light-blue font-pixel mb-6">{profile.role}</h2>
+              
+              {/* Retro Big Contact Buttons */}
+              <div className="flex flex-wrap gap-4 mt-6">
+                <a href={`mailto:${profile.email}`} className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-4 py-2 text-xs md:text-sm shadow-md">
+                  EMAIL
+                </a>
+                <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-4 py-2 text-xs md:text-sm shadow-md flex items-center gap-2">
+                  <LinkedinIcon /> LINKEDIN
+                </a>
+                <a href={profile.links.github} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-4 py-2 text-xs md:text-sm shadow-md flex items-center gap-2">
+                  <GithubIcon /> GITHUB
+                </a>
+                <a href="https://itch.io/profile/nightfuryexe" target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-4 py-2 text-xs md:text-sm shadow-md">
+                  ITCH.IO
+                </a>
+                <a href="/Mahmoud_Hany_CV.pdf" download className="pixel-btn bg-retro-yellow text-retro-dark hover:bg-white transition-colors px-4 py-2 text-xs md:text-sm shadow-md drop-shadow-[4px_4px_0_rgba(244,180,27,0.3)]">
+                  DOWNLOAD CV
+                </a>
+              </div>
             </div>
           </div>
-          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform drop-shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform drop-shadow-[4px_4px_0_rgba(0,0,0,0.5)] mt-4 md:mt-0">
             RETURN TO MAP
           </Link>
         </motion.header>
