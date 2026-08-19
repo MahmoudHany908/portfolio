@@ -132,18 +132,19 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
   const trailPath = generateCurvedPath(portfolioData.nodes);
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-retro-green relative flex items-center justify-center">
+    <div className="w-screen h-screen overflow-hidden bg-retro-green relative">
       {/* Background that fills screen regardless of scale */}
       <TerrainBackground />
 
       {/* Fixed Coordinate Canvas */}
       <div 
-        className="relative transition-all duration-700" 
+        className="absolute transition-all duration-700" 
         style={{ 
           width: CANVAS_WIDTH, 
           height: CANVAS_HEIGHT, 
-          transform: `scale(${scale})`, 
-          transformOrigin: 'center center' 
+          left: '50%',
+          top: '50%',
+          transform: `translate(-50%, -50%) scale(${scale})`
         }}
       >
         {/* Phase Regions */}
