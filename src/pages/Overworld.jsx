@@ -5,6 +5,7 @@ import MapCanvas from '../components/Overworld/MapCanvas';
 import ModalOverlay from '../components/UI/ModalOverlay';
 import GameHUD from '../components/UI/GameHUD';
 import SimpleViewToggle from '../components/UI/SimpleViewToggle';
+import TutorialOverlay from '../components/UI/TutorialOverlay';
 import portfolioData from '../data/portfolioData.json';
 import useGameAudio from '../hooks/useGameAudio';
 
@@ -161,6 +162,8 @@ export default function Overworld() {
         node={activeNode} 
         onClose={handleModalClose} 
       />
+
+      <TutorialOverlay />
 
       {/* Mobile Landscape Lock Screen */}
       {isLandscapeMobile && (
