@@ -75,6 +75,15 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, onSele
             />
           </div>
         )}
+
+        {/* Completed Checkmark Badge */}
+        {isCompleted && (
+          <div className="absolute -top-2 -right-2 z-50 bg-retro-dark rounded-full p-1.5 border-2 border-retro-yellow shadow-xl drop-shadow-[0_0_8px_rgba(244,180,27,0.8)]">
+             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4b41b" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+               <polyline points="20 6 9 17 4 12"></polyline>
+             </svg>
+          </div>
+        )}
       </div>
 
       {/* Label */}

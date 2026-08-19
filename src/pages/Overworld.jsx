@@ -17,13 +17,8 @@ export default function Overworld() {
   const [muted, setMuted] = useState(false);
   const { playSpawn, playUnlock, playVictory } = useGameAudio();
 
-  // Calculate unlocked nodes (Node 0 is always unlocked, Node N is unlocked if Node N-1 is in discovered)
-  const unlocked = new Set([portfolioData.nodes[0].id]);
-  for (let i = 1; i < portfolioData.nodes.length; i++) {
-    if (discovered.has(portfolioData.nodes[i-1].id)) {
-      unlocked.add(portfolioData.nodes[i].id);
-    }
-  }
+  // All nodes are unlocked by default so recruiters can explore freely
+  const unlocked = new Set(portfolioData.nodes.map(n => n.id));
 
   // Player & Layout State
   const [isMobileLayout, setIsMobileLayout] = useState(() => window.innerWidth < 768);
