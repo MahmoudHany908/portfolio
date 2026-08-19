@@ -238,32 +238,6 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
               </motion.div>
             )}
 
-            {/* Spotlight & Steel Stand */}
-            {!isWalking && (playerPos.x === -80 || playerPos.x === 200) && (
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-8 pointer-events-none z-[-1]">
-                
-                {/* Spotlight Cone starting near his head */}
-                <div 
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-48 pointer-events-none opacity-40 animate-pulse"
-                  style={{
-                    background: 'linear-gradient(to bottom, rgba(244, 244, 244, 0.9) 0%, rgba(244, 244, 244, 0.2) 85%, rgba(244, 244, 244, 0) 100%)',
-                    clipPath: 'polygon(45% 0, 55% 0, 100% 100%, 0% 100%)',
-                  }}
-                />
-
-                {/* Steel Platform */}
-                {/* Floor Shadow */}
-                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-32 h-6 bg-black opacity-50 blur-md rounded-[100%] z-[-2]" />
-                {/* Base / Thickness */}
-                <div className="absolute bottom-0 left-0 right-0 h-6 bg-slate-600 rounded-[100%] border-b-2 border-l-2 border-r-2 border-slate-800" />
-                {/* Top Surface */}
-                <div className="absolute top-0 left-0 right-0 h-6 bg-slate-400 rounded-[100%] border-2 border-slate-200 shadow-[inset_0_-2px_8px_rgba(0,0,0,0.5)] flex items-center justify-center">
-                  {/* Metal details */}
-                  <div className="w-14 h-2 border border-slate-500 rounded-[100%] opacity-60" />
-                </div>
-              </div>
-            )}
-
             {isWalking && (
               <div className="absolute -bottom-2 w-10 h-3 bg-black/30 rounded-full blur-sm" />
             )}
