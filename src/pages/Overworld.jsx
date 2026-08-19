@@ -153,7 +153,7 @@ export default function Overworld() {
       />
       
       {toastMessage && (
-        <div className="absolute bottom-40 left-1/2 -translate-x-1/2 bg-retro-yellow text-retro-dark font-pixel text-xs md:text-sm p-4 md:p-6 pixel-border z-50 animate-bounce shadow-2xl">
+        <div className="absolute top-24 left-1/2 -translate-x-1/2 bg-retro-yellow text-retro-dark font-pixel text-xs md:text-sm p-4 md:p-6 pixel-border z-[1000] animate-[bounce_1s_infinite] shadow-2xl">
           {toastMessage}
         </div>
       )}

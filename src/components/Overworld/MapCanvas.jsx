@@ -16,23 +16,45 @@ const TerrainBackground = () => (
   />
 );
 
+const SectionBanner = ({ text, x, y }) => (
+  <div 
+    className="absolute pointer-events-none flex flex-col items-center justify-center z-20 opacity-90"
+    style={{ left: x, top: y, transform: 'translate(-50%, -50%)' }}
+  >
+    <div className="bg-retro-dark border-4 border-white px-8 py-3 shadow-[8px_8px_0_rgba(0,0,0,0.5)] flex items-center justify-center">
+      <span className="font-pixel text-2xl text-[#569ceb] tracking-widest drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">{text}</span>
+    </div>
+    {/* Wooden poles supporting the sign */}
+    <div className="absolute top-full flex gap-16 -mt-1 -z-10">
+      <div className="w-3 h-10 bg-[#8b5a2b] border-x-2 border-black"></div>
+      <div className="w-3 h-10 bg-[#8b5a2b] border-x-2 border-black"></div>
+    </div>
+  </div>
+);
+
 const PixelKnight = ({ isWalking, flipX }) => (
   <svg width="64" height="64" viewBox="0 0 16 16" overflow="visible"
        className={`drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] ${isWalking ? 'animate-[bounce_0.3s_infinite]' : ''}`} 
        style={{ transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', transformOrigin: 'center' }}>
-    {/* Helmet */}
-    <rect x="5" y="2" width="6" height="1" fill="#f4f4f4" />
-    <rect x="4" y="3" width="8" height="4" fill="#d95763" />
-    {/* Visor */}
-    <rect x="5" y="4" width="6" height="2" fill="#1a1c2c" />
-    <rect x="9" y="4" width="1" height="1" fill="#83eb72" /> {/* Glowing Eye */}
-    {/* Body */}
-    <rect x="5" y="7" width="6" height="5" fill="#5d7275" />
-    {/* Backpack/Cape */}
-    <rect x="3" y="7" width="2" height="6" fill="#f4b41b" />
-    {/* Arms */}
-    <rect x="4" y="7" width="1" height="4" fill="#f4f4f4" />
-    <rect x="11" y="7" width="1" height="4" fill="#f4f4f4" />
+    {/* Red Plume */}
+    <rect x="7" y="0" width="2" height="2" fill="#d95763" />
+    <rect x="6" y="1" width="4" height="2" fill="#d95763" />
+    {/* Silver Helmet */}
+    <rect x="5" y="3" width="6" height="1" fill="#f4f4f4" />
+    <rect x="4" y="4" width="8" height="4" fill="#a4a5a1" />
+    {/* Visor slit (T shape) */}
+    <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
+    <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
+    <rect x="8" y="5" width="1" height="1" fill="#83eb72" /> {/* Glowing Eye */}
+    {/* Silver Body Armor */}
+    <rect x="5" y="8" width="6" height="4" fill="#daddd8" />
+    {/* Blue Cape */}
+    <rect x="3" y="8" width="2" height="6" fill="#569ceb" />
+    {/* Arms/Shoulders */}
+    <rect x="4" y="8" width="1" height="3" fill="#a4a5a1" />
+    <rect x="11" y="8" width="1" height="3" fill="#a4a5a1" />
+    {/* Sword */}
+    <rect x="11" y="11" width="1" height="4" fill="#f4f4f4" />
     {/* Legs */}
     <rect x="6" y="12" width="2" height="3" fill="#1a1c2c" />
     <rect x="8" y="12" width="2" height="3" fill="#1a1c2c" />
@@ -119,6 +141,8 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
           y: dragY
         }}
       >
+        <SectionBanner text="PROJECTS" x={isMobileLayout ? 450 : 870} y={isMobileLayout ? 780 : 120} />
+
         {/* The Guided Trail */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
           <defs>
