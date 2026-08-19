@@ -10,7 +10,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Overworld />} />
-        <Route path="/simple" element={<SimpleView />} />
+        <Route path="/simple" element={<QuickView />} />
         <Route path="/quick" element={<QuickView />} />
         <Route path="/preview" element={<Preview />} />
       </Routes>
