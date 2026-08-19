@@ -100,6 +100,7 @@
       "tech": ["Unity", "C#", "XRIT"],
       "summary": "Developed an immersive wave-based VR shooter optimized for standalone headsets. Scripted dynamic round progression, scalable enemy spawning, and a strict ammo economy.",
       "githubLink": "https://github.com/MahmoudHany908/VR_Shooter",
+      "video": "https://player.vimeo.com/video/1219429982",
       "x": 1000,
       "y": 250,
       "icon": "vr"
@@ -111,6 +112,7 @@
       "role": "Unity Developer",
       "tech": ["Unity", "C#"],
       "summary": "Developing scalable core C# gameplay architecture, UI layouts, and meta-progression systems for a mobile title commissioned by a major national financial institution.",
+      "video": "https://player.vimeo.com/video/1219429500",
       "x": 1150,
       "y": 550,
       "icon": "mobile"
