@@ -88,7 +88,7 @@ const PixelKnight = ({ isWalking, flipX }) => (
   </svg>
 );
 
-export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalking, walkDuration, flipX, isMobileLayout }) {
+export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout }) {
   const [scale, setScale] = useState(1);
   const CANVAS_WIDTH = isMobileLayout ? 900 : 1600;
   const CANVAS_HEIGHT = isMobileLayout ? 2200 : 900;
@@ -98,9 +98,9 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
     const handleResize = () => {
       const scaleX = window.innerWidth / CANVAS_WIDTH;
       const scaleY = window.innerHeight / CANVAS_HEIGHT;
-      // In portrait, use a tighter padding factor (0.85) to maximize space. Landscape stays 0.75.
+      // In portrait, use a heavy zoom factor to only show a few checkpoints at a time
       const finalScale = isMobileLayout 
-        ? Math.min(scaleX, scaleY) * 0.9 
+        ? window.innerWidth / 500 // Zoom in to a 500px virtual width
         : Math.min(Math.min(scaleX, scaleY) * 0.75, 1.5);
       setScale(finalScale);
     };
@@ -111,25 +111,27 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
     return () => window.removeEventListener('resize', handleResize);
   }, [CANVAS_WIDTH, CANVAS_HEIGHT, isMobileLayout]);
 
-  // Generate a smooth cubic bezier path for the trail
-  const generateCurvedPath = (nodes) => {
-    if (nodes.length === 0) return '';
-    let path = `M ${isMobileLayout ? nodes[0].pX : nodes[0].x} ${isMobileLayout ? nodes[0].pY : nodes[0].y} `;
-    for (let i = 1; i < nodes.length; i++) {
-      const prev = nodes[i-1];
-      const curr = nodes[i];
-      const pX = isMobileLayout ? prev.pX : prev.x;
-      const pY = isMobileLayout ? prev.pY : prev.y;
-      const cX = isMobileLayout ? curr.pX : curr.x;
-      const cY = isMobileLayout ? curr.pY : curr.y;
-      
-      const midX = (pX + cX) / 2;
-      path += `C ${midX} ${pY}, ${midX} ${cY}, ${cX} ${cY} `;
-    }
-    return path;
-  };
+  // Generate individual smooth cubic bezier path segments for the trail
+  const trailSegments = [];
+  for (let i = 1; i < portfolioData.nodes.length; i++) {
+    const prev = portfolioData.nodes[i-1];
+    const curr = portfolioData.nodes[i];
+    
+    const pX = isMobileLayout ? prev.pX : prev.x;
+    const pY = isMobileLayout ? prev.pY : prev.y;
+    const cX = isMobileLayout ? curr.pX : curr.x;
+    const cY = isMobileLayout ? curr.pY : curr.y;
+    
+    const midX = (pX + cX) / 2;
+    const path = `M ${pX} ${pY} C ${midX} ${pY}, ${midX} ${cY}, ${cX} ${cY}`;
+    
+    // A segment leading to node [i] is "active" if node [i] is discovered
+    const isActive = discovered.has(curr.id);
+    trailSegments.push({ id: `trail-${curr.id}`, path, isActive });
+  }
 
-  const trailPath = generateCurvedPath(portfolioData.nodes);
+  // Camera Follow logic for mobile
+  const cameraY = isMobileLayout && playerPos ? (CANVAS_HEIGHT / 2) - playerPos.y : 0;
 
   return (
     <div className="w-screen h-screen overflow-hidden bg-retro-green relative">
@@ -138,13 +140,13 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
 
       {/* Fixed Coordinate Canvas */}
       <div 
-        className="absolute transition-all duration-700" 
+        className="absolute transition-all duration-[1200ms] ease-in-out" 
         style={{ 
           width: CANVAS_WIDTH, 
           height: CANVAS_HEIGHT, 
           left: '50%',
           top: '50%',
-          transform: `translate(-50%, -50%) scale(${scale})`
+          transform: `translate(-50%, calc(-50% + ${cameraY}px)) scale(${scale})`
         }}
       >
         {/* Phase Regions */}
@@ -166,16 +168,19 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
 
         {/* The Guided Trail */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
-          <path 
-            d={trailPath} 
-            fill="none" 
-            stroke="#f4b41b" 
-            strokeWidth="4" 
-            strokeDasharray="12 12" 
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="opacity-60 drop-shadow-md animate-[dash_2s_linear_infinite]"
-          />
+          {trailSegments.map((segment) => (
+            <path 
+              key={segment.id}
+              d={segment.path} 
+              fill="none" 
+              stroke={segment.isActive ? "#f4b41b" : "rgba(255,255,255,0.2)"}
+              strokeWidth="4" 
+              strokeDasharray="12 12" 
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={`transition-all duration-1000 ${segment.isActive ? 'opacity-60 drop-shadow-[0_0_8px_rgba(244,180,27,0.8)] animate-[dash_2s_linear_infinite]' : 'opacity-30'}`}
+            />
+          ))}
         </svg>
 
         {portfolioData.nodes.map((node) => (
@@ -185,6 +190,7 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
             x={isMobileLayout ? node.pX : node.x}
             y={isMobileLayout ? node.pY : node.y}
             isCompleted={discovered ? discovered.has(node.id) : false}
+            isUnlocked={unlocked ? unlocked.has(node.id) : true}
             onSelect={() => onNodeSelect(node)} 
           />
         ))}

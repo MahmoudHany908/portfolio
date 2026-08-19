@@ -16,6 +16,14 @@ export default function Overworld() {
   const [muted, setMuted] = useState(false);
   const { playSpawn, playUnlock, playVictory } = useGameAudio();
 
+  // Calculate unlocked nodes (Node 0 is always unlocked, Node N is unlocked if Node N-1 is in discovered)
+  const unlocked = new Set([portfolioData.nodes[0].id]);
+  for (let i = 1; i < portfolioData.nodes.length; i++) {
+    if (discovered.has(portfolioData.nodes[i-1].id)) {
+      unlocked.add(portfolioData.nodes[i].id);
+    }
+  }
+
   // Player & Layout State
   const [isMobileLayout, setIsMobileLayout] = useState(() => window.innerWidth < 768);
   const [isLandscapeMobile, setIsLandscapeMobile] = useState(() => window.innerWidth < 768 && window.innerWidth > window.innerHeight);
@@ -51,6 +59,12 @@ export default function Overworld() {
 
   const handleNodeSelect = (node) => {
     if (activeNode || isWalking) return; // Prevent clicking while walking or in modal
+
+    if (!unlocked.has(node.id)) {
+      setToastMessage("LOCKED! Complete previous checkpoints first!");
+      setTimeout(() => setToastMessage(null), 3000);
+      return;
+    }
 
     const targetX = isMobileLayout ? node.pX : node.x;
     const targetY = isMobileLayout ? node.pY : node.y;
@@ -99,6 +113,7 @@ export default function Overworld() {
       <MapCanvas 
         onNodeSelect={handleNodeSelect} 
         discovered={discovered} 
+        unlocked={unlocked}
         playerPos={playerPos}
         isWalking={isWalking}
         walkDuration={walkDuration}

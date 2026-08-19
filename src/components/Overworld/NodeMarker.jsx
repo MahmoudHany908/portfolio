@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import useGameAudio from '../../hooks/useGameAudio';
-import { MapPin, Flame, Zap, Shield, Compass, Glasses, Laptop, Smartphone, PhoneCall } from 'lucide-react';
+import { MapPin, Flame, Zap, Shield, Compass, Glasses, Laptop, Smartphone, PhoneCall, Lock } from 'lucide-react';
 
 const iconMap = {
   house: MapPin, 
@@ -15,24 +15,28 @@ const iconMap = {
   telephone: PhoneCall
 };
 
-export default function NodeMarker({ node, onSelect, isCompleted, x, y }) {
+export default function NodeMarker({ node, onSelect, isCompleted, isUnlocked, x, y }) {
   const [isHovered, setIsHovered] = useState(false);
   const { playHover, playSelect } = useGameAudio();
 
-  const Icon = iconMap[node.icon] || MapPin;
+  const Icon = !isUnlocked ? Lock : (iconMap[node.icon] || MapPin);
 
   const handlePointerEnter = () => {
+    if (!isUnlocked) return;
     setIsHovered(true);
     playHover();
   };
 
   const handlePointerLeave = () => {
+    if (!isUnlocked) return;
     setIsHovered(false);
   };
 
   const handleClick = (e) => {
     e.stopPropagation();
-    playSelect();
+    if (isUnlocked) {
+      playSelect();
+    }
     onSelect();
   };
 
@@ -77,8 +81,10 @@ export default function NodeMarker({ node, onSelect, isCompleted, x, y }) {
           className={`p-4 transition-all duration-500 flex items-center justify-center
             ${isCompleted 
               ? `rounded-full pixel-border ${completedBgClass} text-white` 
-              : `rounded-sm border-4 border-dashed border-retro-gray bg-retro-dark text-retro-gray opacity-80`}
-            ${isHovered && !isCompleted ? `border-solid ${completedTextColor} border-current opacity-100 scale-110` : ''}
+              : !isUnlocked 
+                ? `rounded-sm border-4 border-solid border-slate-700 bg-slate-900 text-slate-500 opacity-60 grayscale`
+                : `rounded-sm border-4 border-dashed border-retro-gray bg-retro-dark text-retro-gray opacity-80`}
+            ${isHovered && !isCompleted && isUnlocked ? `border-solid ${completedTextColor} border-current opacity-100 scale-110` : ''}
           `}
           style={isCompleted ? { boxShadow: `0 0 20px ${glowShadowColor}` } : {}}
         >
@@ -91,7 +97,9 @@ export default function NodeMarker({ node, onSelect, isCompleted, x, y }) {
             ? `text-retro-dark ${completedBgClass} border-current scale-110` 
             : isCompleted 
               ? 'text-white bg-retro-dark border-retro-gray'
-              : 'text-retro-gray bg-retro-dark border-retro-gray'
+              : !isUnlocked
+                ? 'text-slate-500 bg-slate-900 border-slate-700 opacity-60'
+                : 'text-retro-gray bg-retro-dark border-retro-gray'
         }`}>
           {node.title}
         </div>
