@@ -12,7 +12,8 @@ const LinkedinIcon = () => (
 );
 
 export default function QuickView() {
-  const { profile, education, internships, projects } = portfolioData;
+  const { profile, education, internships, nodes } = portfolioData;
+  const projects = nodes.filter(n => n.type === 'project');
 
   return (
     <div className="min-h-screen bg-charcoal-900 relative">
@@ -103,9 +104,9 @@ export default function QuickView() {
           <div className="grid md:grid-cols-2 gap-8">
             {projects.map(proj => (
               <div key={proj.id} className="panel p-6 flex flex-col h-full">
-                {proj.videoUrl && (
+                {proj.video && (
                   <div className="mb-6 aspect-video bg-charcoal-900 border border-charcoal-700">
-                    <iframe src={proj.videoUrl} className="w-full h-full" allowFullScreen></iframe>
+                    <iframe src={proj.video} className="w-full h-full" allowFullScreen></iframe>
                   </div>
                 )}
                 <div className="flex justify-between items-start mb-2">
