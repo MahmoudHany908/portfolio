@@ -1,0 +1,68 @@
+{
+  "profile": {
+    "name": "Mahmoud Hany",
+    "role": "Game Developer",
+    "about": "A creative developer crafting immersive 3D and 2D experiences, bridging the gap between stunning aesthetics and robust engineering."
+  },
+  "education": [
+    {
+      "id": "edu-1",
+      "degree": "9-Month Post-Graduate Diploma",
+      "institution": "Information Technology Institute (ITI)",
+      "date": "2023 - 2024"
+    },
+    {
+      "id": "edu-2",
+      "degree": "Bachelor of Computer and Information Sciences",
+      "institution": "Ain Shams University",
+      "date": "Graduated"
+    }
+  ],
+  "skills": [
+    "Unity",
+    "C#",
+    ".NET",
+    "Python",
+    "VR/XR",
+    "Meta SDK",
+    "OpenXR",
+    "React",
+    "Three.js"
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "The Learning Lens",
+      "description": "VR/AR application (Backend Lead & C#/.NET).",
+      "type": "vr",
+      "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    },
+    {
+      "id": "proj-2",
+      "title": "Subject Null",
+      "description": "Narrative VR Puzzle Game developed in Unity for Meta Quest.",
+      "type": "vr",
+      "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    },
+    {
+      "id": "proj-3",
+      "title": "ESCCTRL",
+      "description": "2D Atmospheric Platformer built using SFML.",
+      "type": "game",
+      "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    },
+    {
+      "id": "proj-4",
+      "title": "VR Wave Shooter",
+      "description": "Immersive standalone headset shooter.",
+      "type": "vr",
+      "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    },
+    {
+      "id": "proj-nbe",
+      "title": "Resource Management Game (NBE)",
+      "description": "[Placeholder for upcoming project details]",
+      "type": "game"
+    }
+  ]
+}

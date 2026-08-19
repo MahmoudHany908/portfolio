@@ -1,0 +1,137 @@
+{
+  "profile": {
+    "name": "Mahmoud Hany Mazroa",
+    "role": "Game Developer",
+    "email": "mazroabuss4@gmail.com",
+    "phone": "+20 101 9334 442",
+    "location": "Saray El-Kobba, Cairo, Egypt",
+    "summary": "Passionate Game Developer dedicated to blending technical execution with narrative vision to craft immersive experiences. A collaborative problem-solver skilled in thoughtful level design and rapid prototyping, seeking to build high-quality game systems in a professional studio.",
+    "links": {
+      "linkedin": "https://www.linkedin.com/in/mahmoud-mazroa",
+      "github": "https://github.com/MahmoudHany908"
+    },
+    "skills": {
+      "Game Engines & Graphics": ["Unity Engine", "Unreal Engine", "SFML", "OpenGL"],
+      "Tools": ["AR Core", "XR Interaction Toolkit", "Meta SDK", "UI Toolkit", "OpenXR"],
+      "Core Concepts": ["Object-Oriented Programming", "Data Structures", "Design Patterns"],
+      "Version Control": ["GitHub", "Unity Version Control (UVC)"],
+      "Personal Skills": ["Communication", "Leadership", "Presentation Skills", "Research"]
+    },
+    "languages": ["Arabic (Native)", "English (Fluent - IELTS 8.0)", "French (Conversational)"]
+  },
+  "education": [
+    {
+      "id": "iti",
+      "degree": "9-Month Post-Graduate Diploma - Game Programming Track",
+      "institution": "Information Technology Institute (ITI)",
+      "date": "10/2025 - Present"
+    },
+    {
+      "id": "ainshams",
+      "degree": "Bachelor of Computer and Information Sciences (Digital Multimedia)",
+      "institution": "Ain Shams University and University of East London",
+      "date": "10/2021 - 07/2025",
+      "gpa": "3.148"
+    }
+  ],
+  "internships": [
+    {
+      "id": "cib",
+      "title": "Internship Trainee",
+      "institution": "CIB Egypt",
+      "date": "07/2024 - 08/2024"
+    },
+    {
+      "id": "iti_train",
+      "title": "Game Development Training using Unity",
+      "institution": "Information Technology Institute (ITI)",
+      "date": "07/2024 - 08/2024"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "about",
+      "type": "about",
+      "title": "Start Point (About Me)",
+      "x": 225,
+      "y": 675,
+      "icon": "house"
+    },
+    {
+      "id": "skills",
+      "type": "skills",
+      "title": "Skill Tree",
+      "x": 225,
+      "y": 325,
+      "icon": "crystal"
+    },
+    {
+      "id": "proj5",
+      "type": "project",
+      "title": "ESCCTRL",
+      "role": "Level Designer & Programmer",
+      "tech": ["SFML", "C++"],
+      "summary": "Designed intricate levels focusing on shape-shifting mechanics and tight spatial navigation within a 3-day game jam. Created a dynamic environment using deep parallax layering to react to player movement.",
+      "githubLink": "https://github.com/eslam135/ESCCTRL",
+      "itchLink": "https://senpaii2.itch.io/escctrl",
+      "x": 600,
+      "y": 250,
+      "icon": "pc"
+    },
+    {
+      "id": "proj4",
+      "type": "project",
+      "title": "Subject Null",
+      "role": "VR Developer & Level Designer",
+      "tech": ["Unity", "Meta Quest 2/3"],
+      "summary": "Designed levels, puzzles, and core gameplay mechanics including dynamic mesh slicing and distinct vision states for a narrative driven VR game. Implemented Unity Version Control for seamless iteration.",
+      "itchLink": "https://nightfuryexe.itch.io/subject-null",
+      "x": 800,
+      "y": 450,
+      "icon": "vr"
+    },
+    {
+      "id": "proj3",
+      "type": "project",
+      "title": "VR Wave Shooter",
+      "role": "Solo Developer",
+      "tech": ["Unity", "C#", "XRIT"],
+      "summary": "Developed an immersive wave-based VR shooter optimized for standalone headsets. Scripted dynamic round progression, scalable enemy spawning, and a strict ammo economy.",
+      "githubLink": "https://github.com/MahmoudHany908/VR_Shooter",
+      "x": 1000,
+      "y": 250,
+      "icon": "vr"
+    },
+    {
+      "id": "proj2",
+      "type": "project",
+      "title": "Resource Management Game",
+      "role": "Unity Developer",
+      "tech": ["Unity", "C#"],
+      "summary": "Developing scalable core C# gameplay architecture, UI layouts, and meta-progression systems for a mobile title commissioned by a major national financial institution.",
+      "x": 1150,
+      "y": 550,
+      "icon": "mobile"
+    },
+    {
+      "id": "proj1",
+      "type": "project",
+      "title": "The Learning Lens",
+      "role": "Backend Developer & Team Leader",
+      "tech": ["Unity", "C#", ".NET", "EF Core", "Python"],
+      "summary": "Led backend development for a Unity-based VR/AR application. Developed services with .NET and EF Core while gaining a comprehensive understanding of the app's Unity architecture and gameplay systems.",
+      "githubLink": "https://github.com/ali-hy/the-learning-lens",
+      "x": 950,
+      "y": 700,
+      "icon": "mobile"
+    },
+    {
+      "id": "contact",
+      "type": "contact",
+      "title": "Save Point (Contact)",
+      "x": 1450,
+      "y": 675,
+      "icon": "telephone"
+    }
+  ]
+}
