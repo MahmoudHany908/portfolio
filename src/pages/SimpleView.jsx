@@ -57,10 +57,25 @@ export default function SimpleView() {
   const projects = nodes.filter(n => n.type === 'project');
 
   return (
-    <div className="min-h-screen bg-retro-dark text-retro-text font-sans px-4 md:px-8 py-8 relative">
+    <div className="min-h-screen bg-retro-dark text-retro-text font-sans relative">
       <RetroParticles />
       
-      <div className="max-w-6xl mx-auto space-y-12 md:space-y-16 pb-20 relative z-10">
+      {/* Sticky Navigation */}
+      <nav className="sticky top-0 z-50 bg-retro-dark/95 backdrop-blur-md border-b-4 border-retro-gray shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] py-3 px-4 md:px-8">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <div className="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar items-center">
+            <a href="#about" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap">ABOUT</a>
+            <a href="#skills" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap">SKILLS</a>
+            <a href="#projects" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap">PROJECTS</a>
+            <a href="#contact" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap">CONTACT</a>
+          </div>
+          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform text-xs md:text-sm px-3 py-2 hidden md:block">
+            RETURN TO MAP
+          </Link>
+        </div>
+      </nav>
+
+      <div className="px-4 md:px-8 py-8 max-w-6xl mx-auto space-y-12 md:space-y-16 pb-20 relative z-10">
         
         <motion.header 
           initial="hidden" animate="visible" variants={fadeUpVariant}
@@ -81,8 +96,8 @@ export default function SimpleView() {
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-pixel text-retro-yellow mb-4 leading-tight group-hover:text-retro-light-green transition-colors">{profile.name}</h1>
                   <h2 className="text-xl text-retro-light-blue font-pixel mb-6">{profile.role}</h2>
                 </div>
-                <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform drop-shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
-                  RETURN TO MAP
+                <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform drop-shadow-[4px_4px_0_rgba(0,0,0,0.5)] md:hidden">
+                  MAP
                 </Link>
               </div>
               
@@ -110,7 +125,7 @@ export default function SimpleView() {
           </div>
         </motion.header>
 
-        <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}>
+        <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-24">
           <h3 className="font-pixel text-2xl text-retro-green mb-6 border-l-8 border-retro-green pl-4">About</h3>
           <p className="text-lg text-slate-300 leading-relaxed max-w-3xl mb-8 hover:text-white transition-colors duration-300">
             {profile.summary}
@@ -138,7 +153,7 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}>
+        <motion.section id="skills" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-24">
           <h3 className="font-pixel text-2xl text-retro-green mb-6 border-l-8 border-retro-green pl-4">Technical Arsenal</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Object.entries(profile.skills).map(([category, items], idx) => (
@@ -162,7 +177,7 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}>
+        <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-24">
           <h3 className="font-pixel text-2xl text-retro-green mb-6 border-l-8 border-retro-green pl-4">Projects</h3>
           <div className="space-y-8">
             {projects.map((proj, idx) => (
@@ -200,9 +215,9 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section 
+        <motion.section id="contact" 
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-          className="border-t-4 border-retro-gray pt-8 flex flex-col md:flex-row justify-between items-center gap-6"
+          className="border-t-4 border-retro-gray pt-8 flex flex-col md:flex-row justify-between items-center gap-6 scroll-mt-24"
         >
           <div className="text-center md:text-left">
             <div className="text-xl font-bold hover:text-retro-yellow transition-colors cursor-pointer">{profile.email}</div>

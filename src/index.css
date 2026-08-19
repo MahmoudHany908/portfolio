@@ -59,6 +59,14 @@
   .pixel-hud {
     @apply bg-retro-dark/90 text-retro-yellow border-4 border-retro-gray p-4 font-pixel text-xs leading-loose;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }
 
 /* Hide scrollbar for neatness in modals */
