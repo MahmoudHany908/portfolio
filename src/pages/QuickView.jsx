@@ -91,9 +91,16 @@ export default function QuickView() {
         {/* Skills */}
         <section>
           <h3 className="text-2xl text-white mb-8 border-l-4 border-amber-500 pl-4">Technical Arsenal</h3>
-          <div className="flex flex-wrap gap-2">
-            {profile.skills.map(skill => (
-              <span key={skill} className="badge">{skill}</span>
+          <div className="grid md:grid-cols-2 gap-8">
+            {Object.entries(profile.skills).map(([category, items]) => (
+              <div key={category} className="mb-4">
+                <h4 className="text-retro-light-blue font-bold mb-3 uppercase tracking-widest">{category.replace('_', ' ')}</h4>
+                <div className="flex flex-wrap gap-2">
+                  {items.map(item => (
+                    <span key={item} className="badge bg-charcoal-800">{item}</span>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </section>
