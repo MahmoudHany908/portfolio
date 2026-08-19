@@ -56,7 +56,7 @@
       "x": 225,
       "y": 675,
       "pX": 450,
-      "pY": 1400,
+      "pY": 300,
       "icon": "house"
     },
     {
@@ -65,8 +65,8 @@
       "title": "Skill Tree",
       "x": 225,
       "y": 325,
-      "pX": 250,
-      "pY": 1150,
+      "pX": 450,
+      "pY": 600,
       "icon": "crystal"
     },
     {
@@ -81,8 +81,8 @@
       "video": "https://player.vimeo.com/video/1219428175",
       "x": 600,
       "y": 250,
-      "pX": 650,
-      "pY": 950,
+      "pX": 450,
+      "pY": 900,
       "icon": "pc"
     },
     {
@@ -96,8 +96,8 @@
       "video": "https://www.youtube.com/embed/xhyxFllVVQY",
       "x": 800,
       "y": 450,
-      "pX": 250,
-      "pY": 750,
+      "pX": 400,
+      "pY": 1100,
       "icon": "vr"
     },
     {
@@ -111,8 +111,8 @@
       "video": "https://player.vimeo.com/video/1219429982",
       "x": 1000,
       "y": 250,
-      "pX": 650,
-      "pY": 550,
+      "pX": 500,
+      "pY": 1300,
       "icon": "vr"
     },
     {
@@ -125,8 +125,8 @@
       "video": "https://player.vimeo.com/video/1219429500",
       "x": 1150,
       "y": 550,
-      "pX": 250,
-      "pY": 350,
+      "pX": 400,
+      "pY": 1500,
       "icon": "mobile"
     },
     {
@@ -144,8 +144,8 @@
       ],
       "x": 950,
       "y": 700,
-      "pX": 650,
-      "pY": 150,
+      "pX": 500,
+      "pY": 1700,
       "icon": "vr"
     },
     {
@@ -155,7 +155,7 @@
       "x": 1450,
       "y": 675,
       "pX": 450,
-      "pY": 50,
+      "pY": 2000,
       "icon": "telephone"
     }
   ]

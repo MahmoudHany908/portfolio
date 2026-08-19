@@ -88,10 +88,10 @@ const PixelKnight = ({ isWalking, flipX }) => (
   </svg>
 );
 
-export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalking, walkDuration, flipX, isPortrait }) {
+export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalking, walkDuration, flipX, isMobileLayout }) {
   const [scale, setScale] = useState(1);
-  const CANVAS_WIDTH = isPortrait ? 900 : 1600;
-  const CANVAS_HEIGHT = isPortrait ? 1600 : 900;
+  const CANVAS_WIDTH = isMobileLayout ? 900 : 1600;
+  const CANVAS_HEIGHT = isMobileLayout ? 2200 : 900;
 
   // Responsive scaling to fit canvas inside the window
   useEffect(() => {
@@ -99,7 +99,7 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
       const scaleX = window.innerWidth / CANVAS_WIDTH;
       const scaleY = window.innerHeight / CANVAS_HEIGHT;
       // In portrait, use a tighter padding factor (0.85) to maximize space. Landscape stays 0.75.
-      const finalScale = isPortrait 
+      const finalScale = isMobileLayout 
         ? Math.min(scaleX, scaleY) * 0.9 
         : Math.min(Math.min(scaleX, scaleY) * 0.75, 1.5);
       setScale(finalScale);
@@ -109,19 +109,19 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
     handleResize(); // Initial calculation
 
     return () => window.removeEventListener('resize', handleResize);
-  }, [CANVAS_WIDTH, CANVAS_HEIGHT, isPortrait]);
+  }, [CANVAS_WIDTH, CANVAS_HEIGHT, isMobileLayout]);
 
   // Generate a smooth cubic bezier path for the trail
   const generateCurvedPath = (nodes) => {
     if (nodes.length === 0) return '';
-    let path = `M ${isPortrait ? nodes[0].pX : nodes[0].x} ${isPortrait ? nodes[0].pY : nodes[0].y} `;
+    let path = `M ${isMobileLayout ? nodes[0].pX : nodes[0].x} ${isMobileLayout ? nodes[0].pY : nodes[0].y} `;
     for (let i = 1; i < nodes.length; i++) {
       const prev = nodes[i-1];
       const curr = nodes[i];
-      const pX = isPortrait ? prev.pX : prev.x;
-      const pY = isPortrait ? prev.pY : prev.y;
-      const cX = isPortrait ? curr.pX : curr.x;
-      const cY = isPortrait ? curr.pY : curr.y;
+      const pX = isMobileLayout ? prev.pX : prev.x;
+      const pY = isMobileLayout ? prev.pY : prev.y;
+      const cX = isMobileLayout ? curr.pX : curr.x;
+      const cY = isMobileLayout ? curr.pY : curr.y;
       
       const midX = (pX + cX) / 2;
       path += `C ${midX} ${pY}, ${midX} ${cY}, ${cX} ${cY} `;
@@ -147,12 +147,12 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
         }}
       >
         {/* Phase Regions */}
-        {isPortrait ? (
+        {isMobileLayout ? (
           <>
-            <MapRegion x={200} y={1300} width={500} height={200} title="START" zoneColor="#d95763" isCircular={true} isGlowing={discovered ? !discovered.has('about') : true} />
-            <MapRegion x={50} y={1050} width={800} height={200} title="SKILLS" zoneColor="#f4b41b" blobShape="43% 57% 41% 59% / 54% 41% 59% 46%" />
-            <MapRegion x={50} y={250} width={800} height={750} title="PROJECTS" zoneColor="#569ceb" blobShape="62% 38% 51% 49% / 40% 58% 42% 60%" />
-            <MapRegion x={200} y={50} width={500} height={150} title="CONTACT" zoneColor="#83eb72" blobShape="40% 60% 70% 30% / 40% 50% 60% 50%" />
+            <MapRegion x={300} y={150} width={300} height={300} title="START" zoneColor="#d95763" isCircular={true} isGlowing={discovered ? !discovered.has('about') : true} />
+            <MapRegion x={300} y={450} width={300} height={300} title="SKILLS" zoneColor="#f4b41b" isCircular={true} />
+            <MapRegion x={150} y={750} width={600} height={1100} title="PROJECTS" zoneColor="#569ceb" blobShape="50% 50% 50% 50% / 40% 40% 40% 40%" />
+            <MapRegion x={300} y={1850} width={300} height={300} title="CONTACT" zoneColor="#83eb72" isCircular={true} />
           </>
         ) : (
           <>
@@ -181,8 +181,8 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
           <NodeMarker 
             key={node.id} 
             node={node} 
-            x={isPortrait ? node.pX : node.x}
-            y={isPortrait ? node.pY : node.y}
+            x={isMobileLayout ? node.pX : node.x}
+            y={isMobileLayout ? node.pY : node.y}
             isCompleted={discovered ? discovered.has(node.id) : false}
             onSelect={() => onNodeSelect(node)} 
           />
@@ -196,14 +196,14 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
             className="absolute z-40 pointer-events-none flex flex-col items-center justify-center transform -translate-x-1/2 -translate-y-[80%]"
           >
             {/* Speech Bubble */}
-            {!isWalking && playerPos.x !== -80 && playerPos.x !== 250 && (
+            {!isWalking && playerPos.x !== -80 && playerPos.x !== 200 && (
               <motion.div 
                 initial={{ opacity: 0, x: -10, scale: 0.8 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 transition={{ type: 'spring', delay: 0.5, damping: 12 }}
                 className="absolute -top-2 left-12 bg-white text-black font-pixel text-xs px-4 py-3 border-4 border-black whitespace-nowrap drop-shadow-xl z-50"
               >
-                {(playerPos.x === 225 && playerPos.y === 675) || (playerPos.x === 450 && playerPos.y === 1400) ? "Hire Mahmoud!" : "Still didn't hire him?"}
+                {(playerPos.x === 225 && playerPos.y === 675) || (playerPos.x === 450 && playerPos.y === 300) ? "Hire Mahmoud!" : "Still didn't hire him?"}
                 {/* Arrow pointing left at the character's body */}
                 <div className="absolute top-1/2 -left-3 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-r-[12px] border-t-transparent border-b-transparent border-r-black"></div>
                 <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-0 h-0 border-t-[4px] border-b-[4px] border-r-[8px] border-t-transparent border-b-transparent border-r-white"></div>
@@ -211,7 +211,7 @@ export default function MapCanvas({ onNodeSelect, discovered, playerPos, isWalki
             )}
 
             {/* Spotlight & Steel Stand */}
-            {!isWalking && (playerPos.x === -80 || playerPos.x === 250) && (
+            {!isWalking && (playerPos.x === -80 || playerPos.x === 200) && (
               <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-8 pointer-events-none z-[-1]">
                 
                 {/* Spotlight Cone starting near his head */}

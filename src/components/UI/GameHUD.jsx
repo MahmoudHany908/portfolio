@@ -25,15 +25,15 @@ export default function GameHUD({ discoveredCount, totalNodes, muted, setMuted }
         </div>
       </div>
 
-      <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-row items-center gap-2 md:gap-4 pointer-events-auto w-max">
+      <div className="absolute bottom-0 left-0 right-0 h-16 md:h-20 bg-[#1a1c2c] border-t-4 border-retro-gray z-40 flex flex-row items-center justify-center gap-2 md:gap-4 pointer-events-auto shadow-2xl">
         <SimpleViewToggle />
         
         <button 
-          className="pixel-btn flex items-center gap-2 shadow-xl text-[10px] md:text-sm px-3 py-2 md:px-6 md:py-3 border-2 md:border-4"
+          className="pixel-btn bg-[#569ceb] hover:bg-[#83eb72] transition-colors shadow-xl text-center text-[10px] md:text-sm px-2 md:px-6 py-2 md:py-3 border-4 flex items-center justify-center gap-2 text-white h-10 md:h-12 w-28 md:w-48"
           onClick={() => setMuted(!muted)}
         >
-          {muted ? <VolumeX size={16} className="w-4 h-4 md:w-5 md:h-5" /> : <Volume2 size={16} className="w-4 h-4 md:w-5 md:h-5" />}
-          <span className="hidden md:inline">{muted ? "UNMUTE SFX" : "MUTE SFX"}</span>
+          {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          <span>{muted ? "UNMUTE SFX" : "MUTE SFX"}</span>
         </button>
       </div>
     </>

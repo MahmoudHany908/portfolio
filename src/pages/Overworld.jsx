@@ -17,10 +17,11 @@ export default function Overworld() {
   const { playSpawn, playUnlock, playVictory } = useGameAudio();
 
   // Player & Layout State
-  const [isPortrait, setIsPortrait] = useState(() => window.innerHeight > window.innerWidth);
+  const [isMobileLayout, setIsMobileLayout] = useState(() => window.innerWidth < 768);
+  const [isLandscapeMobile, setIsLandscapeMobile] = useState(() => window.innerWidth < 768 && window.innerWidth > window.innerHeight);
   
   const [playerPos, setPlayerPos] = useState(() => 
-    window.innerHeight > window.innerWidth ? { x: 250, y: 1400 } : { x: -80, y: 675 }
+    window.innerWidth < 768 ? { x: 200, y: 300 } : { x: -80, y: 675 }
   );
   
   const [isWalking, setIsWalking] = useState(false);
@@ -29,26 +30,30 @@ export default function Overworld() {
 
   useEffect(() => {
     const handleResize = () => {
-      const newIsPortrait = window.innerHeight > window.innerWidth;
-      if (newIsPortrait !== isPortrait) {
-        setIsPortrait(newIsPortrait);
+      const newIsMobile = window.innerWidth < 768;
+      const newIsLandscape = newIsMobile && window.innerWidth > window.innerHeight;
+      
+      setIsLandscapeMobile(newIsLandscape);
+
+      if (newIsMobile !== isMobileLayout) {
+        setIsMobileLayout(newIsMobile);
         // Snap player pos to correct layout
         if (activeNode) {
-          setPlayerPos({ x: newIsPortrait ? activeNode.pX : activeNode.x, y: newIsPortrait ? activeNode.pY : activeNode.y });
-        } else if (playerPos.x === -80 || playerPos.x === 250) {
-          setPlayerPos(newIsPortrait ? { x: 250, y: 1400 } : { x: -80, y: 675 });
+          setPlayerPos({ x: newIsMobile ? activeNode.pX : activeNode.x, y: newIsMobile ? activeNode.pY : activeNode.y });
+        } else if (playerPos.x === -80 || playerPos.x === 200 || playerPos.x === 250) {
+          setPlayerPos(newIsMobile ? { x: 200, y: 300 } : { x: -80, y: 675 });
         }
       }
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [isPortrait, activeNode, playerPos]);
+  }, [isMobileLayout, activeNode, playerPos]);
 
   const handleNodeSelect = (node) => {
     if (activeNode || isWalking) return; // Prevent clicking while walking or in modal
 
-    const targetX = isPortrait ? node.pX : node.x;
-    const targetY = isPortrait ? node.pY : node.y;
+    const targetX = isMobileLayout ? node.pX : node.x;
+    const targetY = isMobileLayout ? node.pY : node.y;
 
     const dist = Math.hypot(targetX - playerPos.x, targetY - playerPos.y);
     const duration = Math.max(0.6, dist / 400); // Calculate seconds based on distance
@@ -98,7 +103,7 @@ export default function Overworld() {
         isWalking={isWalking}
         walkDuration={walkDuration}
         flipX={flipX}
-        isPortrait={isPortrait}
+        isMobileLayout={isMobileLayout}
       />
       
       {/* Victory Banner Overlay */}
@@ -141,6 +146,17 @@ export default function Overworld() {
         node={activeNode} 
         onClose={handleModalClose} 
       />
+
+      {/* Mobile Landscape Lock Screen */}
+      {isLandscapeMobile && (
+        <div className="fixed inset-0 z-[9999] bg-retro-dark flex flex-col items-center justify-center p-8 text-center pointer-events-auto">
+          <Smartphone size={80} className="text-retro-yellow mb-8 animate-[pulse_2s_ease-in-out_infinite] -rotate-90" />
+          <h2 className="text-2xl font-pixel mb-4 text-retro-yellow leading-loose tracking-widest">ROTATE DEVICE</h2>
+          <p className="text-lg text-slate-300 max-w-sm leading-relaxed">
+            Please rotate your phone to portrait mode to explore the map.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
