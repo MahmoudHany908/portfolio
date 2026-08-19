@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
 import { Star } from 'lucide-react';
 import NodeMarker from './NodeMarker';
 import portfolioData from '../../data/portfolioData.json';
@@ -90,8 +90,14 @@ const PixelKnight = ({ isWalking, flipX }) => (
 
 export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout }) {
   const [scale, setScale] = useState(1);
+  const dragY = useMotionValue(0);
   const CANVAS_WIDTH = isMobileLayout ? 900 : 1600;
   const CANVAS_HEIGHT = isMobileLayout ? 2200 : 900;
+
+  // Reset drag offset when player moves so camera recenters perfectly
+  useEffect(() => {
+    dragY.set(0);
+  }, [playerPos, dragY]);
 
   // Responsive scaling to fit canvas inside the window
   useEffect(() => {
@@ -146,15 +152,20 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
       <TerrainBackground />
 
       {/* Fixed Coordinate Canvas */}
-      <div 
-        className="absolute transition-all duration-[1200ms] ease-in-out" 
+      <motion.div 
+        drag={isMobileLayout ? "y" : false}
+        dragConstraints={{ top: -800, bottom: 800 }}
+        dragElastic={0.2}
+        animate={{ left: targetLeft, top: targetTop }}
+        transition={{ duration: 1.2, ease: "easeInOut" }}
+        className="absolute cursor-grab active:cursor-grabbing" 
         style={{ 
           width: CANVAS_WIDTH, 
           height: CANVAS_HEIGHT, 
-          transform: `scale(${scale})`,
-          transformOrigin: 'top left',
-          left: targetLeft,
-          top: targetTop
+          originX: 0,
+          originY: 0,
+          scale: scale,
+          y: dragY
         }}
       >
         {/* Phase Regions */}
@@ -259,7 +270,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
             <PixelKnight isWalking={isWalking} flipX={flipX} />
           </motion.div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }
