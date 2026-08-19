@@ -119,6 +119,118 @@ const skillsTower = [
   "................................"
 ];
 
+const projectsChest = [
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "...........BBBBBBBBBB...........",
+  "..........BWWWWWWWWWWB..........",
+  ".........BWWWWWWWWWWWWB.........",
+  "........BWwwwwwwwwwwwwWB........",
+  "........BWBBWWBBWWBBWWWB........",
+  "........BWWWWWWWWWWWWWWB........",
+  "........BWwwwwwwwwwwwwWB........",
+  "........BWWWWWWWWWWWWWWB........",
+  "........BBBBBBBBBBBBBBBB........",
+  "........BSSSSBBBBSSSSSSB........",
+  "........BsSSSBBBBSSSssSB........",
+  "........BSSSSBBBBSSSSSSB........",
+  "........BBBBBYYYYBBBBBBB........",
+  "........BWwwwYYYYwwwWWWB........",
+  "........BWWWWYYYYWWWWWWB........",
+  "........BWwwwBBBBwwwWWWB........",
+  "........BWWWWWWWWWWWWWWB........",
+  "........BWwwwwwwwwwwwwWB........",
+  "........BWWWWWWWWWWWWWWB........",
+  "........BBBBBBBBBBBBBBBB........",
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "................................"
+];
+
+const contactMailbox = [
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "...........BBBBBBBB.............",
+  "..........BSSSSSSSSB............",
+  ".........BSSSSSSSSSSB...........",
+  "........BSSSSSSSSSSSSB..........",
+  "........BsSSSssSSSSSsB...BBB....",
+  "........BSSSSSSSSSSSSB..BCCCB...",
+  "........BsSSSssSSSSSsB..BCRRCB..",
+  "........BSSSSSSSSSSSSB.BCRRCB...",
+  "........BsSSSssSSSSSsB.BCRRCB...",
+  "........BSSSSSSSSSSSSB.BBBB.....",
+  "........BssssssssssssB.B........",
+  "........BBBBBBBBBBBBBB.B........",
+  "............BWWWWWB..BBB........",
+  "............BwWWwWB.............",
+  "............BWWWWWB.............",
+  "............BwWWwWB.............",
+  "............BWWWWWB.............",
+  "............BwWWwWB.............",
+  "............BWWWWWB.............",
+  "............BwWWwWB.............",
+  "...........BBWBBWBB.............",
+  "..........BBWWWWWWBB............",
+  ".........BBWWWWWWWWBB...........",
+  ".........BBBBBBBBBBBB...........",
+  "................................",
+  "................................"
+];
+
+const lockIcon = [
+  "................",
+  "................",
+  ".....BBBBBB.....",
+  "....BSssssSB....",
+  "...BSsBBBBsSB...",
+  "...BSsB..BsSB...",
+  "...BSsB..BsSB...",
+  "...BBBBBBBBBB...",
+  "...BYYYYYYYYB...",
+  "...BYYYBBYYYB...",
+  "...BYYYBBYYYB...",
+  "...BYYBBBYYYB...",
+  "...BYYYYYYYYB...",
+  "...BBBBBBBBBB...",
+  "................",
+  "................"
+];
+
+const pathTile = [
+  "WwwwwWWWWWWwWWww",
+  "wwWWWwWwWWwwwWwW",
+  "wWWWwWwWWWWwWWWW",
+  "WWWwWwWWWwWWwwWw",
+  "wwWWwWWwWwWwWWWw",
+  "WwWWWwWWwwWWWwWW",
+  "WWwWWwWWwWWwWWwW",
+  "WwwWWwWWWWwWwWwW",
+  "wWwWWWWwWWWwWWww",
+  "WWwWWwWWwwWWwwWw",
+  "WwWWwWwWWwWwwWWW",
+  "WwwWWwwWWWwWWWwW",
+  "wWWwwWWwwWWwWwWW",
+  "WWwWWWwWWwwWwwWw",
+  "wwWWwWWwWWWwWWWw",
+  "WwWWWwwWwwWWwWwW"
+];
+
 export const TerrainGrassTile = generateDataURI(grassTile, 16, 16);
+export const PathTile = generateDataURI(pathTile, 16, 16);
 export const LandmarkStart = generateDataURI(startSign, 32, 32);
 export const LandmarkSkills = generateDataURI(skillsTower, 32, 32);
+export const LandmarkProjects = generateDataURI(projectsChest, 32, 32);
+export const LandmarkContact = generateDataURI(contactMailbox, 32, 32);
+export const LockIcon = generateDataURI(lockIcon, 16, 16);
