@@ -15,7 +15,7 @@ const iconMap = {
   telephone: PhoneCall
 };
 
-export default function NodeMarker({ node, onSelect, isCompleted }) {
+export default function NodeMarker({ node, onSelect, isCompleted, x, y }) {
   const [isHovered, setIsHovered] = useState(false);
   const { playHover, playSelect } = useGameAudio();
 
@@ -59,8 +59,8 @@ export default function NodeMarker({ node, onSelect, isCompleted }) {
 
   return (
     <div 
-      className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10"
-      style={{ left: node.x, top: node.y }}
+      className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10 transition-all duration-700"
+      style={{ left: x, top: y }}
     >
       <motion.div
         className="relative flex flex-col items-center justify-center cursor-pointer group"

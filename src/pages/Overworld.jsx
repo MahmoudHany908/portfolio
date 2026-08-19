@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Smartphone } from 'lucide-react';
 import MapCanvas from '../components/Overworld/MapCanvas';
@@ -16,22 +16,47 @@ export default function Overworld() {
   const [muted, setMuted] = useState(false);
   const { playSpawn, playUnlock, playVictory } = useGameAudio();
 
-  // Player State
-  const [playerPos, setPlayerPos] = useState({ x: -80, y: 675 }); // Start far left of the 'about' node
+  // Player & Layout State
+  const [isPortrait, setIsPortrait] = useState(() => window.innerHeight > window.innerWidth);
+  
+  const [playerPos, setPlayerPos] = useState(() => 
+    window.innerHeight > window.innerWidth ? { x: 250, y: 1400 } : { x: -80, y: 675 }
+  );
+  
   const [isWalking, setIsWalking] = useState(false);
   const [walkDuration, setWalkDuration] = useState(0);
   const [flipX, setFlipX] = useState(false);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const newIsPortrait = window.innerHeight > window.innerWidth;
+      if (newIsPortrait !== isPortrait) {
+        setIsPortrait(newIsPortrait);
+        // Snap player pos to correct layout
+        if (activeNode) {
+          setPlayerPos({ x: newIsPortrait ? activeNode.pX : activeNode.x, y: newIsPortrait ? activeNode.pY : activeNode.y });
+        } else if (playerPos.x === -80 || playerPos.x === 250) {
+          setPlayerPos(newIsPortrait ? { x: 250, y: 1400 } : { x: -80, y: 675 });
+        }
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isPortrait, activeNode, playerPos]);
+
   const handleNodeSelect = (node) => {
     if (activeNode || isWalking) return; // Prevent clicking while walking or in modal
 
-    const dist = Math.hypot(node.x - playerPos.x, node.y - playerPos.y);
+    const targetX = isPortrait ? node.pX : node.x;
+    const targetY = isPortrait ? node.pY : node.y;
+
+    const dist = Math.hypot(targetX - playerPos.x, targetY - playerPos.y);
     const duration = Math.max(0.6, dist / 400); // Calculate seconds based on distance
 
-    setFlipX(node.x < playerPos.x);
+    setFlipX(targetX < playerPos.x);
     setIsWalking(true);
     setWalkDuration(duration);
-    setPlayerPos({ x: node.x, y: node.y });
+    setPlayerPos({ x: targetX, y: targetY });
 
     if (!muted) playSpawn();
 
@@ -73,6 +98,7 @@ export default function Overworld() {
         isWalking={isWalking}
         walkDuration={walkDuration}
         flipX={flipX}
+        isPortrait={isPortrait}
       />
       
       {/* Victory Banner Overlay */}
@@ -115,17 +141,6 @@ export default function Overworld() {
         node={activeNode} 
         onClose={handleModalClose} 
       />
-
-      {/* Mobile Portrait Lock Screen */}
-      <div className="hidden max-md:portrait:flex fixed inset-0 z-[9999] bg-retro-dark flex-col items-center justify-center p-8 text-center pointer-events-auto">
-        <Smartphone size={80} className="text-retro-yellow mb-8 animate-[pulse_2s_ease-in-out_infinite] rotate-90" />
-        <h2 className="text-2xl md:text-3xl font-pixel mb-4 text-retro-yellow leading-loose tracking-widest">ROTATE DEVICE</h2>
-        <p className="text-lg text-slate-300 mb-12 max-w-sm leading-relaxed">
-          The Overworld map requires landscape mode for the best navigation experience.
-        </p>
-        <p className="text-sm text-retro-gray mb-4">Or use the standard scrolling view:</p>
-        <SimpleViewToggle />
-      </div>
     </div>
   );
 }
