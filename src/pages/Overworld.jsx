@@ -109,7 +109,9 @@ export default function Overworld() {
   };
 
   return (
-    <div className="w-full h-full bg-retro-dark relative overflow-hidden">
+    <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-dark select-none touch-none">
+      {/* Audio Manager */}
+      <audio ref={bgmRef} src="/audio/overworld-bgm.mp3" loop />
       <MapCanvas 
         onNodeSelect={handleNodeSelect} 
         discovered={discovered} 

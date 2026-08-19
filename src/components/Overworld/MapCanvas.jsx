@@ -66,7 +66,7 @@ const MapRegion = ({ x, y, width, height, title, zoneColor, isCircular, isGlowin
 };
 
 const PixelKnight = ({ isWalking, flipX }) => (
-  <svg width="64" height="64" viewBox="0 0 16 16" 
+  <svg width="64" height="64" viewBox="0 0 16 16" overflow="visible"
        className={`drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] ${isWalking ? 'animate-[bounce_0.3s_infinite]' : ''}`} 
        style={{ transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', transformOrigin: 'center' }}>
     {/* Helmet */}
@@ -98,9 +98,9 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
     const handleResize = () => {
       const scaleX = window.innerWidth / CANVAS_WIDTH;
       const scaleY = window.innerHeight / CANVAS_HEIGHT;
-      // In portrait, use a heavy zoom factor to only show a few checkpoints at a time
+      // In portrait, use a moderate zoom factor to show the character and upcoming checkpoints
       const finalScale = isMobileLayout 
-        ? window.innerWidth / 500 // Zoom in to a 500px virtual width
+        ? window.innerWidth / 700 
         : Math.min(Math.min(scaleX, scaleY) * 0.75, 1.5);
       setScale(finalScale);
     };
@@ -130,11 +130,11 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
     trailSegments.push({ id: `trail-${curr.id}`, path, isActive });
   }
 
-  // Camera Follow logic for mobile
-  const cameraY = isMobileLayout && playerPos ? (CANVAS_HEIGHT / 2) - playerPos.y : 0;
+  // Camera Follow logic for mobile: Offset by -150px so the player sits in the upper half of the screen
+  const cameraY = isMobileLayout && playerPos ? (CANVAS_HEIGHT / 2) - playerPos.y - 150 : 0;
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-retro-green relative">
+    <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-green relative">
       {/* Background that fills screen regardless of scale */}
       <TerrainBackground />
 
@@ -198,9 +198,11 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
         {/* Player Character */}
         {playerPos && (
           <motion.div
+            initial={false}
             animate={{ left: playerPos.x, top: playerPos.y }}
             transition={{ duration: walkDuration, ease: "linear" }}
-            className="absolute z-40 pointer-events-none flex flex-col items-center justify-center transform -translate-x-1/2 -translate-y-[80%]"
+            style={{ x: '-50%', y: '-80%' }}
+            className="absolute z-40 pointer-events-none flex flex-col items-center justify-center"
           >
             {/* Speech Bubble */}
             {!isWalking && playerPos.x !== -80 && playerPos.x !== 200 && (
