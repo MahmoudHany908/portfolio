@@ -75,7 +75,7 @@ export default function SimpleView() {
       
       {/* Sticky Navigation */}
       <nav className="sticky top-0 z-50 bg-retro-dark/95 backdrop-blur-md border-b-4 border-retro-gray shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] py-3 px-4 md:px-8">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <div className="max-w-screen-2xl mx-auto flex justify-between items-center w-full px-2 lg:px-8">
           <div className="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar items-center">
             <a href="#about" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap flex items-center gap-2">
               <UserIcon /> ABOUT
@@ -96,7 +96,7 @@ export default function SimpleView() {
         </div>
       </nav>
 
-      <div className="px-4 md:px-8 py-12 max-w-6xl mx-auto space-y-24 md:space-y-32 pb-32 relative z-10">
+      <div className="px-6 md:px-12 lg:px-20 py-12 max-w-screen-2xl mx-auto w-full space-y-24 md:space-y-32 pb-32 relative z-10">
         
         <motion.header 
           initial="hidden" animate="visible" variants={fadeUpVariant}
@@ -283,10 +283,10 @@ export default function SimpleView() {
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
           className="pt-16 mt-32 scroll-mt-28"
         >
-          <div className="flex flex-col lg:flex-row gap-16 justify-between items-stretch">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 justify-between items-stretch">
             
             {/* Left Column: Let's Connect */}
-            <div className="lg:w-1/2 space-y-10">
+            <div className="lg:w-5/12 space-y-10">
               <h3 className="font-pixel text-3xl md:text-4xl text-retro-light-blue drop-shadow-[0_0_10px_rgba(86,156,235,0.6)] tracking-widest uppercase">
                 Let's Connect
               </h3>
@@ -328,7 +328,7 @@ export default function SimpleView() {
             </div>
 
             {/* Right Column: Knight Dialogue */}
-            <div className="lg:w-1/2 mt-12 lg:mt-0 relative flex flex-col justify-center">
+            <div className="lg:w-7/12 mt-12 lg:mt-0 relative flex flex-col justify-center">
               <div className="border-4 border-retro-light-blue p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center md:items-stretch bg-retro-dark/80 backdrop-blur-sm shadow-[0_0_30px_rgba(86,156,235,0.2)]">
                 
                 {/* Knight Avatar Box */}
@@ -362,7 +362,7 @@ export default function SimpleView() {
                       <rect x="9" y="15" width="2" height="1" fill="#1a1c2c" />
                     </svg>
                   </div>
-                  <span className="font-pixel text-white text-sm tracking-widest text-center whitespace-nowrap">Tiny Mahmoud ^_^</span>
+                  <span className="font-pixel text-white text-sm tracking-widest text-center whitespace-nowrap">Virtual Mahmoud</span>
                 </div>
                 
                 {/* Dialogue Box */}
