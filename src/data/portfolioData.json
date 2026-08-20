@@ -120,8 +120,9 @@
       "type": "project",
       "title": "Cyber Salvage",
       "role": "Unity Developer",
-      "tech": ["Unity", "C#"],
+      "tech": ["Unity", "C#", "VContainer (DI)"],
       "client": "National Bank of Egypt",
+      "clientLogo": "/nbe-logo.png",
       "clientBadge": "NBE",
       "summary": "Engineered the core C# systems for Cyber Salvage, a dual-loop mobile title that pairs an arena survival phase with a financial-literacy economy sim — players fight to earn resources, then return to a Hub to invest, balance, and upgrade a factory (up to Level 5) using simulated market mechanics. Migrated the codebase from Singletons to a clean Dependency Injection architecture and tuned the economy through iterative balancing. Developed as part of the National Bank of Egypt's internal innovation initiative, in collaboration with ITI's Game Development Academy.",
       "keyContributions": [

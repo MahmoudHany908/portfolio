@@ -83,9 +83,14 @@ export default function ModalOverlay({ node, onClose }) {
                 <div className="flex items-center gap-3 mb-2 flex-wrap">
                   <h2 className="text-lg md:text-xl text-retro-yellow leading-loose m-0">{node.title}</h2>
                   {node.client && (
-                    <span className="bg-retro-green/20 text-retro-light-green border border-retro-green px-2 py-0.5 text-[10px] font-pixel tracking-wider">
-                      Client: {node.client}
-                    </span>
+                    <div className="flex items-center gap-2 bg-retro-green/20 border border-retro-green px-2 py-0.5">
+                      {node.clientLogo && (
+                        <img src={node.clientLogo} alt={node.client} className="w-5 h-5 object-contain drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" />
+                      )}
+                      <span className="text-retro-light-green text-[10px] font-pixel tracking-wider uppercase">
+                        Client: {node.client}
+                      </span>
+                    </div>
                   )}
                 </div>
                 {node.role && <h3 className="text-xs text-retro-light-blue font-pixel leading-loose m-0">{node.role}</h3>}

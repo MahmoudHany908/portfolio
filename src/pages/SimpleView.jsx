@@ -215,9 +215,14 @@ export default function SimpleView() {
                     <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
                       <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
                       {proj.client && (
-                        <span className="bg-retro-green/20 text-retro-light-green border border-retro-green px-3 py-1 text-xs font-pixel tracking-wider self-start md:self-auto">
-                          Client: {proj.client}
-                        </span>
+                        <div className="flex items-center gap-2 bg-retro-green/20 border border-retro-green px-3 py-1 self-start md:self-auto">
+                          {proj.clientLogo && (
+                            <img src={proj.clientLogo} alt={proj.client} className="w-6 h-6 object-contain drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" />
+                          )}
+                          <span className="text-retro-light-green text-xs font-pixel tracking-wider uppercase">
+                            Client: {proj.client}
+                          </span>
+                        </div>
                       )}
                     </div>
                     <div className="text-retro-light-blue text-base uppercase tracking-wider">{proj.role}</div>
