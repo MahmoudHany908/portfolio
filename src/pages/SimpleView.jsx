@@ -212,7 +212,14 @@ export default function SimpleView() {
               >
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-5">
                   <div>
-                    <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow mb-3 group-hover:text-white transition-colors">{proj.title}</h4>
+                    <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
+                      <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
+                      {proj.client && (
+                        <span className="bg-retro-green/20 text-retro-light-green border border-retro-green px-3 py-1 text-xs font-pixel tracking-wider self-start md:self-auto">
+                          Client: {proj.client}
+                        </span>
+                      )}
+                    </div>
                     <div className="text-retro-light-blue text-base uppercase tracking-wider">{proj.role}</div>
                   </div>
                   {proj.githubLink && (
@@ -226,7 +233,21 @@ export default function SimpleView() {
                   <VideoGallery singleVideo={proj.video} videos={proj.videos} />
                 </div>
                 
-                <p className="text-lg text-slate-300 mb-8 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
+                <p className="text-lg text-slate-300 mb-6 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
+                
+                {proj.keyContributions && (
+                  <div className="mb-8">
+                    <h5 className="font-pixel text-sm text-retro-yellow mb-4">Key Contributions</h5>
+                    <ul className="space-y-3">
+                      {proj.keyContributions.map((contrib, i) => (
+                        <li key={i} className="flex gap-4 text-slate-300 text-base md:text-lg leading-relaxed group-hover:text-white transition-colors">
+                          <span className="text-retro-light-green shrink-0 mt-1">►</span>
+                          <span>{contrib}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 
                 <div className="flex flex-wrap gap-3">
                   {proj.tech.map(t => (

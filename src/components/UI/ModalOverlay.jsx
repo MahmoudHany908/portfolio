@@ -80,8 +80,15 @@ export default function ModalOverlay({ node, onClose }) {
                 />
               )}
               <div>
-                <h2 className="text-lg md:text-xl text-retro-yellow mb-3 leading-loose">{node.title}</h2>
-                {node.role && <h3 className="text-xs text-retro-light-blue font-pixel leading-loose">{node.role}</h3>}
+                <div className="flex items-center gap-3 mb-2 flex-wrap">
+                  <h2 className="text-lg md:text-xl text-retro-yellow leading-loose m-0">{node.title}</h2>
+                  {node.client && (
+                    <span className="bg-retro-green/20 text-retro-light-green border border-retro-green px-2 py-0.5 text-[10px] font-pixel tracking-wider">
+                      Client: {node.client}
+                    </span>
+                  )}
+                </div>
+                {node.role && <h3 className="text-xs text-retro-light-blue font-pixel leading-loose m-0">{node.role}</h3>}
               </div>
             </div>
 
@@ -138,6 +145,20 @@ export default function ModalOverlay({ node, onClose }) {
                 <div className="space-y-6">
                   <VideoGallery singleVideo={node.video} videos={node.videos} />
                   <p className="text-lg border-l-4 border-retro-blue pl-4 text-slate-300">{node.summary}</p>
+                  
+                  {node.keyContributions && (
+                    <div className="mt-6">
+                      <h4 className="font-pixel text-[12px] text-retro-yellow mb-4">Key Contributions</h4>
+                      <ul className="list-none space-y-2">
+                        {node.keyContributions.map((contrib, i) => (
+                          <li key={i} className="flex gap-3 text-slate-300 text-sm md:text-base leading-relaxed">
+                            <span className="text-retro-light-green mt-1 shrink-0">►</span>
+                            <span>{contrib}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               )}
               

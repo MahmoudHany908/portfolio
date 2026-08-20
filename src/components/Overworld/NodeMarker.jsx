@@ -88,10 +88,14 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, onSele
 
       {/* Label */}
       <div 
-        className={`absolute -bottom-8 font-pixel text-sm whitespace-nowrap bg-retro-dark px-3 py-1 border-2 border-white transition-opacity duration-300 ${isUnlocked ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100 pointer-events-none drop-shadow-md z-40`}
-        style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}
+        className={`absolute -bottom-8 font-pixel text-sm whitespace-nowrap bg-retro-dark px-3 py-1 border-2 border-white transition-opacity duration-300 ${isUnlocked ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100 pointer-events-none drop-shadow-md z-40 flex items-center gap-2`}
       >
-        {node.title}
+        <span style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}>{node.title}</span>
+        {node.clientBadge && (
+          <span className="bg-retro-green/20 text-retro-light-green border border-retro-green px-1.5 py-0.5 text-[8px] uppercase tracking-wider">
+            {node.clientBadge}
+          </span>
+        )}
       </div>
     </div>
   );
