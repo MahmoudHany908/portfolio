@@ -214,27 +214,42 @@ export default function SimpleView() {
                   <div>
                     <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
                       <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
-                      {proj.client && (
-                        <div className="flex items-center gap-2 bg-retro-green/20 border border-retro-green px-3 py-1 self-start md:self-auto">
-                          {proj.clientLogo && (
-                            <img src={proj.clientLogo} alt={proj.client} className="w-6 h-6 object-contain drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" />
-                          )}
-                          <span className="text-retro-light-green text-xs font-pixel tracking-wider uppercase">
-                            Client: {proj.client}
-                          </span>
-                        </div>
-                      )}
                     </div>
                     <div className="text-retro-light-blue text-base uppercase tracking-wider">{proj.role}</div>
                   </div>
                   {proj.githubLink && (
-                    <a href={proj.githubLink} target="_blank" rel="noreferrer" className="flex gap-2 items-center text-slate-300 hover:text-retro-dark hover:bg-retro-light-blue bg-retro-blue px-5 py-3 border-4 border-retro-light-blue transition-all duration-300 font-bold drop-shadow-md hover:drop-shadow-none hover:translate-y-1 text-base">
-                      <GithubIcon /> SOURCE CODE
+                    <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center self-start">
+                      <GithubIcon /> CODE
+                    </a>
+                  )}
+                  {proj.itchLink && (
+                    <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center self-start">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
                     </a>
                   )}
                 </div>
                 
-                <div className="mb-6">
+                {proj.client && (
+                  <div className="flex items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
+                    {/* Decorative side bar */}
+                    <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
+                    
+                    {proj.clientLogo && (
+                      <div className="w-16 h-16 shrink-0 bg-white/5 rounded p-2 flex items-center justify-center border border-white/10">
+                        <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+                      </div>
+                    )}
+                    <div>
+                      <h5 className="font-pixel text-[10px] text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
+                      <h3 className="font-pixel text-lg md:text-xl text-white tracking-widest">{proj.client}</h3>
+                    </div>
+                    
+                    {/* Retro decorative elements */}
+                    <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
+                  </div>
+                )}
+                
+                <div className="mb-8">
                   <VideoGallery singleVideo={proj.video} videos={proj.videos} />
                 </div>
                 
