@@ -291,7 +291,7 @@ export default function SimpleView() {
                 Let's Connect
               </h3>
               <p className="text-retro-light-blue text-lg md:text-xl leading-relaxed">
-                I'm always interested in discussing new opportunities, collaborations, or just chatting about game development and AI. Feel free to reach out!
+                Always down to discuss new projects, building immersive XR experiences or games. Whether we're teaming up for the next project or just chatting about games, my inbox is always open. Feel free to reach out!
               </p>
               
               <div className="space-y-8 pt-4">
@@ -329,11 +329,11 @@ export default function SimpleView() {
 
             {/* Right Column: Knight Dialogue */}
             <div className="lg:w-1/2 mt-12 lg:mt-0 relative flex flex-col justify-center">
-              <div className="border-4 border-retro-light-blue p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center bg-retro-dark/80 backdrop-blur-sm shadow-[0_0_30px_rgba(86,156,235,0.2)]">
+              <div className="border-4 border-retro-light-blue p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center md:items-stretch bg-retro-dark/80 backdrop-blur-sm shadow-[0_0_30px_rgba(86,156,235,0.2)]">
                 
                 {/* Knight Avatar Box */}
-                <div className="flex flex-col items-center gap-6 shrink-0 z-10">
-                  <div className="w-32 h-32 md:w-40 md:h-40 border-4 border-retro-light-blue bg-retro-dark flex items-center justify-center overflow-hidden shadow-[0_0_20px_rgba(86,156,235,0.5)]">
+                <div className="flex flex-col items-center gap-4 shrink-0 justify-center">
+                  <div className="w-32 h-32 md:w-36 md:h-36 border-4 border-retro-light-blue bg-retro-dark flex items-center justify-center overflow-hidden shadow-[0_0_20px_rgba(86,156,235,0.5)]">
                     <svg width="128" height="128" viewBox="0 0 16 16" overflow="visible" className="transform scale-[2.5]">
                       {/* Small Red Plume */}
                       <rect x="7" y="0" width="2" height="1" fill="#d95763" />
@@ -362,23 +362,17 @@ export default function SimpleView() {
                       <rect x="9" y="15" width="2" height="1" fill="#1a1c2c" />
                     </svg>
                   </div>
-                  <span className="font-pixel text-white text-sm md:text-base tracking-widest text-center whitespace-nowrap">Tiny Mahmoud ^_^</span>
+                  <span className="font-pixel text-white text-sm tracking-widest text-center whitespace-nowrap">Tiny Mahmoud ^_^</span>
                 </div>
                 
                 {/* Dialogue Box */}
-                <div className="flex-1 border-2 border-retro-light-green p-6 relative">
+                <div className="flex-1 border-2 border-retro-light-green p-5 md:p-6 relative flex flex-col justify-center">
                   {/* Speech bubbles arrow */}
                   <div className="absolute top-1/2 -left-4 w-0 h-0 border-y-[12px] border-y-transparent border-r-[16px] border-r-retro-light-green transform -translate-y-1/2 hidden md:block"></div>
                   <div className="absolute -top-4 left-1/2 w-0 h-0 border-x-[12px] border-x-transparent border-b-[16px] border-b-retro-light-green transform -translate-x-1/2 md:hidden"></div>
                   
-                  <p className="text-retro-light-blue text-base md:text-lg leading-relaxed font-sans mt-4">
-                    Hey 👋 I'm Virtual Mahmoud - a tiny pixelated clone of the real developer. 
-                    Slightly shorter, equally opinionated, and 37% more efficient. 
-                    Ask me about games, Unity, AI, projects, hiring, life goals, or mysterious bugs.
-                  </p>
-                  
-                  <p className="text-retro-gray text-sm md:text-base mt-8 border-t border-retro-dark/50 pt-4">
-                    Ready to collaborate? Email the real human at <a href={`mailto:${profile.email}`} className="text-retro-light-green hover:underline font-bold tracking-wide">{profile.email}</a>
+                  <p className="text-retro-light-blue text-base md:text-lg leading-relaxed font-sans mb-4">
+                    Hey 👋 I'm Virtual Mahmoud—a tiny, bug-free clone of the real developer. I mostly just hang out here while the human Mahmoud builds VR games and survives 3-day game jams. If you want to team up or talk games, drop him an email!
                   </p>
                 </div>
               </div>
@@ -386,8 +380,13 @@ export default function SimpleView() {
 
           </div>
 
-          <div className="mt-32 pt-10 border-t-[4px] border-retro-light-green text-center pb-10 shadow-[0_-15px_30px_-15px_rgba(131,235,114,0.3)]">
-            <p className="font-pixel text-retro-light-green text-xl md:text-2xl drop-shadow-[0_0_12px_rgba(131,235,114,0.8)] tracking-[0.2em] uppercase">BUILT WITH PASSION AND PIXELS</p>
+          <div className="mt-32 pt-10 border-t-[4px] border-retro-light-green flex flex-col items-center justify-center pb-10 shadow-[0_-15px_30px_-15px_rgba(131,235,114,0.3)] gap-4">
+            <p className="font-pixel text-retro-light-green text-lg md:text-xl drop-shadow-[0_0_12px_rgba(131,235,114,0.8)] leading-relaxed text-center px-4">
+              “Why shouldn't people be able to teleport wherever they want?”
+            </p>
+            <p className="text-retro-light-blue text-sm md:text-base tracking-widest uppercase font-bold text-center">
+              — Palmer Luckey, Founder of Oculus VR
+            </p>
           </div>
         </motion.section>
       </div>
