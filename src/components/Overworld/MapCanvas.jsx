@@ -48,47 +48,70 @@ const ZoneRegion = ({ x, y, rx, ry, color }) => (
   />
 );
 
-const PixelKnight = ({ isWalking, flipX, isShooting }) => (
-  <svg width="64" height="64" viewBox="0 0 16 16" overflow="visible"
-       className={`drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] ${isWalking ? 'animate-[bounce_0.3s_infinite]' : ''}`} 
-       style={{ transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', transformOrigin: 'center' }}>
-    {/* Small Red Plume */}
-    <rect x="7" y="0" width="2" height="1" fill="#d95763" />
-    <rect x="8" y="1" width="3" height="2" fill="#d95763" />
-    {/* Silver Helmet */}
-    <rect x="5" y="2" width="6" height="2" fill="#a4a5a1" />
-    <rect x="4" y="4" width="8" height="4" fill="#daddd8" />
-    {/* Visor slit (T shape) */}
-    <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
-    <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
-    <rect x="8" y="5" width="1" height="1" fill="#83eb72" /> {/* Glowing Eye */}
-    {/* Silver Body Armor */}
-    <rect x="5" y="8" width="6" height="4" fill="#a4a5a1" />
-    {/* Blue Cape */}
-    <rect x="3" y="8" width="2" height="5" fill="#569ceb" />
-    {/* Arms/Shoulders */}
-    <rect x="4" y="8" width="1" height="3" fill="#daddd8" />
-    <rect x="11" y="8" width="1" height="3" fill="#daddd8" />
-    
-    {/* Weapon */}
-    {!isShooting ? (
-      <rect x="11" y="11" width="1" height="4" fill="#f4f4f4" />
-    ) : (
-      <g>
-        <rect x="12" y="7" width="1" height="6" fill="#8b5a2b" />
-        <rect x="13" y="8" width="1" height="4" fill="#8b5a2b" />
-        {/* Drawn String */}
-        <path d="M 12 7 Q 8 10 12 13" stroke="#ffffff" strokeWidth="0.5" fill="none" opacity="0.8" />
-      </g>
+const PixelKnight = ({ isWalking, flipX, isDrawing, isShooting }) => (
+  <div className="relative" style={{ width: 64, height: 64 }}>
+    <svg width="64" height="64" viewBox="0 0 16 16" overflow="visible"
+         className={`drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] ${isWalking ? 'animate-[bounce_0.3s_infinite]' : ''} ${isDrawing ? 'animate-[pulse_0.5s_ease-in-out_infinite]' : ''}`} 
+         style={{ transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', transformOrigin: 'center' }}>
+      {/* Small Red Plume */}
+      <rect x="7" y="0" width="2" height="1" fill="#d95763" />
+      <rect x="8" y="1" width="3" height="2" fill="#d95763" />
+      {/* Silver Helmet */}
+      <rect x="5" y="2" width="6" height="2" fill="#a4a5a1" />
+      <rect x="4" y="4" width="8" height="4" fill="#daddd8" />
+      {/* Visor slit (T shape) */}
+      <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
+      <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
+      <rect x="8" y="5" width="1" height="1" fill="#83eb72" /> {/* Glowing Eye */}
+      {/* Silver Body Armor */}
+      <rect x="5" y="8" width="6" height="4" fill="#a4a5a1" />
+      {/* Blue Cape */}
+      <rect x="3" y="8" width="2" height="5" fill="#569ceb" />
+      {/* Arms/Shoulders */}
+      <rect x="4" y="8" width="1" height="3" fill="#daddd8" />
+      <rect x="11" y="8" width="1" height="3" fill="#daddd8" />
+      
+      {/* Weapon: Sword (idle) or nothing (drawing/shooting — bow is rendered separately) */}
+      {!isDrawing && !isShooting && (
+        <rect x="11" y="11" width="1" height="4" fill="#f4f4f4" />
+      )}
+      
+      {/* Legs */}
+      <rect x="6" y="12" width="2" height="3" fill="#1a1c2c" />
+      <rect x="8" y="12" width="2" height="3" fill="#1a1c2c" />
+    </svg>
+
+    {/* Large Bow — rendered as a separate overlaid element so it's VISIBLE */}
+    {isDrawing && (
+      <svg 
+        width="80" height="80" viewBox="0 0 40 40" overflow="visible"
+        className="absolute -top-2 -right-10 animate-[pulse_0.3s_ease-in-out_infinite]"
+        style={{ 
+          transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', 
+          transformOrigin: 'center',
+          filter: 'drop-shadow(0 0 6px rgba(244,180,27,0.8))'
+        }}
+      >
+        {/* Bow body — curved wooden arc */}
+        <path d="M 20 4 Q 32 20 20 36" stroke="#8b5a2b" strokeWidth="3" fill="none" strokeLinecap="round" />
+        <path d="M 20 4 Q 34 20 20 36" stroke="#a0692b" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+        {/* Bow string — pulled back */}
+        <path d="M 20 4 L 8 20 L 20 36" stroke="#ffffff" strokeWidth="1" fill="none" opacity="0.9" />
+        {/* Arrow nocked on string */}
+        <rect x="8" y="19" width="16" height="2" fill="#8b5a2b" />
+        {/* Arrowhead */}
+        <polygon points="24,17 30,20 24,23" fill="#a4a5a1" />
+        {/* Fletching */}
+        <rect x="4" y="17" width="4" height="2" fill="#d95763" />
+        <rect x="4" y="21" width="4" height="2" fill="#d95763" />
+        {/* Glow at draw point */}
+        <circle cx="8" cy="20" r="3" fill="#f4b41b" opacity="0.4" />
+      </svg>
     )}
-    
-    {/* Legs */}
-    <rect x="6" y="12" width="2" height="3" fill="#1a1c2c" />
-    <rect x="8" y="12" width="2" height="3" fill="#1a1c2c" />
-  </svg>
+  </div>
 );
 
-export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isShooting, shootingTarget, hitNodeId }) {
+export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isDrawing, isShooting, shootingTarget, hitNodeId }) {
   const [scale, setScale] = useState(1);
   const dragY = useMotionValue(0);
   const CANVAS_WIDTH = isMobileLayout ? 900 : 1600;
@@ -216,28 +239,49 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
           />
         ))}
 
-        {/* Arrow Projectile */}
-        {isShooting && shootingTarget && playerPos && (
-          <motion.div
-            initial={{ left: playerPos.x, top: playerPos.y - 30 }}
-            animate={{ left: shootingTarget.x, top: shootingTarget.y }}
-            transition={{ duration: shootingTarget.duration || 0.4, ease: "easeIn" }}
-            className="absolute z-50 pointer-events-none"
-            style={{ x: '-50%', y: '-50%' }}
-          >
-            <svg width="48" height="48" viewBox="0 0 48 48" style={{ transform: `rotate(${Math.atan2(shootingTarget.y - (playerPos.y - 30), shootingTarget.x - playerPos.x) * 180 / Math.PI}deg)` }}>
-              {/* Shaft */}
-              <rect x="10" y="23" width="20" height="2" fill="#8b5a2b" />
-              {/* Arrowhead */}
-              <rect x="30" y="22" width="4" height="4" fill="#a4a5a1" />
-              <polygon points="34,21 40,24 34,27" fill="#a4a5a1" />
-              {/* Fletching */}
-              <rect x="6" y="21" width="4" height="2" fill="#d95763" />
-              <rect x="6" y="25" width="4" height="2" fill="#d95763" />
-              <rect x="4" y="22" width="2" height="4" fill="#ffffff" />
-            </svg>
-          </motion.div>
-        )}
+        {/* Arrow Projectile — large and visible with glowing trail */}
+        <AnimatePresence>
+          {isShooting && shootingTarget && playerPos && (
+            <motion.div
+              key="arrow-flight"
+              initial={{ left: playerPos.x, top: playerPos.y - 40, opacity: 1 }}
+              animate={{ left: shootingTarget.x, top: shootingTarget.y, opacity: 1 }}
+              exit={{ opacity: 0, scale: 2 }}
+              transition={{ duration: shootingTarget.duration || 0.7, ease: [0.2, 0, 0.4, 1] }}
+              className="absolute z-50 pointer-events-none"
+              style={{ x: '-50%', y: '-50%' }}
+            >
+              {/* Glowing trail behind arrow */}
+              <div 
+                className="absolute inset-0 rounded-full blur-lg"
+                style={{
+                  width: 120, height: 120,
+                  marginLeft: -30, marginTop: -30,
+                  background: 'radial-gradient(circle, rgba(244,180,27,0.6) 0%, rgba(217,87,99,0.3) 40%, transparent 70%)',
+                }}
+              />
+              <svg 
+                width="96" height="96" viewBox="0 0 48 48" 
+                style={{ 
+                  transform: `rotate(${Math.atan2(shootingTarget.y - (playerPos.y - 40), shootingTarget.x - playerPos.x) * 180 / Math.PI}deg)`,
+                  filter: 'drop-shadow(0 0 8px rgba(244,180,27,0.8)) drop-shadow(0 0 16px rgba(217,87,99,0.5))',
+                  imageRendering: 'pixelated'
+                }}
+              >
+                {/* Shaft — brown wooden rod */}
+                <rect x="4" y="22" width="28" height="4" fill="#8b5a2b" />
+                <rect x="4" y="23" width="28" height="2" fill="#a0692b" />
+                {/* Arrowhead — large silver triangle */}
+                <polygon points="32,20 44,24 32,28" fill="#daddd8" />
+                <polygon points="34,21 42,24 34,27" fill="#a4a5a1" />
+                {/* Fletching — red feathers */}
+                <rect x="2" y="19" width="6" height="3" fill="#d95763" />
+                <rect x="2" y="26" width="6" height="3" fill="#d95763" />
+                <rect x="0" y="21" width="4" height="6" fill="#b03a48" />
+              </svg>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Player Character */}
         {playerPos && (
@@ -249,7 +293,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
             className="absolute z-40 pointer-events-none flex flex-col items-center justify-center"
           >
             {/* Speech Bubble */}
-            {!isWalking && playerPos.x !== -80 && playerPos.x !== 200 && (
+            {!isWalking && !isDrawing && !isShooting && playerPos.x !== -80 && playerPos.x !== 200 && (
               <motion.div 
                 initial={{ opacity: 0, x: -10, scale: 0.8 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -266,7 +310,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
             {isWalking && (
               <div className="absolute -bottom-2 w-10 h-3 bg-black/30 rounded-full blur-sm" />
             )}
-            <PixelKnight isWalking={isWalking} flipX={flipX} isShooting={isShooting} />
+            <PixelKnight isWalking={isWalking} flipX={flipX} isDrawing={isDrawing} isShooting={isShooting} />
           </motion.div>
         )}
       </motion.div>

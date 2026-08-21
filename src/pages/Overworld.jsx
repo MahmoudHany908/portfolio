@@ -33,7 +33,8 @@ export default function Overworld() {
   const [flipX, setFlipX] = useState(false);
 
   // Shooting State
-  const [isShooting, setIsShooting] = useState(false);
+  const [isDrawing, setIsDrawing] = useState(false);   // bow draw-back phase
+  const [isShooting, setIsShooting] = useState(false);  // arrow in flight
   const [shootingTarget, setShootingTarget] = useState(null);
   const [hitNodeId, setHitNodeId] = useState(null);
 
@@ -59,7 +60,7 @@ export default function Overworld() {
   }, [isMobileLayout, activeNode, playerPos]);
 
   const handleNodeSelect = (node) => {
-    if (activeNode || isWalking || isShooting) return; // Prevent clicking while active
+    if (activeNode || isWalking || isDrawing || isShooting) return;
 
     if (!unlocked.has(node.id)) {
       setToastMessage("LOCKED! Complete previous checkpoints first!");
@@ -69,41 +70,44 @@ export default function Overworld() {
 
     const targetX = isMobileLayout ? node.pX : node.x;
     const targetY = isMobileLayout ? node.pY : node.y;
-
     const dist = Math.hypot(targetX - playerPos.x, targetY - playerPos.y);
-    const arrowDuration = Math.max(0.3, dist / 1200); // 300ms to ~600ms flight time
+    const arrowFlightMs = Math.max(600, Math.min(dist * 0.8, 1000)); // 600ms – 1000ms
 
     setFlipX(targetX < playerPos.x);
-    
-    // 1. Shoot Bow
-    setIsShooting(true);
-    setShootingTarget({ x: targetX, y: targetY, duration: arrowDuration });
-    if (!muted) playShoot();
+
+    // ── Phase 1: DRAW BOW (500ms) ──
+    setIsDrawing(true);
+    setShootingTarget({ x: targetX, y: targetY, duration: arrowFlightMs / 1000 });
 
     setTimeout(() => {
-      // 2. Arrow hits
-      setIsShooting(false);
-      setShootingTarget(null);
-      setHitNodeId(node.id);
-      if (!muted) playHit();
-
-      // 3. Dash to node
-      const dist = Math.hypot(targetX - playerPos.x, targetY - playerPos.y);
-      const duration = Math.max(0.3, dist / 800); // Faster walk/dash
-      
-      setIsWalking(true);
-      setWalkDuration(duration);
-      setPlayerPos({ x: targetX, y: targetY });
-      if (!muted) playSpawn();
+      // ── Phase 2: RELEASE ARROW ──
+      setIsDrawing(false);
+      setIsShooting(true);
+      if (!muted) playShoot();
 
       setTimeout(() => {
-        // 4. Arrive & Open Modal
-        setIsWalking(false);
-        setHitNodeId(null);
-        setActiveNode(node);
-      }, duration * 1000);
+        // ── Phase 3: IMPACT ──
+        setIsShooting(false);
+        setShootingTarget(null);
+        setHitNodeId(node.id);
+        if (!muted) playHit();
 
-    }, arrowDuration * 1000); 
+        // ── Phase 4: DASH to node ──
+        const dashDuration = Math.max(0.3, dist / 800);
+        setIsWalking(true);
+        setWalkDuration(dashDuration);
+        setPlayerPos({ x: targetX, y: targetY });
+        if (!muted) playSpawn();
+
+        setTimeout(() => {
+          setIsWalking(false);
+          setHitNodeId(null);
+          setActiveNode(node);
+        }, dashDuration * 1000);
+
+      }, arrowFlightMs);
+
+    }, 500); // 500ms draw-back hold
   };
 
   const handleModalClose = () => {
@@ -140,6 +144,7 @@ export default function Overworld() {
         walkDuration={walkDuration}
         flipX={flipX}
         isMobileLayout={isMobileLayout}
+        isDrawing={isDrawing}
         isShooting={isShooting}
         shootingTarget={shootingTarget}
         hitNodeId={hitNodeId}
