@@ -206,8 +206,6 @@ export default function Overworld() {
         totalNodes={portfolioData.nodes.length} 
         muted={muted}
         setMuted={setMuted}
-        aimMode={aimMode}
-        setAimMode={setAimMode}
       />
       
       {toastMessage && (
