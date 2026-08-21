@@ -70,11 +70,14 @@ export default function Overworld() {
     const targetX = isMobileLayout ? node.pX : node.x;
     const targetY = isMobileLayout ? node.pY : node.y;
 
+    const dist = Math.hypot(targetX - playerPos.x, targetY - playerPos.y);
+    const arrowDuration = Math.max(0.3, dist / 1200); // 300ms to ~600ms flight time
+
     setFlipX(targetX < playerPos.x);
     
     // 1. Shoot Bow
     setIsShooting(true);
-    setShootingTarget({ x: targetX, y: targetY });
+    setShootingTarget({ x: targetX, y: targetY, duration: arrowDuration });
     if (!muted) playShoot();
 
     setTimeout(() => {
@@ -100,7 +103,7 @@ export default function Overworld() {
         setActiveNode(node);
       }, duration * 1000);
 
-    }, 200); // 200ms arrow flight
+    }, arrowDuration * 1000); 
   };
 
   const handleModalClose = () => {

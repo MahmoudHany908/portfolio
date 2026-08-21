@@ -38,8 +38,29 @@ export default function useGameAudio() {
   }, [playTone]);
 
   const playShoot = useCallback(() => {
-    playTone(600, 'triangle', 0.1, 0.05); // Twang
-  }, [playTone]);
+    if (!audioCtx.current) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      audioCtx.current = new AudioContext();
+    }
+    const ctx = audioCtx.current;
+    if (ctx.state === 'suspended') ctx.resume();
+
+    // Bow Twang: Sawtooth with a rapid pitch drop
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.3);
+    
+    gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+    
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.3);
+  }, []);
 
   const playHit = useCallback(() => {
     playTone(150, 'square', 0.1, 0.08); // Impact pop

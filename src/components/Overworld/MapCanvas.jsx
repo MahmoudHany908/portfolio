@@ -77,7 +77,8 @@ const PixelKnight = ({ isWalking, flipX, isShooting }) => (
       <g>
         <rect x="12" y="7" width="1" height="6" fill="#8b5a2b" />
         <rect x="13" y="8" width="1" height="4" fill="#8b5a2b" />
-        <rect x="11" y="7" width="1" height="6" fill="#ffffff" opacity="0.5" />
+        {/* Drawn String */}
+        <path d="M 12 7 Q 8 10 12 13" stroke="#ffffff" strokeWidth="0.5" fill="none" opacity="0.8" />
       </g>
     )}
     
@@ -220,16 +221,20 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
           <motion.div
             initial={{ left: playerPos.x, top: playerPos.y - 30 }}
             animate={{ left: shootingTarget.x, top: shootingTarget.y }}
-            transition={{ duration: 0.2, ease: "linear" }}
+            transition={{ duration: shootingTarget.duration || 0.4, ease: "easeIn" }}
             className="absolute z-50 pointer-events-none"
             style={{ x: '-50%', y: '-50%' }}
           >
-            <svg width="32" height="32" viewBox="0 0 24 24" style={{ transform: `rotate(${Math.atan2(shootingTarget.y - (playerPos.y - 30), shootingTarget.x - playerPos.x) * 180 / Math.PI}deg)` }}>
-              <rect x="2" y="11" width="16" height="2" fill="#f4f4f4" />
-              <rect x="16" y="9" width="4" height="2" fill="#a4a5a1" />
-              <rect x="16" y="13" width="4" height="2" fill="#a4a5a1" />
-              <rect x="20" y="11" width="2" height="2" fill="#a4a5a1" />
-              <rect x="2" y="9" width="2" height="6" fill="#d95763" />
+            <svg width="48" height="48" viewBox="0 0 48 48" style={{ transform: `rotate(${Math.atan2(shootingTarget.y - (playerPos.y - 30), shootingTarget.x - playerPos.x) * 180 / Math.PI}deg)` }}>
+              {/* Shaft */}
+              <rect x="10" y="23" width="20" height="2" fill="#8b5a2b" />
+              {/* Arrowhead */}
+              <rect x="30" y="22" width="4" height="4" fill="#a4a5a1" />
+              <polygon points="34,21 40,24 34,27" fill="#a4a5a1" />
+              {/* Fletching */}
+              <rect x="6" y="21" width="4" height="2" fill="#d95763" />
+              <rect x="6" y="25" width="4" height="2" fill="#d95763" />
+              <rect x="4" y="22" width="2" height="4" fill="#ffffff" />
             </svg>
           </motion.div>
         )}
