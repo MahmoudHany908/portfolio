@@ -75,7 +75,11 @@
       "title": "ESCCTRL",
       "role": "Level Designer & Programmer",
       "tech": ["SFML", "C++"],
-      "summary": "A moody 2D atmospheric platformer built entirely in SFML and C++ during an intensive 3-day game jam. The gameplay revolves around shape-shifting mechanics and deep parallax layering that reacts dynamically to the player's movement.",
+      "summary": "A moody 2D atmospheric platformer that I built from scratch using SFML and C++ during an intense 3-day game jam. The main hook is a shape-shifting mechanic combined with tight spatial navigation to get through some tricky levels. I also spent a lot of time getting the deep parallax layering right so the environment dynamically reacts to how you move. Surviving the jam time limits to get this shipped was stressful but totally worth it.",
+      "keyContributions": [
+        "Designed the shape-shifting mechanics and platforming logic while racing against the game jam clock.",
+        "Built a moody environment with deep parallax layers that shift around as you move."
+      ],
       "githubLink": "https://github.com/eslam135/ESCCTRL",
       "itchLink": "https://senpaii2.itch.io/escctrl",
       "video": "https://player.vimeo.com/video/1219428175",
@@ -91,7 +95,11 @@
       "title": "Subject Null",
       "role": "VR Developer & Level Designer",
       "tech": ["Unity", "Meta Quest 2/3"],
-      "summary": "A narrative-driven VR puzzle game designed exclusively for the Meta Quest ecosystem. Players must master dynamic mesh slicing and toggle between distinct vision states to navigate a mysterious facility and solve spatial challenges.",
+      "summary": "A narrative-driven VR puzzle game I designed specifically for the Meta Quest. The whole game revolves around a dynamic mesh slicing mechanic and letting players swap between different vision states to solve spatial puzzles. You have to figure out how to navigate through a mysterious, atmospheric facility by looking at the world from totally different perspectives. Building out the core mechanics for this one was super satisfying.",
+      "keyContributions": [
+        "Designed the main levels and mechanics, especially the dynamic mesh slicing system.",
+        "Programmed the distinct vision states that players use to figure out the puzzles."
+      ],
       "itchLink": "https://nightfuryexe.itch.io/subject-null",
       "video": "https://www.youtube.com/embed/xhyxFllVVQY",
       "x": 800,
@@ -106,7 +114,11 @@
       "title": "VR Wave Shooter",
       "role": "Solo Developer",
       "tech": ["Unity", "C#", "XRIT"],
-      "summary": "An intense, wave-based VR shooter optimized specifically for the performance constraints of standalone headsets. It challenges players to survive against scalable enemy spawning while carefully managing a strict and unforgiving ammo economy.",
+      "summary": "An intense, wave-based VR shooter that I optimized specifically so it runs smoothly on standalone headsets without dropping frames. The gameplay focuses on surviving against an ever-growing swarm of enemies while dealing with a super strict ammo economy. You really have to make every single shot count as the rounds progress and things get chaotic. It’s a great showcase of balancing fast-paced action with standalone hardware limits.",
+      "keyContributions": [
+        "Scripted the wave progression and enemy spawning so things naturally get crazier over time.",
+        "Balanced a strict ammo economy so players really have to think before they shoot."
+      ],
       "githubLink": "https://github.com/MahmoudHany908/VR_Shooter",
       "video": "https://player.vimeo.com/video/1219429982",
       "x": 1000,
@@ -124,16 +136,10 @@
       "client": "National Bank of Egypt",
       "clientLogo": "/nbe-logo.png",
       "clientBadge": "NBE",
-      "summary": "A dual-loop mobile title pairing arena survival with a financial-literacy economy sim, commissioned by the National Bank of Egypt. Players fight to earn resources, then return to a hub to invest, balance, and upgrade a factory using simulated market mechanics.",
+      "summary": "A mobile game I built for the National Bank of Egypt that mixes arena survival with a financial economy sim. You jump into the arena to fight and gather resources, then head back to your hub to invest and upgrade a factory using simulated market mechanics. It was a really fun challenge figuring out how to make financial literacy feel like a genuinely rewarding gameplay loop instead of just a lecture.",
       "keyContributions": [
-        "Designed and built the dual-loop structure connecting Arena survival to Hub-based economy management",
-        "Migrated architecture from Singletons to Dependency Injection, eliminating memory leaks and hidden dependencies",
-        "Built the Hub's factory upgrade progression system and simulated market economy loop",
-        "Integrated gamified fraud/cybersecurity awareness prompts into the Arena survival phase",
-        "Balanced economy pacing across both loops to keep progression rewarding",
-        "Configured cinematic camera transitions for milestone moments (e.g. Level 5 upgrade sequence)",
-        "Built UI scripting and Unlit UI setups for presentation elements",
-        "Integrated AI-generated SFX (ElevenLabs) for character audio"
+        "Set up the core C# systems and cleaned up the architecture using Dependency Injection.",
+        "Balanced the economy so hopping between arena fights and factory management actually feels good."
       ],
       "video": "https://player.vimeo.com/video/1219429500",
       "x": 1150,
@@ -148,7 +154,11 @@
       "title": "The Learning Lens",
       "role": "Backend Developer & Team Leader",
       "tech": ["Unity", "C#", ".NET", "EF Core", "Python"],
-      "summary": "An immersive VR/AR educational application built to transform traditional interactive learning environments. It utilizes robust real-time backend synchronization to support scalable lesson plans and seamless virtual hands-on experiences.",
+      "summary": "This is an educational VR/AR app I worked on to make interactive learning actually engaging. Instead of just reading about concepts, students get to jump in and experience virtual hands-on lessons. I handled the backend side of things, making sure all the complex gameplay systems and live data synced up smoothly with the Unity frontend. It was awesome seeing how immersive tech can totally change a traditional classroom vibe.",
+      "keyContributions": [
+        "Led the backend setup using .NET and EF Core to keep the game logic running without a hitch.",
+        "Built the bridge connecting our backend services straight into the Unity frontend."
+      ],
       "githubLink": "https://github.com/ali-hy/the-learning-lens",
       "videos": [
         { "title": "Part 1", "url": "https://www.youtube.com/embed/vdYVyyP65vw" },
