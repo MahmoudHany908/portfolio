@@ -121,6 +121,9 @@
       "title": "Cyber Salvage",
       "role": "Unity Developer",
       "tech": ["Unity", "C#", "VContainer (DI)"],
+      "client": "National Bank of Egypt",
+      "clientLogo": "/nbe-logo.png",
+      "clientBadge": "NBE",
       "summary": "A dual-loop mobile title pairing arena survival with a financial-literacy economy sim, commissioned by the National Bank of Egypt. Players fight to earn resources, then return to a hub to invest, balance, and upgrade a factory using simulated market mechanics.",
       "keyContributions": [
         "Designed and built the dual-loop structure connecting Arena survival to Hub-based economy management",
