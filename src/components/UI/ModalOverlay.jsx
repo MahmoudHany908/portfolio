@@ -76,7 +76,7 @@ export default function ModalOverlay({ node, onClose }) {
                 <img 
                   src="/profile.jpg" 
                   alt="Profile" 
-                  className="w-32 h-32 object-cover pixel-border border-2 border-retro-dark hidden sm:block shrink-0"
+                  className="w-32 h-32 object-cover object-top pixel-border border-2 border-retro-dark hidden sm:block shrink-0"
                 />
               )}
               <div>
