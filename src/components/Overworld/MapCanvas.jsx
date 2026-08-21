@@ -48,7 +48,7 @@ const ZoneRegion = ({ x, y, rx, ry, color }) => (
   />
 );
 
-const PixelKnight = ({ isWalking, flipX }) => (
+const PixelKnight = ({ isWalking, flipX, isShooting }) => (
   <svg width="64" height="64" viewBox="0 0 16 16" overflow="visible"
        className={`drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] ${isWalking ? 'animate-[bounce_0.3s_infinite]' : ''}`} 
        style={{ transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', transformOrigin: 'center' }}>
@@ -69,15 +69,25 @@ const PixelKnight = ({ isWalking, flipX }) => (
     {/* Arms/Shoulders */}
     <rect x="4" y="8" width="1" height="3" fill="#daddd8" />
     <rect x="11" y="8" width="1" height="3" fill="#daddd8" />
-    {/* Sword */}
-    <rect x="11" y="11" width="1" height="4" fill="#f4f4f4" />
+    
+    {/* Weapon */}
+    {!isShooting ? (
+      <rect x="11" y="11" width="1" height="4" fill="#f4f4f4" />
+    ) : (
+      <g>
+        <rect x="12" y="7" width="1" height="6" fill="#8b5a2b" />
+        <rect x="13" y="8" width="1" height="4" fill="#8b5a2b" />
+        <rect x="11" y="7" width="1" height="6" fill="#ffffff" opacity="0.5" />
+      </g>
+    )}
+    
     {/* Legs */}
     <rect x="6" y="12" width="2" height="3" fill="#1a1c2c" />
     <rect x="8" y="12" width="2" height="3" fill="#1a1c2c" />
   </svg>
 );
 
-export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout }) {
+export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isShooting, shootingTarget, hitNodeId }) {
   const [scale, setScale] = useState(1);
   const dragY = useMotionValue(0);
   const CANVAS_WIDTH = isMobileLayout ? 900 : 1600;
@@ -200,9 +210,29 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
             y={isMobileLayout ? node.pY : node.y}
             isCompleted={discovered ? discovered.has(node.id) : false}
             isUnlocked={unlocked ? unlocked.has(node.id) : true}
+            isHit={hitNodeId === node.id}
             onSelect={() => onNodeSelect(node)} 
           />
         ))}
+
+        {/* Arrow Projectile */}
+        {isShooting && shootingTarget && playerPos && (
+          <motion.div
+            initial={{ left: playerPos.x, top: playerPos.y - 30 }}
+            animate={{ left: shootingTarget.x, top: shootingTarget.y }}
+            transition={{ duration: 0.2, ease: "linear" }}
+            className="absolute z-50 pointer-events-none"
+            style={{ x: '-50%', y: '-50%' }}
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" style={{ transform: `rotate(${Math.atan2(shootingTarget.y - (playerPos.y - 30), shootingTarget.x - playerPos.x) * 180 / Math.PI}deg)` }}>
+              <rect x="2" y="11" width="16" height="2" fill="#f4f4f4" />
+              <rect x="16" y="9" width="4" height="2" fill="#a4a5a1" />
+              <rect x="16" y="13" width="4" height="2" fill="#a4a5a1" />
+              <rect x="20" y="11" width="2" height="2" fill="#a4a5a1" />
+              <rect x="2" y="9" width="2" height="6" fill="#d95763" />
+            </svg>
+          </motion.div>
+        )}
 
         {/* Player Character */}
         {playerPos && (
@@ -231,7 +261,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
             {isWalking && (
               <div className="absolute -bottom-2 w-10 h-3 bg-black/30 rounded-full blur-sm" />
             )}
-            <PixelKnight isWalking={isWalking} flipX={flipX} />
+            <PixelKnight isWalking={isWalking} flipX={flipX} isShooting={isShooting} />
           </motion.div>
         )}
       </motion.div>

@@ -36,6 +36,15 @@ export default function useGameAudio() {
     setTimeout(() => playTone(400, 'square', 0.1, 0.05), 100);
     setTimeout(() => playTone(800, 'square', 0.2, 0.05), 200);
   }, [playTone]);
+
+  const playShoot = useCallback(() => {
+    playTone(600, 'triangle', 0.1, 0.05); // Twang
+  }, [playTone]);
+
+  const playHit = useCallback(() => {
+    playTone(150, 'square', 0.1, 0.08); // Impact pop
+  }, [playTone]);
+
   const playUnlock = useCallback(() => {
     playTone(523.25, 'square', 0.1, 0.05); // C5
     setTimeout(() => playTone(659.25, 'square', 0.1, 0.05), 100); // E5
@@ -49,5 +58,11 @@ export default function useGameAudio() {
     setTimeout(() => playTone(1046.50, 'square', 0.6, 0.05), 450); // C6
   }, [playTone]);
 
-  return { playHover, playSelect, playSpawn, playUnlock, playVictory };
+  return { playHover,    playSelect,
+    playSpawn,
+    playShoot,
+    playHit,
+    playUnlock,
+    playVictory
+  };
 }

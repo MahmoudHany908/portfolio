@@ -15,7 +15,7 @@ export default function Overworld() {
   const [toastMessage, setToastMessage] = useState(null);
   const [showVictory, setShowVictory] = useState(false);
   const [muted, setMuted] = useState(false);
-  const { playSpawn, playUnlock, playVictory } = useGameAudio();
+  const { playSpawn, playUnlock, playVictory, playShoot, playHit } = useGameAudio();
 
   // All nodes are unlocked by default so recruiters can explore freely
   const unlocked = new Set(portfolioData.nodes.map(n => n.id));
@@ -31,6 +31,11 @@ export default function Overworld() {
   const [isWalking, setIsWalking] = useState(false);
   const [walkDuration, setWalkDuration] = useState(0);
   const [flipX, setFlipX] = useState(false);
+
+  // Shooting State
+  const [isShooting, setIsShooting] = useState(false);
+  const [shootingTarget, setShootingTarget] = useState(null);
+  const [hitNodeId, setHitNodeId] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,7 +59,7 @@ export default function Overworld() {
   }, [isMobileLayout, activeNode, playerPos]);
 
   const handleNodeSelect = (node) => {
-    if (activeNode || isWalking) return; // Prevent clicking while walking or in modal
+    if (activeNode || isWalking || isShooting) return; // Prevent clicking while active
 
     if (!unlocked.has(node.id)) {
       setToastMessage("LOCKED! Complete previous checkpoints first!");
@@ -65,20 +70,37 @@ export default function Overworld() {
     const targetX = isMobileLayout ? node.pX : node.x;
     const targetY = isMobileLayout ? node.pY : node.y;
 
-    const dist = Math.hypot(targetX - playerPos.x, targetY - playerPos.y);
-    const duration = Math.max(0.6, dist / 400); // Calculate seconds based on distance
-
     setFlipX(targetX < playerPos.x);
-    setIsWalking(true);
-    setWalkDuration(duration);
-    setPlayerPos({ x: targetX, y: targetY });
-
-    if (!muted) playSpawn();
+    
+    // 1. Shoot Bow
+    setIsShooting(true);
+    setShootingTarget({ x: targetX, y: targetY });
+    if (!muted) playShoot();
 
     setTimeout(() => {
-      setIsWalking(false);
-      setActiveNode(node);
-    }, duration * 1000);
+      // 2. Arrow hits
+      setIsShooting(false);
+      setShootingTarget(null);
+      setHitNodeId(node.id);
+      if (!muted) playHit();
+
+      // 3. Dash to node
+      const dist = Math.hypot(targetX - playerPos.x, targetY - playerPos.y);
+      const duration = Math.max(0.3, dist / 800); // Faster walk/dash
+      
+      setIsWalking(true);
+      setWalkDuration(duration);
+      setPlayerPos({ x: targetX, y: targetY });
+      if (!muted) playSpawn();
+
+      setTimeout(() => {
+        // 4. Arrive & Open Modal
+        setIsWalking(false);
+        setHitNodeId(null);
+        setActiveNode(node);
+      }, duration * 1000);
+
+    }, 200); // 200ms arrow flight
   };
 
   const handleModalClose = () => {
@@ -115,6 +137,9 @@ export default function Overworld() {
         walkDuration={walkDuration}
         flipX={flipX}
         isMobileLayout={isMobileLayout}
+        isShooting={isShooting}
+        shootingTarget={shootingTarget}
+        hitNodeId={hitNodeId}
       />
       
       {/* Victory Banner Overlay */}

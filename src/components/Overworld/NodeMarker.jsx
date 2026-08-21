@@ -11,7 +11,7 @@ const getLandmarkSVG = (id) => {
   }
 };
 
-export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, onSelect }) {
+export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit, onSelect }) {
   const { playHover, playSelect } = useGameAudio();
 
   const getColors = () => {
@@ -41,12 +41,12 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, onSele
 
   return (
     <div 
-      className={`absolute flex flex-col items-center justify-center transition-all duration-300 z-30 ${isUnlocked ? 'cursor-pointer hover:scale-110 group' : 'cursor-not-allowed group'}`}
+      className={`absolute flex flex-col items-center justify-center z-30 ${isUnlocked ? 'cursor-pointer group' : 'cursor-not-allowed group'}`}
       style={{ left: x, top: y, transform: 'translate(-50%, -50%)' }}
       onPointerEnter={handlePointerEnter}
       onClick={handleClick}
     >
-      <div className="relative w-32 h-32 flex items-center justify-center pointer-events-auto">
+      <div className={`relative w-32 h-32 flex items-center justify-center pointer-events-auto transition-all duration-100 ${isHit ? 'scale-125 brightness-200 drop-shadow-[0_0_20px_white]' : 'hover:scale-110'}`}>
         {/* Glowing Background Circle (Option B) */}
         <div 
           className={`absolute inset-2 rounded-full opacity-80 transition-all ${!isUnlocked ? 'grayscale opacity-40' : ''}`}
