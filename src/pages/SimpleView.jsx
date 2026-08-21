@@ -152,9 +152,15 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
       </div>
     )}
     
-    <div className="flex flex-wrap gap-3">
+    <div className="flex flex-wrap justify-around w-full gap-3 md:gap-4 mt-8 group/tech relative">
       {proj.tech.map(t => (
-        <span key={t} className="bg-retro-gray px-3 py-1.5 text-xs md:text-sm border-2 border-white/20 text-white shadow-sm font-bold">{t}</span>
+        <span 
+          key={t} 
+          title={`Click or hover to learn how ${t} was utilized (data needed)`}
+          className="bg-retro-gray px-4 py-2 md:px-6 md:py-3 text-sm md:text-base lg:text-lg border-2 border-white/20 text-white shadow-sm font-bold text-center flex-grow transition-all duration-300 group-hover/tech:scale-95 group-hover/tech:opacity-50 hover:!scale-110 hover:!opacity-100 hover:!border-retro-yellow hover:!text-retro-yellow hover:!bg-retro-dark hover:z-10 hover:shadow-[0_0_20px_rgba(244,180,27,0.6)] cursor-help flex items-center justify-center"
+        >
+          {t}
+        </span>
       ))}
     </div>
   </motion.div>
