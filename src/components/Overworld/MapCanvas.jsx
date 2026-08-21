@@ -34,14 +34,16 @@ const SectionBanner = ({ text, x, y, color = '#569ceb' }) => (
 
 const ZoneRegion = ({ x, y, rx, ry, color }) => (
   <div 
-    className="absolute pointer-events-none z-[2] rounded-[40%] blur-3xl opacity-20"
+    className="absolute pointer-events-none z-[2]"
     style={{
       left: x,
       top: y,
       width: rx * 2,
       height: ry * 2,
       transform: 'translate(-50%, -50%)',
-      backgroundColor: color,
+      background: `radial-gradient(ellipse, ${color} 0%, transparent 70%)`,
+      opacity: 0.45,
+      mixBlendMode: 'screen'
     }}
   />
 );
