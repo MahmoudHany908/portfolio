@@ -167,18 +167,11 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
 );
 
 const InteractiveContact = ({ profile }) => {
-  const [isHovered, setIsHovered] = React.useState(false);
-  
   return (
     <div className="flex flex-col items-center justify-center relative py-20 min-h-[500px] w-full">
-      <div 
-        className="relative z-20 cursor-pointer"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={() => setIsHovered(!isHovered)}
-      >
-        <div className={`w-40 h-40 md:w-48 md:h-48 rounded-full border-8 ${isHovered ? 'border-retro-yellow shadow-[0_0_40px_rgba(244,180,27,0.6)]' : 'border-retro-light-blue shadow-[0_0_20px_rgba(86,156,235,0.5)]'} bg-retro-dark flex items-center justify-center overflow-hidden transition-all duration-300 transform ${isHovered ? 'scale-110' : 'scale-100'}`}>
-          <svg width="128" height="128" viewBox="0 0 16 16" overflow="visible" className={`transform scale-[3] transition-transform duration-300 ${isHovered ? '-translate-y-2' : ''}`}>
+      <div className="relative z-20">
+        <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-8 border-retro-yellow shadow-[0_0_40px_rgba(244,180,27,0.6)] bg-retro-dark flex items-center justify-center overflow-hidden transform scale-100">
+          <svg width="128" height="128" viewBox="0 0 16 16" overflow="visible" className="transform scale-[3]">
              {/* Small Red Plume */}
             <rect x="7" y="0" width="2" height="1" fill="#d95763" />
             <rect x="8" y="1" width="3" height="2" fill="#d95763" />
@@ -188,7 +181,7 @@ const InteractiveContact = ({ profile }) => {
             {/* Visor slit (T shape) */}
             <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
             <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
-            <rect x="8" y="5" width="1" height="1" fill={isHovered ? "#f4b41b" : "#83eb72"} /> {/* Glowing Eye changes color */}
+            <rect x="8" y="5" width="1" height="1" fill="#f4b41b" /> {/* Glowing Eye */}
             {/* Silver Body Armor */}
             <rect x="5" y="8" width="6" height="4" fill="#a4a5a1" />
             {/* Belt & Trim */}
@@ -206,48 +199,39 @@ const InteractiveContact = ({ profile }) => {
             <rect x="9" y="15" width="2" height="1" fill="#1a1c2c" />
           </svg>
         </div>
-        <div className={`absolute -bottom-8 left-1/2 -translate-x-1/2 font-pixel text-lg whitespace-nowrap transition-colors duration-300 ${isHovered ? 'text-retro-yellow drop-shadow-[0_0_5px_rgba(244,180,27,0.8)]' : 'text-retro-light-blue'}`}>
-          {isHovered ? "LET'S BUILD SOMETHING!" : "Virtual Mahmoud"}
+        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 font-pixel text-lg whitespace-nowrap text-retro-yellow drop-shadow-[0_0_5px_rgba(244,180,27,0.8)]">
+          LET'S BUILD SOMETHING!
         </div>
       </div>
-      
-      {/* Central Dialogue box when NOT hovered */}
-      <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[90%] max-w-lg border-2 border-retro-light-blue p-6 bg-retro-dark/90 backdrop-blur-sm transition-all duration-300 z-10 ${isHovered ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
-         <p className="text-retro-light-blue text-center text-lg md:text-xl leading-relaxed">
-            Hey 👋 I'm Virtual Mahmoud. Hover or tap me to see my contact links!
-         </p>
-         <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-0 h-0 border-x-[12px] border-x-transparent border-t-[16px] border-t-retro-light-blue"></div>
-      </div>
 
-      {/* Floating Action Buttons */}
-      <div className={`absolute inset-0 pointer-events-none flex items-center justify-center transition-all duration-500 z-30 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Floating Action Buttons (Always visible) */}
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-30 opacity-100">
         
         {/* Email */}
-        <a href={`mailto:${profile.email}`} className={`absolute transition-all duration-500 delay-75 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-y-[-160px] md:translate-y-[-180px]' : 'translate-y-0'} pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base`}>
+        <a href={`mailto:${profile.email}`} className="absolute transition-transform duration-300 hover:scale-110 pointer-events-auto translate-y-[-160px] md:translate-y-[-180px] pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base">
           <MailIcon /> EMAIL
         </a>
         
         {/* LinkedIn */}
-        <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className={`absolute transition-all duration-500 delay-100 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-x-[130px] translate-y-[-90px] md:translate-x-[180px] md:translate-y-[-100px]' : 'translate-x-0 translate-y-0'} pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base`}>
+        <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className="absolute transition-transform duration-300 hover:scale-110 pointer-events-auto translate-x-[130px] translate-y-[-90px] md:translate-x-[180px] md:translate-y-[-100px] pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base">
           <LinkedinIcon /> LINKEDIN
         </a>
         
         {/* GitHub */}
-        <a href={profile.links.github} target="_blank" rel="noreferrer" className={`absolute transition-all duration-500 delay-150 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-x-[-130px] translate-y-[-90px] md:translate-x-[-180px] md:translate-y-[-100px]' : 'translate-x-0 translate-y-0'} pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base`}>
+        <a href={profile.links.github} target="_blank" rel="noreferrer" className="absolute transition-transform duration-300 hover:scale-110 pointer-events-auto translate-x-[-130px] translate-y-[-90px] md:translate-x-[-180px] md:translate-y-[-100px] pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base">
           <GithubIcon /> GITHUB
         </a>
         
         {/* Itch */}
-        <a href="https://itch.io/profile/nightfuryexe" target="_blank" rel="noreferrer" className={`absolute transition-all duration-500 delay-200 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-x-[130px] translate-y-[90px] md:translate-x-[180px] md:translate-y-[100px]' : 'translate-x-0 translate-y-0'} pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base`}>
+        <a href="https://itch.io/profile/nightfuryexe" target="_blank" rel="noreferrer" className="absolute transition-transform duration-300 hover:scale-110 pointer-events-auto translate-x-[130px] translate-y-[90px] md:translate-x-[180px] md:translate-y-[100px] pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base">
           <GamepadIcon /> ITCH.IO
         </a>
         
         {/* Resume */}
-        <a href="/Mahmoud_Hany_CV.pdf" download className={`absolute transition-all duration-500 delay-300 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-y-[160px] md:translate-y-[180px]' : 'translate-y-0'} pixel-btn bg-retro-yellow text-retro-dark hover:text-retro-dark px-5 py-3 flex gap-2 items-center font-bold text-sm md:text-base shadow-[0_0_15px_rgba(244,180,27,0.5)]`}>
+        <a href="/Mahmoud_Hany_CV.pdf" download className="absolute transition-transform duration-300 hover:scale-110 pointer-events-auto translate-y-[160px] md:translate-y-[180px] pixel-btn bg-retro-yellow text-retro-dark hover:text-retro-dark px-5 py-3 flex gap-2 items-center font-bold text-sm md:text-base shadow-[0_0_15px_rgba(244,180,27,0.5)]">
           <DownloadIcon /> DOWNLOAD CV
         </a>
       </div>
-      
     </div>
   )
 }
