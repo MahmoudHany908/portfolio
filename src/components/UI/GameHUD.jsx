@@ -3,7 +3,7 @@ import { Volume2, VolumeX } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SimpleViewToggle from './SimpleViewToggle';
 
-export default function GameHUD({ discoveredCount, totalNodes, muted, setMuted }) {
+export default function GameHUD({ discoveredCount, totalNodes, muted, setMuted, aimMode, setAimMode }) {
   const percentage = (discoveredCount / totalNodes) * 100;
   const isComplete = discoveredCount === totalNodes;
 
@@ -33,6 +33,20 @@ export default function GameHUD({ discoveredCount, totalNodes, muted, setMuted }
         <Link to="/preview" className="pixel-btn bg-retro-yellow text-retro-dark hover:bg-white transition-colors text-[10px] md:text-sm px-4 py-2 border-4 mx-2">
           SEE PREVIEW
         </Link>
+
+        {/* Aim Mode Toggle */}
+        <button 
+          tabIndex={-1}
+          className={`pixel-btn transition-colors shadow-xl text-center text-[10px] md:text-lg px-2 md:px-6 py-2 md:py-4 border-4 flex items-center justify-center gap-2 h-10 md:h-16 w-24 md:w-48 ${
+            aimMode 
+              ? 'bg-retro-yellow text-retro-dark border-white shadow-[0_0_20px_rgba(244,180,27,0.5)]' 
+              : 'bg-[#8b5a2b] hover:bg-[#a0692b] text-white border-[#6b3a1b]'
+          }`}
+          onClick={() => setAimMode(!aimMode)}
+        >
+          <span className="text-lg md:text-2xl">🏹</span>
+          <span>{aimMode ? 'AIM ON' : 'AIM'}</span>
+        </button>
         
         <button 
           className="pixel-btn bg-[#569ceb] hover:bg-[#83eb72] transition-colors shadow-xl text-center text-[10px] md:text-lg px-2 md:px-8 py-2 md:py-4 border-4 flex items-center justify-center gap-2 text-white h-10 md:h-16 w-28 md:w-64"

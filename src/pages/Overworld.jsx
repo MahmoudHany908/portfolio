@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Smartphone } from 'lucide-react';
 import MapCanvas from '../components/Overworld/MapCanvas';
+import AimOverlay from '../components/Overworld/AimOverlay';
 import ModalOverlay from '../components/UI/ModalOverlay';
 import GameHUD from '../components/UI/GameHUD';
 import SimpleViewToggle from '../components/UI/SimpleViewToggle';
@@ -33,10 +34,46 @@ export default function Overworld() {
   const [flipX, setFlipX] = useState(false);
 
   // Shooting State
-  const [isDrawing, setIsDrawing] = useState(false);   // bow draw-back phase
-  const [isShooting, setIsShooting] = useState(false);  // arrow in flight
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [isShooting, setIsShooting] = useState(false);
   const [shootingTarget, setShootingTarget] = useState(null);
   const [hitNodeId, setHitNodeId] = useState(null);
+
+  // Aim Mode State
+  const [aimMode, setAimMode] = useState(false);
+  const canvasInfoRef = useRef({ scale: 1, left: 0, top: 0 });
+
+  // Callback for MapCanvas to report its current transform values
+  const onCanvasTransform = useCallback((info) => {
+    canvasInfoRef.current = info;
+  }, []);
+
+  // Hit detection: find the closest node within 100px radius of the aimed map position
+  const handleAimFire = useCallback((mapX, mapY) => {
+    if (activeNode || isWalking || isDrawing || isShooting) return;
+
+    const HIT_RADIUS = 100;
+    let closestNode = null;
+    let closestDist = Infinity;
+
+    for (const node of portfolioData.nodes) {
+      const nx = isMobileLayout ? node.pX : node.x;
+      const ny = isMobileLayout ? node.pY : node.y;
+      const dist = Math.hypot(mapX - nx, mapY - ny);
+      if (dist < HIT_RADIUS && dist < closestDist) {
+        closestDist = dist;
+        closestNode = node;
+      }
+    }
+
+    if (closestNode) {
+      handleNodeSelect(closestNode);
+    } else {
+      // Miss — show a brief toast
+      setToastMessage("MISS! Aim closer to a checkpoint!");
+      setTimeout(() => setToastMessage(null), 2000);
+    }
+  }, [activeNode, isWalking, isDrawing, isShooting, isMobileLayout]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -148,6 +185,8 @@ export default function Overworld() {
         isShooting={isShooting}
         shootingTarget={shootingTarget}
         hitNodeId={hitNodeId}
+        aimMode={aimMode}
+        onCanvasTransform={onCanvasTransform}
       />
       
       {/* Victory Banner Overlay */}
@@ -178,6 +217,8 @@ export default function Overworld() {
         totalNodes={portfolioData.nodes.length} 
         muted={muted}
         setMuted={setMuted}
+        aimMode={aimMode}
+        setAimMode={setAimMode}
       />
       
       {toastMessage && (
@@ -192,6 +233,16 @@ export default function Overworld() {
       />
 
       <TutorialOverlay />
+
+      {/* Aim Mode Overlay */}
+      <AimOverlay
+        aimMode={aimMode}
+        onFire={handleAimFire}
+        scale={canvasInfoRef.current.scale}
+        cameraOffset={{ left: canvasInfoRef.current.left, top: canvasInfoRef.current.top }}
+        playerPos={playerPos}
+        isMobileLayout={isMobileLayout}
+      />
 
       {/* Mobile Landscape Lock Screen */}
       {isLandscapeMobile && (

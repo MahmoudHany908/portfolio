@@ -11,7 +11,7 @@ const getLandmarkSVG = (id) => {
   }
 };
 
-export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit, onSelect }) {
+export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit, isAimTarget, onSelect }) {
   const { playHover, playSelect } = useGameAudio();
 
   const getColors = () => {
@@ -83,6 +83,11 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
                <polyline points="20 6 9 17 4 12"></polyline>
              </svg>
           </div>
+        )}
+
+        {/* Aim Mode Target Indicator */}
+        {isAimTarget && isUnlocked && !isCompleted && (
+          <div className="absolute inset-0 rounded-full border-2 border-retro-yellow/50 animate-ping" />
         )}
       </div>
 

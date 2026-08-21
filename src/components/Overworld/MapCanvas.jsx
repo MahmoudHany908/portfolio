@@ -111,7 +111,7 @@ const PixelKnight = ({ isWalking, flipX, isDrawing, isShooting }) => (
   </div>
 );
 
-export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isDrawing, isShooting, shootingTarget, hitNodeId }) {
+export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isDrawing, isShooting, shootingTarget, hitNodeId, aimMode, onCanvasTransform }) {
   const [scale, setScale] = useState(1);
   const dragY = useMotionValue(0);
   const CANVAS_WIDTH = isMobileLayout ? 900 : 1600;
@@ -160,14 +160,20 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
   }
 
   // Camera Follow logic: mathematically position the canvas so playerPos sits at a specific screen coordinate
-  const targetLeft = isMobileLayout && playerPos
-    ? `calc(50% - ${playerPos.x * scale}px)`
-    : `calc(50% - ${(CANVAS_WIDTH / 2) * scale}px)`;
+  const numericLeft = isMobileLayout && playerPos
+    ? (window.innerWidth / 2) - (playerPos.x * scale)
+    : (window.innerWidth / 2) - ((CANVAS_WIDTH / 2) * scale);
 
-  // On mobile, put the player at 35% height from the top of the screen to reveal the path below!
-  const targetTop = isMobileLayout && playerPos
-    ? `calc(35% - ${playerPos.y * scale}px)`
-    : `calc(50% - ${(CANVAS_HEIGHT / 2) * scale}px)`;
+  const numericTop = isMobileLayout && playerPos
+    ? (window.innerHeight * 0.35) - (playerPos.y * scale)
+    : (window.innerHeight / 2) - ((CANVAS_HEIGHT / 2) * scale);
+
+  // Report transform values to parent for AimOverlay coordinate conversion
+  useEffect(() => {
+    if (onCanvasTransform) {
+      onCanvasTransform({ scale, left: numericLeft, top: numericTop });
+    }
+  }, [scale, numericLeft, numericTop, onCanvasTransform]);
 
   return (
     <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-dark relative">
@@ -179,7 +185,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
         drag={isMobileLayout ? "y" : false}
         dragConstraints={{ top: -800, bottom: 800 }}
         dragElastic={0.2}
-        animate={{ left: targetLeft, top: targetTop }}
+        animate={{ left: numericLeft, top: numericTop }}
         transition={{ duration: 1.2, ease: "easeInOut" }}
         className="absolute cursor-grab active:cursor-grabbing" 
         style={{ 
@@ -235,6 +241,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
             isCompleted={discovered ? discovered.has(node.id) : false}
             isUnlocked={unlocked ? unlocked.has(node.id) : true}
             isHit={hitNodeId === node.id}
+            isAimTarget={aimMode}
             onSelect={() => onNodeSelect(node)} 
           />
         ))}
