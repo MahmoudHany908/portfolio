@@ -302,10 +302,10 @@ export default function SimpleView() {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-retro-dark p-6 pixel-border border-4 border-retro-gray hover:border-retro-blue transition-colors"
+                className={`bg-retro-dark p-6 pixel-border border-4 border-retro-gray hover:border-retro-blue transition-colors ${category === 'Personal Skills' ? 'md:col-span-2 text-center' : ''}`}
               >
                 <h4 className="text-retro-light-blue font-bold text-lg mb-5 uppercase tracking-widest">{category.replace('_', ' ')}</h4>
-                <div className="flex flex-wrap gap-3">
+                <div className={`flex flex-wrap gap-3 ${category === 'Personal Skills' ? 'justify-center' : ''}`}>
                   {items.map(item => (
                     <span key={item} className="bg-retro-purple hover:bg-retro-yellow hover:text-retro-dark hover:-translate-y-1 transition-all duration-300 px-3 py-2 text-sm md:text-base border-2 border-retro-blue font-bold cursor-default shadow-sm">
                       {item}
