@@ -80,47 +80,57 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
         </div>
         <div className="text-retro-light-blue text-base uppercase tracking-wider">{proj.role}</div>
       </div>
-      <div className="flex flex-wrap gap-3 md:gap-4 items-center justify-start md:justify-end">
-        {gradInfo && (
-          <div className="group/badge flex items-center bg-retro-dark border-4 border-retro-yellow h-[48px] md:h-[56px] overflow-hidden transition-all duration-300 max-w-[80px] md:max-w-[96px] hover:max-w-[400px] hover:px-4 cursor-default shadow-[4px_4px_0_rgba(0,0,0,0.5)] shrink-0">
-            <div className="flex items-center gap-2 shrink-0 px-2 h-full">
-              {gradInfo.logos && gradInfo.logos.map((logo, i) => (
-                <div key={i} className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-sm p-1 flex items-center justify-center shadow-inner">
-                  <img src={logo.src} alt={logo.alt} className="max-w-full max-h-full object-contain" />
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-col justify-center ml-2 whitespace-nowrap opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300 delay-75">
-              <span className="font-pixel text-[8px] md:text-[10px] text-retro-yellow tracking-wider uppercase">{gradInfo.title || "Graduation Project"}</span>
-              <span className="font-pixel text-xs md:text-sm text-white tracking-widest mt-1">{gradInfo.text}</span>
-            </div>
-          </div>
-        )}
-        
-        {proj.client && proj.clientLogo && (
-          <div className="group/badge flex items-center bg-retro-dark border-4 border-retro-green h-[48px] md:h-[56px] overflow-hidden transition-all duration-300 max-w-[48px] md:max-w-[56px] hover:max-w-[350px] hover:px-4 cursor-default shadow-[4px_4px_0_rgba(0,0,0,0.5)] shrink-0">
-            <div className="w-[40px] h-[40px] md:w-[48px] md:h-[48px] shrink-0 bg-white rounded-sm p-1 flex items-center justify-center -ml-1">
-              <img src={proj.clientLogo} alt={proj.client} className="max-w-full max-h-full object-contain" />
-            </div>
-            <div className="flex flex-col justify-center ml-3 whitespace-nowrap opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300 delay-75">
-              <span className="font-pixel text-[8px] md:text-[10px] text-retro-light-green tracking-wider uppercase">Commissioned By</span>
-              <span className="font-pixel text-xs md:text-sm text-white tracking-widest mt-1">{proj.client}</span>
-            </div>
-          </div>
-        )}
-
+      <div className="flex gap-4">
         {proj.githubLink && (
-          <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center self-start px-4 py-2.5 md:px-6 md:py-3 text-sm md:text-lg shadow-[4px_4px_0_rgba(0,0,0,0.5)] h-[48px] md:h-[56px]">
+          <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center self-start px-5 py-3 md:px-6 md:py-3 text-sm md:text-lg shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
             <GithubIcon /> REPOSITORY
           </a>
         )}
         {proj.itchLink && (
-          <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center self-start px-4 py-2.5 md:px-6 md:py-3 text-sm md:text-lg shadow-[4px_4px_0_rgba(0,0,0,0.5)] h-[48px] md:h-[56px]">
+          <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center self-start px-5 py-3 md:px-6 md:py-3 text-sm md:text-lg shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
           </a>
         )}
       </div>
     </div>
+    
+    {gradInfo && (
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-yellow p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(244,180,27,0.15)] group-hover:shadow-[0_0_20px_rgba(244,180,27,0.3)] transition-all">
+        <div className="absolute top-0 left-0 w-2 h-full bg-retro-yellow"></div>
+        
+        {gradInfo.logos && (
+          <div className="flex flex-wrap gap-2 shrink-0">
+            {gradInfo.logos.map((logo, i) => (
+              <div key={i} className="w-16 h-16 shrink-0 bg-white rounded p-2 flex items-center justify-center border border-white/10 shadow-sm">
+                <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="flex-1">
+          <h5 className="font-pixel text-[10px] md:text-xs text-retro-yellow tracking-[0.2em] mb-2 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
+          <h3 className="font-pixel text-base md:text-lg text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
+        </div>
+        
+        <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-yellow/30 transform rotate-45"></div>
+      </div>
+    )}
+
+    {proj.client && (
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
+        <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
+        {proj.clientLogo && (
+          <div className="w-16 h-16 shrink-0 bg-white/5 rounded p-2 flex items-center justify-center border border-white/10">
+            <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+          </div>
+        )}
+        <div className="flex-1">
+          <h5 className="font-pixel text-[10px] md:text-xs text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
+          <h3 className="font-pixel text-base md:text-lg text-white tracking-widest">{proj.client}</h3>
+        </div>
+        <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
+      </div>
+    )}
     
     <div className="mb-8">
       <VideoGallery singleVideo={proj.video} videos={proj.videos} />
