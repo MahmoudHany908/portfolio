@@ -11,9 +11,57 @@ const LinkedinIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
 );
 
+const ProjectCard = ({ proj, customLogos }) => (
+  <div className="panel p-6 flex flex-col h-full">
+    {proj.video && (
+      <div className="mb-6 aspect-video bg-charcoal-900 border border-charcoal-700">
+        <iframe src={proj.video} className="w-full h-full" allowFullScreen></iframe>
+      </div>
+    )}
+    <div className="flex justify-between items-start mb-2 gap-4">
+      <div className="flex items-center gap-4 flex-wrap">
+        <h4 className="text-xl text-white">{proj.title}</h4>
+        {customLogos && <div className="flex items-center gap-2">{customLogos}</div>}
+      </div>
+      {proj.status && <span className="text-xs text-amber-500 font-display tracking-widest whitespace-nowrap">{proj.status}</span>}
+    </div>
+    {proj.role && <p className="text-sm text-amber-400 mb-4">{proj.role}</p>}
+    <p className="text-slate-300 flex-grow mb-6 lowercase font-sans">{proj.summary || 'In Development'}</p>
+    
+    {proj.keyContributions && (
+      <ul className="list-disc pl-5 text-sm text-slate-400 mb-6 font-sans lowercase space-y-1">
+        {proj.keyContributions.map((kc, i) => (
+          <li key={i}>{kc}</li>
+        ))}
+      </ul>
+    )}
+
+    <div className="flex flex-wrap gap-2 mb-6">
+      {proj.tech.map(t => <span key={t} className="badge bg-charcoal-800">{t}</span>)}
+    </div>
+
+    <div className="flex gap-4 mt-auto pt-4 border-t border-charcoal-700">
+      {proj.itchLink && (
+        <a href={proj.itchLink} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-amber-500 transition-colors">
+          <Gamepad2 size={20} />
+        </a>
+      )}
+      {proj.githubLink && (
+        <a href={proj.githubLink} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-amber-500 transition-colors">
+          <GithubIcon />
+        </a>
+      )}
+    </div>
+  </div>
+);
+
 export default function QuickView() {
   const { profile, education, internships, nodes } = portfolioData;
   const projects = nodes.filter(n => n.type === 'project');
+
+  const cyberSalvage = projects.find(n => n.id === 'proj2');
+  const learningLens = projects.find(n => n.id === 'proj1');
+  const normalProjects = projects.filter(n => n.id !== 'proj1' && n.id !== 'proj2');
 
   return (
     <div className="min-h-screen bg-charcoal-900 relative">
@@ -105,41 +153,38 @@ export default function QuickView() {
           </div>
         </section>
 
-        {/* Projects */}
+        {/* Graduation Projects */}
+        <section className="mb-16">
+          <h3 className="text-2xl text-white mb-8 border-l-4 border-amber-500 pl-4">Graduation Projects</h3>
+          <div className="grid md:grid-cols-2 gap-8">
+            {cyberSalvage && (
+              <ProjectCard 
+                proj={cyberSalvage} 
+                customLogos={
+                  <img src="/iti-logo.png" alt="ITI" className="h-8 md:h-10 object-contain bg-white/10 rounded p-1" />
+                } 
+              />
+            )}
+            {learningLens && (
+              <ProjectCard 
+                proj={learningLens} 
+                customLogos={
+                  <>
+                    <img src="/ainshams-logo.png" alt="Ain Shams" className="h-8 md:h-10 object-contain bg-white/10 rounded p-1" />
+                    <img src="/uel-logo.png" alt="UEL" className="h-8 md:h-10 object-contain bg-white/10 rounded p-1" />
+                  </>
+                } 
+              />
+            )}
+          </div>
+        </section>
+
+        {/* Normal Projects */}
         <section>
           <h3 className="text-2xl text-white mb-8 border-l-4 border-amber-500 pl-4">Projects</h3>
           <div className="grid md:grid-cols-2 gap-8">
-            {projects.map(proj => (
-              <div key={proj.id} className="panel p-6 flex flex-col h-full">
-                {proj.video && (
-                  <div className="mb-6 aspect-video bg-charcoal-900 border border-charcoal-700">
-                    <iframe src={proj.video} className="w-full h-full" allowFullScreen></iframe>
-                  </div>
-                )}
-                <div className="flex justify-between items-start mb-2">
-                  <h4 className="text-xl text-white">{proj.title}</h4>
-                  <span className="text-xs text-amber-500 font-display tracking-widest">{proj.status}</span>
-                </div>
-                {proj.role && <p className="text-sm text-amber-400 mb-4">{proj.role}</p>}
-                <p className="text-slate-300 flex-grow mb-6 lowercase font-sans">{proj.summary || 'In Development'}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {proj.tech.map(t => <span key={t} className="badge bg-charcoal-800">{t}</span>)}
-                </div>
-
-                <div className="flex gap-4 mt-auto pt-4 border-t border-charcoal-700">
-                  {proj.itchLink && (
-                    <a href={proj.itchLink} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-amber-500 transition-colors">
-                      <Gamepad2 size={20} />
-                    </a>
-                  )}
-                  {proj.githubLink && (
-                    <a href={proj.githubLink} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-amber-500 transition-colors">
-                      <GithubIcon />
-                    </a>
-                  )}
-                </div>
-              </div>
+            {normalProjects.map(proj => (
+              <ProjectCard key={proj.id} proj={proj} />
             ))}
           </div>
         </section>
