@@ -111,7 +111,7 @@ const PixelKnight = ({ isWalking, flipX, isDrawing, isShooting }) => (
   </div>
 );
 
-export default function MapCanvas({ onNodeSelect, onAimFire, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isDrawing, isShooting, shootingTarget, hitNodeId, aimMode, onCanvasTransform }) {
+export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isDrawing, isShooting, shootingTarget, hitNodeId, onCanvasTransform }) {
   const [scale, setScale] = useState(1);
   const dragY = useMotionValue(0);
   const CANVAS_WIDTH = isMobileLayout ? 900 : 1600;
@@ -140,69 +140,7 @@ export default function MapCanvas({ onNodeSelect, onAimFire, discovered, unlocke
     return () => window.removeEventListener('resize', handleResize);
   }, [CANVAS_WIDTH, CANVAS_HEIGHT, isMobileLayout]);
 
-  // Aim Mode Drag State
-  const [isAimDragging, setIsAimDragging] = useState(false);
-  const [aimStart, setAimStart] = useState(null);
-  const [aimTargetPreview, setAimTargetPreview] = useState(null);
-  const [aimDragDelta, setAimDragDelta] = useState({ x: 0, y: 0 });
 
-  const handleAimPointerDown = (e) => {
-    if (isDrawing || isShooting || isWalking) return;
-    e.stopPropagation(); // Prevent map pan
-    e.preventDefault();
-    setIsAimDragging(true);
-    setAimStart({ x: e.clientX, y: e.clientY });
-    setAimDragDelta({ x: 0, y: 0 });
-  };
-
-  const handleAimPointerMove = (e) => {
-    if (!isAimDragging) return;
-    
-    // Scale distance so it feels consistent regardless of zoom
-    const dx = (e.clientX - aimStart.x) / scale;
-    const dy = (e.clientY - aimStart.y) / scale;
-    setAimDragDelta({ x: dx, y: dy });
-
-    // Reverse pull direction for Angry Birds style (pull left = shoot right)
-    const power = 3.5;
-    let targetX = playerPos.x - dx * power;
-    let targetY = (playerPos.y - 40) - dy * power;
-    
-    // Auto-snap magnetic assist
-    let snapped = false;
-    for (const node of portfolioData.nodes) {
-       const unlockedSet = unlocked || new Set(portfolioData.nodes.map(n => n.id));
-       const isNodeUnlocked = unlockedSet.has(node.id);
-       const isNodeDiscovered = discovered ? discovered.has(node.id) : false;
-       
-       if (isNodeUnlocked && !isNodeDiscovered) {
-         const nx = isMobileLayout ? node.pX : node.x;
-         const ny = isMobileLayout ? node.pY : node.y;
-         const dist = Math.hypot(targetX - nx, targetY - ny);
-         if (dist < 150) { // Snap radius
-           targetX = nx;
-           targetY = ny;
-           snapped = true;
-           break;
-         }
-       }
-    }
-    
-    setAimTargetPreview({ x: targetX, y: targetY, snapped });
-  };
-
-  const handleAimPointerUp = (e) => {
-    if (!isAimDragging) return;
-    setIsAimDragging(false);
-    
-    // Minimum drag distance to count as a shot (e.g., 10px)
-    if (aimTargetPreview && Math.hypot(aimDragDelta.x, aimDragDelta.y) > 10) {
-      if (onAimFire) {
-        onAimFire(aimTargetPreview.x, aimTargetPreview.y);
-      }
-    }
-    setAimTargetPreview(null);
-  };
 
   // Generate individual smooth cubic bezier path segments for the trail
   const trailSegments = [];
@@ -244,16 +182,7 @@ export default function MapCanvas({ onNodeSelect, onAimFire, discovered, unlocke
       {/* Background that fills screen regardless of scale */}
       <TerrainBackground />
 
-      {/* Full-screen invisible drag capture layer — only active while aiming */}
-      {isAimDragging && (
-        <div
-          className="fixed inset-0 z-[100] cursor-crosshair"
-          style={{ touchAction: 'none' }}
-          onPointerMove={handleAimPointerMove}
-          onPointerUp={handleAimPointerUp}
-          onPointerCancel={() => { setIsAimDragging(false); setAimTargetPreview(null); }}
-        />
-      )}
+
 
       {/* Fixed Coordinate Canvas */}
       <motion.div 
@@ -316,35 +245,11 @@ export default function MapCanvas({ onNodeSelect, onAimFire, discovered, unlocke
             isCompleted={discovered ? discovered.has(node.id) : false}
             isUnlocked={unlocked ? unlocked.has(node.id) : true}
             isHit={hitNodeId === node.id}
-            isAimTarget={aimMode}
             onSelect={() => onNodeSelect(node)} 
           />
         ))}
 
-        {/* Trajectory Arc (Active during aiming) */}
-        {isAimDragging && aimTargetPreview && playerPos && (
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 45 }}>
-            <defs>
-              <linearGradient id="trajGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#f4b41b" stopOpacity="0.8" />
-                <stop offset="100%" stopColor={aimTargetPreview.snapped ? "#83eb72" : "#d95763"} stopOpacity="0.8" />
-              </linearGradient>
-            </defs>
-            {/* Dashed Arc */}
-            <path 
-              d={`M ${playerPos.x} ${playerPos.y - 40} Q ${playerPos.x + (aimTargetPreview.x - playerPos.x)/2} ${playerPos.y - 40 - Math.hypot(aimTargetPreview.x - playerPos.x, aimTargetPreview.y - playerPos.y)*0.15}, ${aimTargetPreview.x} ${aimTargetPreview.y}`}
-              fill="none"
-              stroke="url(#trajGrad)"
-              strokeWidth="6"
-              strokeDasharray="16 12"
-              strokeLinecap="round"
-              className="drop-shadow-[0_0_8px_rgba(244,180,27,0.8)]"
-            />
-            {/* Landing Marker */}
-            <circle cx={aimTargetPreview.x} cy={aimTargetPreview.y} r={aimTargetPreview.snapped ? "24" : "16"} fill="none" stroke={aimTargetPreview.snapped ? "#83eb72" : "#d95763"} strokeWidth="4" className={aimTargetPreview.snapped ? "animate-ping" : ""} />
-            <circle cx={aimTargetPreview.x} cy={aimTargetPreview.y} r="4" fill={aimTargetPreview.snapped ? "#83eb72" : "#d95763"} />
-          </svg>
-        )}
+
 
         {/* Arrow Projectile — large and visible with glowing trail */}
         <AnimatePresence>
@@ -418,27 +323,11 @@ export default function MapCanvas({ onNodeSelect, onAimFire, discovered, unlocke
               <div className="absolute -bottom-2 w-10 h-3 bg-black/30 rounded-full blur-sm" />
             )}
             
-            {/* Invisible Drag Handle for Aiming */}
-            {!isWalking && !isShooting && (
-              <div 
-                className={`absolute w-32 h-32 bottom-0 mb-[-16px] rounded-full z-50 pointer-events-auto ${isAimDragging ? 'cursor-crosshair' : 'cursor-grab active:cursor-grabbing'}`}
-                style={{ touchAction: 'none' }}
-                onPointerDown={handleAimPointerDown}
-              >
-                {/* Visual Aid */}
-                {!isAimDragging && (
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-pixel text-[10px] text-retro-yellow bg-retro-dark/80 px-2 py-1 border border-retro-yellow whitespace-nowrap animate-bounce drop-shadow-md pointer-events-none tracking-widest">
-                    PULL TO AIM
-                  </div>
-                )}
-              </div>
-            )}
-
             <div className="pointer-events-none">
               <PixelKnight 
                 isWalking={isWalking} 
-                flipX={isAimDragging ? aimDragDelta.x > 0 : flipX} 
-                isDrawing={isDrawing || isAimDragging} 
+                flipX={flipX} 
+                isDrawing={isDrawing} 
                 isShooting={isShooting} 
               />
             </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Smartphone } from 'lucide-react';
 import MapCanvas from '../components/Overworld/MapCanvas';
@@ -37,33 +37,6 @@ export default function Overworld() {
   const [isShooting, setIsShooting] = useState(false);
   const [shootingTarget, setShootingTarget] = useState(null);
   const [hitNodeId, setHitNodeId] = useState(null);
-
-  // Hit detection: find the closest node within 150px radius of the aimed map position
-  const handleAimFire = useCallback((mapX, mapY) => {
-    if (activeNode || isWalking || isDrawing || isShooting) return;
-
-    const HIT_RADIUS = 150;
-    let closestNode = null;
-    let closestDist = Infinity;
-
-    for (const node of portfolioData.nodes) {
-      const nx = isMobileLayout ? node.pX : node.x;
-      const ny = isMobileLayout ? node.pY : node.y;
-      const dist = Math.hypot(mapX - nx, mapY - ny);
-      if (dist < HIT_RADIUS && dist < closestDist) {
-        closestDist = dist;
-        closestNode = node;
-      }
-    }
-
-    if (closestNode) {
-      handleNodeSelect(closestNode);
-    } else {
-      // Miss — show a brief toast
-      setToastMessage("MISS! Aim closer to a checkpoint!");
-      setTimeout(() => setToastMessage(null), 2000);
-    }
-  }, [activeNode, isWalking, isDrawing, isShooting, isMobileLayout]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -164,7 +137,6 @@ export default function Overworld() {
     <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-dark select-none touch-none">
       <MapCanvas 
         onNodeSelect={handleNodeSelect} 
-        onAimFire={handleAimFire}
         discovered={discovered} 
         unlocked={unlocked}
         playerPos={playerPos}
