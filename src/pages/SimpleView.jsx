@@ -71,7 +71,7 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ delay: idx * 0.1, type: "spring", bounce: 0.3 }}
     whileHover={{ scale: 1.02, x: 8 }}
-    className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-6 md:p-8 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group"
+    className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-8 md:p-12 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group"
   >
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-5">
       <div>
@@ -136,15 +136,15 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
       <VideoGallery singleVideo={proj.video} videos={proj.videos} />
     </div>
     
-    <p className="text-lg text-slate-300 mb-6 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
+    <p className="text-xl md:text-2xl text-slate-300 mb-8 leading-loose group-hover:text-white transition-colors">{proj.summary}</p>
     
     {proj.keyContributions && (
       <div className="mb-8">
-        <h5 className="font-pixel text-sm text-retro-yellow mb-4">Key Contributions</h5>
-        <ul className="space-y-3">
+        <h5 className="font-pixel text-base md:text-lg text-retro-yellow mb-5">Key Contributions</h5>
+        <ul className="space-y-4">
           {proj.keyContributions.map((contrib, i) => (
-            <li key={i} className="flex gap-4 text-slate-300 text-base md:text-lg leading-relaxed group-hover:text-white transition-colors">
-              <span className="text-retro-light-green shrink-0 mt-1">►</span>
+            <li key={i} className="flex gap-5 text-slate-300 text-lg md:text-xl leading-loose group-hover:text-white transition-colors">
+              <span className="text-retro-light-green shrink-0 mt-2">►</span>
               <span>{contrib}</span>
             </li>
           ))}
@@ -159,6 +159,92 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
     </div>
   </motion.div>
 );
+
+const InteractiveContact = ({ profile }) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+  
+  return (
+    <div className="flex flex-col items-center justify-center relative py-20 min-h-[500px] w-full">
+      <div 
+        className="relative z-20 cursor-pointer"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => setIsHovered(!isHovered)}
+      >
+        <div className={`w-40 h-40 md:w-48 md:h-48 rounded-full border-8 ${isHovered ? 'border-retro-yellow shadow-[0_0_40px_rgba(244,180,27,0.6)]' : 'border-retro-light-blue shadow-[0_0_20px_rgba(86,156,235,0.5)]'} bg-retro-dark flex items-center justify-center overflow-hidden transition-all duration-300 transform ${isHovered ? 'scale-110' : 'scale-100'}`}>
+          <svg width="128" height="128" viewBox="0 0 16 16" overflow="visible" className={`transform scale-[3] transition-transform duration-300 ${isHovered ? '-translate-y-2' : ''}`}>
+             {/* Small Red Plume */}
+            <rect x="7" y="0" width="2" height="1" fill="#d95763" />
+            <rect x="8" y="1" width="3" height="2" fill="#d95763" />
+            {/* Silver Helmet */}
+            <rect x="5" y="2" width="6" height="2" fill="#a4a5a1" />
+            <rect x="4" y="4" width="8" height="4" fill="#daddd8" />
+            {/* Visor slit (T shape) */}
+            <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
+            <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
+            <rect x="8" y="5" width="1" height="1" fill={isHovered ? "#f4b41b" : "#83eb72"} /> {/* Glowing Eye changes color */}
+            {/* Silver Body Armor */}
+            <rect x="5" y="8" width="6" height="4" fill="#a4a5a1" />
+            {/* Belt & Trim */}
+            <rect x="5" y="11" width="6" height="1" fill="#3b5dc9" />
+            <rect x="7" y="10" width="2" height="2" fill="#f4b41b" />
+            {/* Arms & Shoulders */}
+            <rect x="3" y="8" width="2" height="3" fill="#a4a5a1" />
+            <rect x="11" y="8" width="2" height="3" fill="#a4a5a1" />
+            <rect x="2" y="10" width="1" height="2" fill="#1a1c2c" />
+            <rect x="13" y="10" width="1" height="2" fill="#1a1c2c" />
+            {/* Legs */}
+            <rect x="5" y="12" width="2" height="3" fill="#a4a5a1" />
+            <rect x="9" y="12" width="2" height="3" fill="#a4a5a1" />
+            <rect x="5" y="15" width="2" height="1" fill="#1a1c2c" />
+            <rect x="9" y="15" width="2" height="1" fill="#1a1c2c" />
+          </svg>
+        </div>
+        <div className={`absolute -bottom-8 left-1/2 -translate-x-1/2 font-pixel text-lg whitespace-nowrap transition-colors duration-300 ${isHovered ? 'text-retro-yellow drop-shadow-[0_0_5px_rgba(244,180,27,0.8)]' : 'text-retro-light-blue'}`}>
+          {isHovered ? "LET'S BUILD SOMETHING!" : "Virtual Mahmoud"}
+        </div>
+      </div>
+      
+      {/* Central Dialogue box when NOT hovered */}
+      <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[90%] max-w-lg border-2 border-retro-light-blue p-6 bg-retro-dark/90 backdrop-blur-sm transition-all duration-300 z-10 ${isHovered ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
+         <p className="text-retro-light-blue text-center text-lg md:text-xl leading-relaxed">
+            Hey 👋 I'm Virtual Mahmoud. Hover or tap me to see my contact links!
+         </p>
+         <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-0 h-0 border-x-[12px] border-x-transparent border-t-[16px] border-t-retro-light-blue"></div>
+      </div>
+
+      {/* Floating Action Buttons */}
+      <div className={`absolute inset-0 pointer-events-none flex items-center justify-center transition-all duration-500 z-30 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+        
+        {/* Email */}
+        <a href={`mailto:${profile.email}`} className={`absolute transition-all duration-500 delay-75 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-y-[-160px] md:translate-y-[-180px]' : 'translate-y-0'} pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base`}>
+          <MailIcon /> EMAIL
+        </a>
+        
+        {/* LinkedIn */}
+        <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className={`absolute transition-all duration-500 delay-100 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-x-[130px] translate-y-[-90px] md:translate-x-[180px] md:translate-y-[-100px]' : 'translate-x-0 translate-y-0'} pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base`}>
+          <LinkedinIcon /> LINKEDIN
+        </a>
+        
+        {/* GitHub */}
+        <a href={profile.links.github} target="_blank" rel="noreferrer" className={`absolute transition-all duration-500 delay-150 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-x-[-130px] translate-y-[-90px] md:translate-x-[-180px] md:translate-y-[-100px]' : 'translate-x-0 translate-y-0'} pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base`}>
+          <GithubIcon /> GITHUB
+        </a>
+        
+        {/* Itch */}
+        <a href="https://itch.io/profile/nightfuryexe" target="_blank" rel="noreferrer" className={`absolute transition-all duration-500 delay-200 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-x-[130px] translate-y-[90px] md:translate-x-[180px] md:translate-y-[100px]' : 'translate-x-0 translate-y-0'} pixel-btn bg-retro-blue px-4 py-3 flex gap-2 items-center text-sm md:text-base`}>
+          <GamepadIcon /> ITCH.IO
+        </a>
+        
+        {/* Resume */}
+        <a href="/Mahmoud_Hany_CV.pdf" download className={`absolute transition-all duration-500 delay-300 hover:scale-110 pointer-events-auto ${isHovered ? 'translate-y-[160px] md:translate-y-[180px]' : 'translate-y-0'} pixel-btn bg-retro-yellow text-retro-dark hover:text-retro-dark px-5 py-3 flex gap-2 items-center font-bold text-sm md:text-base shadow-[0_0_15px_rgba(244,180,27,0.5)]`}>
+          <DownloadIcon /> DOWNLOAD CV
+        </a>
+      </div>
+      
+    </div>
+  )
+}
 
 export default function SimpleView() {
   const { profile, education, internships, nodes } = portfolioData;
@@ -298,9 +384,9 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28 mb-16">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-8 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Graduation Projects</h3>
-          <div className="space-y-12">
+        <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28 mb-24">
+          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-12 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Graduation Projects</h3>
+          <div className="space-y-24">
             {cyberSalvage && (
               <ProjectCard 
                 proj={cyberSalvage} 
@@ -330,8 +416,8 @@ export default function SimpleView() {
         </motion.section>
 
         <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-8 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Projects</h3>
-          <div className="space-y-12">
+          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-12 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Projects</h3>
+          <div className="space-y-24">
             {normalProjects.map((proj, idx) => (
               <ProjectCard key={proj.id} proj={proj} idx={idx} />
             ))}
@@ -342,101 +428,12 @@ export default function SimpleView() {
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
           className="pt-16 mt-32 scroll-mt-28"
         >
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 justify-between items-stretch">
+          <div className="flex flex-col gap-12 lg:gap-16 items-center">
+            <h3 className="font-pixel text-3xl md:text-4xl text-retro-light-blue drop-shadow-[0_0_10px_rgba(86,156,235,0.6)] tracking-widest uppercase text-center">
+              Let's Connect
+            </h3>
             
-            {/* Left Column: Let's Connect */}
-            <div className="lg:w-5/12 space-y-10">
-              <h3 className="font-pixel text-3xl md:text-4xl text-retro-light-blue drop-shadow-[0_0_10px_rgba(86,156,235,0.6)] tracking-widest uppercase">
-                Let's Connect
-              </h3>
-              <p className="text-retro-light-blue text-lg md:text-xl leading-relaxed">
-                Always down to discuss new projects, building immersive XR experiences or games. Whether we're teaming up for the next project or just chatting about games, my inbox is always open. Feel free to reach out!
-              </p>
-              
-              <div className="space-y-8 pt-4">
-                <a href={`mailto:${profile.email}`} className="flex items-center gap-6 group hover:cursor-pointer">
-                  <div className="w-16 h-16 shrink-0 border-4 border-retro-light-blue flex items-center justify-center text-retro-light-blue group-hover:bg-retro-light-blue group-hover:text-retro-dark transition-all drop-shadow-[0_0_10px_rgba(86,156,235,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(86,156,235,0.8)]">
-                    <MailIcon />
-                  </div>
-                  <div>
-                    <h4 className="font-pixel text-2xl text-retro-light-green mb-2 tracking-wider">EMAIL</h4>
-                    <p className="text-retro-light-blue text-lg">{profile.email}</p>
-                  </div>
-                </a>
-                
-                <div className="flex items-center gap-6 group">
-                  <div className="w-16 h-16 shrink-0 border-4 border-retro-light-blue flex items-center justify-center text-retro-light-blue group-hover:bg-retro-light-blue group-hover:text-retro-dark transition-all drop-shadow-[0_0_10px_rgba(86,156,235,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(86,156,235,0.8)]">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  </div>
-                  <div>
-                    <h4 className="font-pixel text-2xl text-retro-light-green mb-2 tracking-wider">PHONE</h4>
-                    <p className="text-retro-light-blue text-lg">{profile.phone}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-6 group">
-                  <div className="w-16 h-16 shrink-0 border-4 border-retro-light-blue flex items-center justify-center text-retro-light-blue group-hover:bg-retro-light-blue group-hover:text-retro-dark transition-all drop-shadow-[0_0_10px_rgba(86,156,235,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(86,156,235,0.8)]">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  </div>
-                  <div>
-                    <h4 className="font-pixel text-2xl text-retro-light-green mb-2 tracking-wider">LOCATION</h4>
-                    <p className="text-retro-light-blue text-lg">Egypt</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Knight Dialogue */}
-            <div className="lg:w-7/12 mt-12 lg:mt-0 relative flex flex-col justify-center">
-              <div className="border-4 border-retro-light-blue p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center md:items-stretch bg-retro-dark/80 backdrop-blur-sm shadow-[0_0_30px_rgba(86,156,235,0.2)]">
-                
-                {/* Knight Avatar Box */}
-                <div className="flex flex-col items-center gap-4 shrink-0 justify-center">
-                  <div className="w-32 h-32 md:w-36 md:h-36 border-4 border-retro-light-blue bg-retro-dark flex items-center justify-center overflow-hidden shadow-[0_0_20px_rgba(86,156,235,0.5)]">
-                    <svg width="128" height="128" viewBox="0 0 16 16" overflow="visible" className="transform scale-[2.5]">
-                      {/* Small Red Plume */}
-                      <rect x="7" y="0" width="2" height="1" fill="#d95763" />
-                      <rect x="8" y="1" width="3" height="2" fill="#d95763" />
-                      {/* Silver Helmet */}
-                      <rect x="5" y="2" width="6" height="2" fill="#a4a5a1" />
-                      <rect x="4" y="4" width="8" height="4" fill="#daddd8" />
-                      {/* Visor slit (T shape) */}
-                      <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
-                      <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
-                      <rect x="8" y="5" width="1" height="1" fill="#83eb72" /> {/* Glowing Eye */}
-                      {/* Silver Body Armor */}
-                      <rect x="5" y="8" width="6" height="4" fill="#a4a5a1" />
-                      {/* Belt & Trim */}
-                      <rect x="5" y="11" width="6" height="1" fill="#3b5dc9" />
-                      <rect x="7" y="10" width="2" height="2" fill="#f4b41b" />
-                      {/* Arms & Shoulders */}
-                      <rect x="3" y="8" width="2" height="3" fill="#a4a5a1" />
-                      <rect x="11" y="8" width="2" height="3" fill="#a4a5a1" />
-                      <rect x="2" y="10" width="1" height="2" fill="#1a1c2c" />
-                      <rect x="13" y="10" width="1" height="2" fill="#1a1c2c" />
-                      {/* Legs */}
-                      <rect x="5" y="12" width="2" height="3" fill="#a4a5a1" />
-                      <rect x="9" y="12" width="2" height="3" fill="#a4a5a1" />
-                      <rect x="5" y="15" width="2" height="1" fill="#1a1c2c" />
-                      <rect x="9" y="15" width="2" height="1" fill="#1a1c2c" />
-                    </svg>
-                  </div>
-                  <span className="font-pixel text-white text-sm tracking-widest text-center whitespace-nowrap">Virtual Mahmoud</span>
-                </div>
-                
-                {/* Dialogue Box */}
-                <div className="flex-1 border-2 border-retro-light-green p-5 md:p-6 relative flex flex-col justify-center">
-                  {/* Speech bubbles arrow */}
-                  <div className="absolute top-1/2 -left-4 w-0 h-0 border-y-[12px] border-y-transparent border-r-[16px] border-r-retro-light-green transform -translate-y-1/2 hidden md:block"></div>
-                  <div className="absolute -top-4 left-1/2 w-0 h-0 border-x-[12px] border-x-transparent border-b-[16px] border-b-retro-light-green transform -translate-x-1/2 md:hidden"></div>
-                  
-                  <p className="text-retro-light-blue text-base md:text-lg leading-relaxed font-sans mb-4">
-                    Hey 👋 I'm Virtual Mahmoud—a tiny, bug-free clone of the real developer. I mostly just hang out here while the human Mahmoud builds VR games and survives 3-day game jams. If you want to team up or talk games, drop him an email!
-                  </p>
-                </div>
-              </div>
-            </div>
-
+            <InteractiveContact profile={profile} />
           </div>
 
           <div className="mt-32 pt-10 border-t-[4px] border-retro-light-green flex flex-col items-center justify-center pb-10 shadow-[0_-15px_30px_-15px_rgba(131,235,114,0.3)] gap-4">
