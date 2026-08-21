@@ -76,11 +76,45 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 gap-4">
       <div>
         <div className="flex flex-col md:flex-row md:items-center gap-3 mb-2">
-          <h4 className="font-pixel text-lg md:text-xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
+          <h4 className="font-pixel text-lg md:text-xl text-retro-yellow group-hover:text-white transition-colors flex flex-wrap items-center gap-3">
+            {proj.title}
+            
+            <div className="flex items-center gap-2">
+              {gradInfo && (
+                <div className="relative group/badge inline-block focus-within:z-50 hover:z-50" tabIndex="0">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-retro-dark border-2 border-retro-yellow p-1 flex items-center justify-center cursor-help shadow-sm">
+                    {gradInfo.logos && gradInfo.logos[0] && (
+                      <img src={gradInfo.logos[0].src} alt={gradInfo.logos[0].alt} className="w-full h-full object-contain" />
+                    )}
+                  </div>
+                  
+                  <div className="absolute top-full left-0 md:left-1/2 md:-translate-x-1/2 mt-2 w-64 bg-retro-dark border-2 border-retro-yellow p-4 shadow-[0_0_15px_rgba(244,180,27,0.3)] opacity-0 pointer-events-none group-hover/badge:opacity-100 group-hover/badge:pointer-events-auto group-focus-within/badge:opacity-100 group-focus-within/badge:pointer-events-auto transition-all duration-300 translate-y-2 group-hover/badge:translate-y-0 group-focus-within/badge:translate-y-0 z-50 flex flex-col gap-2">
+                    <h5 className="font-pixel text-[10px] text-retro-yellow tracking-[0.1em] uppercase leading-relaxed">{gradInfo.title || "Graduation Project"}</h5>
+                    <h3 className="font-sans text-sm text-white font-bold leading-normal">{gradInfo.text}</h3>
+                  </div>
+                </div>
+              )}
+
+              {proj.client && (
+                <div className="relative group/badge inline-block focus-within:z-50 hover:z-50" tabIndex="0">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-retro-dark border-2 border-retro-green p-1 flex items-center justify-center cursor-help shadow-sm">
+                    {proj.clientLogo && (
+                      <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain" />
+                    )}
+                  </div>
+                  
+                  <div className="absolute top-full left-0 md:left-1/2 md:-translate-x-1/2 mt-2 w-64 bg-retro-dark border-2 border-retro-green p-4 shadow-[0_0_15px_rgba(131,235,114,0.3)] opacity-0 pointer-events-none group-hover/badge:opacity-100 group-hover/badge:pointer-events-auto group-focus-within/badge:opacity-100 group-focus-within/badge:pointer-events-auto transition-all duration-300 translate-y-2 group-hover/badge:translate-y-0 group-focus-within/badge:translate-y-0 z-50 flex flex-col gap-2">
+                    <h5 className="font-pixel text-[10px] text-retro-light-green tracking-[0.1em] uppercase leading-relaxed">Commissioned By</h5>
+                    <h3 className="font-sans text-sm text-white font-bold leading-normal">{proj.client}</h3>
+                  </div>
+                </div>
+              )}
+            </div>
+          </h4>
         </div>
         <div className="text-retro-light-blue text-sm uppercase tracking-wider font-bold">{proj.role}</div>
       </div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 mt-2 md:mt-0">
         {proj.githubLink && (
           <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center self-start px-4 py-2 text-xs md:text-sm shadow-[3px_3px_0_rgba(0,0,0,0.5)]">
             <GithubIcon /> REPOSITORY
@@ -93,44 +127,6 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
         )}
       </div>
     </div>
-    
-    {gradInfo && (
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-5 bg-retro-dark/80 border-2 border-retro-yellow p-3 mb-6 relative overflow-hidden shadow-[0_0_10px_rgba(244,180,27,0.15)] group-hover:shadow-[0_0_15px_rgba(244,180,27,0.3)] transition-all">
-        <div className="absolute top-0 left-0 w-2 h-full bg-retro-yellow"></div>
-        
-        {gradInfo.logos && (
-          <div className="flex flex-wrap gap-2 shrink-0">
-            {gradInfo.logos.map((logo, i) => (
-              <div key={i} className="w-12 h-12 shrink-0 bg-white rounded p-1.5 flex items-center justify-center border border-white/10 shadow-sm">
-                <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
-              </div>
-            ))}
-          </div>
-        )}
-        <div className="flex-1">
-          <h5 className="font-pixel text-[9px] md:text-[10px] text-retro-yellow tracking-[0.2em] mb-1.5 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
-          <h3 className="font-pixel text-sm md:text-base text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
-        </div>
-        
-        <div className="absolute -bottom-4 -right-4 w-12 h-12 border-t-2 border-l-2 border-retro-yellow/30 transform rotate-45"></div>
-      </div>
-    )}
-
-    {proj.client && (
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-5 bg-retro-dark/80 border-2 border-retro-green p-3 mb-6 relative overflow-hidden shadow-[0_0_10px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_15px_rgba(131,235,114,0.3)] transition-all">
-        <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
-        {proj.clientLogo && (
-          <div className="w-12 h-12 shrink-0 bg-white/5 rounded p-1.5 flex items-center justify-center border border-white/10">
-            <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
-          </div>
-        )}
-        <div className="flex-1">
-          <h5 className="font-pixel text-[9px] md:text-[10px] text-retro-light-green tracking-[0.2em] mb-1.5 uppercase opacity-80">Commissioned By</h5>
-          <h3 className="font-pixel text-sm md:text-base text-white tracking-widest">{proj.client}</h3>
-        </div>
-        <div className="absolute -bottom-4 -right-4 w-12 h-12 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
-      </div>
-    )}
     
     <div className="mb-6">
       <VideoGallery singleVideo={proj.video} videos={proj.videos} />
@@ -253,7 +249,7 @@ export default function SimpleView() {
         </div>
 
         {/* ABOUT SECTION (Alternating Background) */}
-        <div className="w-full bg-[#151722] border-b-4 border-retro-gray">
+        <div className="w-full bg-[#0a0b10] border-b-[6px] border-retro-gray/50">
           <motion.section 
             id="about" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} 
             className="scroll-mt-28 max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20"
@@ -318,7 +314,7 @@ export default function SimpleView() {
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.1 }}
-                  className="bg-[#151722] p-5 md:p-6 pixel-border border-[4px] border-retro-gray hover:border-retro-blue transition-colors"
+                  className="bg-[#0a0b10] p-5 md:p-6 pixel-border border-[4px] border-retro-gray hover:border-retro-blue transition-colors"
                 >
                   <h4 className="text-retro-light-blue font-bold text-base md:text-lg mb-4 uppercase tracking-widest">{category.replace('_', ' ')}</h4>
                   <div className="flex flex-wrap gap-2 md:gap-3">
@@ -335,7 +331,7 @@ export default function SimpleView() {
         </div>
 
         {/* PROJECTS SECTION (Alternating Background) */}
-        <div className="w-full bg-[#151722] border-b-4 border-retro-gray">
+        <div className="w-full bg-[#0a0b10] border-b-[6px] border-retro-gray/50">
           <div className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
             <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28 mb-16 md:mb-20">
               <h3 className="font-pixel text-xl md:text-2xl text-retro-green mb-10 border-l-8 border-retro-green pl-4 py-1.5 bg-retro-dark/50 shadow-sm">Graduation Projects</h3>
@@ -392,7 +388,7 @@ export default function SimpleView() {
                 hidden: { opacity: 0, scale: 0.8, filter: "blur(5px)" },
                 visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.4, duration: 0.8, staggerChildren: 0.2, delayChildren: 0.3 } }
               }}
-              className="w-full max-w-4xl border-[6px] md:border-[8px] border-retro-light-blue bg-[#151722] p-8 md:p-16 relative shadow-[0_0_40px_rgba(86,156,235,0.3)]"
+              className="w-full max-w-4xl border-[6px] md:border-[8px] border-retro-light-blue bg-[#0a0b10] p-8 md:p-16 relative shadow-[0_0_40px_rgba(86,156,235,0.3)]"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-retro-light-blue/10 to-transparent pointer-events-none"></div>
               <div className="absolute bottom-0 left-0 w-full h-2 bg-retro-light-blue animate-pulse"></div>
