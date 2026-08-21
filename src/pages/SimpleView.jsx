@@ -79,8 +79,8 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
     className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-6 md:p-8 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group flex flex-col xl:flex-row gap-8 xl:gap-12"
   >
     {/* Left Column: Media & Actions */}
-    <div className="w-full xl:w-5/12 shrink-0 flex flex-col">
-      <div className="xl:sticky xl:top-32">
+    <div className="w-full xl:w-1/2 shrink-0 flex flex-col">
+      <div>
         <VideoGallery singleVideo={proj.video} videos={proj.videos} />
         
         <div className="flex flex-wrap gap-4 mt-6">
