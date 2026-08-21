@@ -71,80 +71,80 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ delay: idx * 0.1, type: "spring", bounce: 0.3 }}
     whileHover={{ scale: 1.02, x: 8 }}
-    className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-8 md:p-12 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group"
+    className="pixel-box bg-retro-dark border-[4px] md:border-[6px] border-retro-purple p-6 md:p-8 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[10px_10px_0_rgba(86,156,235,0.4)] group"
   >
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-5">
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 gap-4">
       <div>
-        <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
-          <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
+        <div className="flex flex-col md:flex-row md:items-center gap-3 mb-2">
+          <h4 className="font-pixel text-lg md:text-xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
         </div>
-        <div className="text-retro-light-blue text-base uppercase tracking-wider">{proj.role}</div>
+        <div className="text-retro-light-blue text-sm uppercase tracking-wider font-bold">{proj.role}</div>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-3">
         {proj.githubLink && (
-          <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center self-start px-5 py-3 md:px-6 md:py-3 text-sm md:text-lg shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+          <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center self-start px-4 py-2 text-xs md:text-sm shadow-[3px_3px_0_rgba(0,0,0,0.5)]">
             <GithubIcon /> REPOSITORY
           </a>
         )}
         {proj.itchLink && (
-          <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center self-start px-5 py-3 md:px-6 md:py-3 text-sm md:text-lg shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
+          <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center self-start px-4 py-2 text-xs md:text-sm shadow-[3px_3px_0_rgba(0,0,0,0.5)]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
           </a>
         )}
       </div>
     </div>
     
     {gradInfo && (
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-yellow p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(244,180,27,0.15)] group-hover:shadow-[0_0_20px_rgba(244,180,27,0.3)] transition-all">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-5 bg-retro-dark/80 border-2 border-retro-yellow p-3 mb-6 relative overflow-hidden shadow-[0_0_10px_rgba(244,180,27,0.15)] group-hover:shadow-[0_0_15px_rgba(244,180,27,0.3)] transition-all">
         <div className="absolute top-0 left-0 w-2 h-full bg-retro-yellow"></div>
         
         {gradInfo.logos && (
           <div className="flex flex-wrap gap-2 shrink-0">
             {gradInfo.logos.map((logo, i) => (
-              <div key={i} className="w-16 h-16 shrink-0 bg-white rounded p-2 flex items-center justify-center border border-white/10 shadow-sm">
+              <div key={i} className="w-12 h-12 shrink-0 bg-white rounded p-1.5 flex items-center justify-center border border-white/10 shadow-sm">
                 <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
               </div>
             ))}
           </div>
         )}
         <div className="flex-1">
-          <h5 className="font-pixel text-[10px] md:text-xs text-retro-yellow tracking-[0.2em] mb-2 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
-          <h3 className="font-pixel text-base md:text-lg text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
+          <h5 className="font-pixel text-[9px] md:text-[10px] text-retro-yellow tracking-[0.2em] mb-1.5 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
+          <h3 className="font-pixel text-sm md:text-base text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
         </div>
         
-        <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-yellow/30 transform rotate-45"></div>
+        <div className="absolute -bottom-4 -right-4 w-12 h-12 border-t-2 border-l-2 border-retro-yellow/30 transform rotate-45"></div>
       </div>
     )}
 
     {proj.client && (
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-5 bg-retro-dark/80 border-2 border-retro-green p-3 mb-6 relative overflow-hidden shadow-[0_0_10px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_15px_rgba(131,235,114,0.3)] transition-all">
         <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
         {proj.clientLogo && (
-          <div className="w-16 h-16 shrink-0 bg-white/5 rounded p-2 flex items-center justify-center border border-white/10">
+          <div className="w-12 h-12 shrink-0 bg-white/5 rounded p-1.5 flex items-center justify-center border border-white/10">
             <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
           </div>
         )}
         <div className="flex-1">
-          <h5 className="font-pixel text-[10px] md:text-xs text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
-          <h3 className="font-pixel text-base md:text-lg text-white tracking-widest">{proj.client}</h3>
+          <h5 className="font-pixel text-[9px] md:text-[10px] text-retro-light-green tracking-[0.2em] mb-1.5 uppercase opacity-80">Commissioned By</h5>
+          <h3 className="font-pixel text-sm md:text-base text-white tracking-widest">{proj.client}</h3>
         </div>
-        <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
+        <div className="absolute -bottom-4 -right-4 w-12 h-12 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
       </div>
     )}
     
-    <div className="mb-8">
+    <div className="mb-6">
       <VideoGallery singleVideo={proj.video} videos={proj.videos} />
     </div>
     
-    <p className="text-xl md:text-2xl text-slate-300 mb-8 leading-loose group-hover:text-white transition-colors">{proj.summary}</p>
+    <p className="text-base md:text-lg text-slate-300 mb-6 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
     
     {proj.keyContributions && (
-      <div className="mb-8">
-        <h5 className="font-pixel text-base md:text-lg text-retro-yellow mb-5">Key Contributions</h5>
-        <ul className="space-y-4">
+      <div className="mb-6">
+        <h5 className="font-pixel text-sm md:text-base text-retro-yellow mb-3">Key Contributions</h5>
+        <ul className="space-y-2">
           {proj.keyContributions.map((contrib, i) => (
-            <li key={i} className="flex gap-5 text-slate-300 text-lg md:text-xl leading-loose group-hover:text-white transition-colors">
-              <span className="text-retro-light-green shrink-0 mt-2">►</span>
+            <li key={i} className="flex gap-4 text-slate-300 text-sm md:text-base leading-relaxed group-hover:text-white transition-colors">
+              <span className="text-retro-light-green shrink-0 mt-1 text-xs">►</span>
               <span>{contrib}</span>
             </li>
           ))}
@@ -152,12 +152,12 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
       </div>
     )}
     
-    <div className="flex flex-wrap justify-around w-full gap-3 md:gap-4 mt-8 group/tech relative">
+    <div className="flex flex-wrap justify-around w-full gap-2 md:gap-3 mt-6 group/tech relative">
       {proj.tech.map(t => (
         <span 
           key={t} 
           title={`Click or hover to learn how ${t} was utilized (data needed)`}
-          className="bg-retro-gray px-4 py-2 md:px-6 md:py-3 text-sm md:text-base lg:text-lg border-2 border-white/20 text-white shadow-sm font-bold text-center flex-grow transition-all duration-300 group-hover/tech:scale-95 group-hover/tech:opacity-50 hover:!scale-110 hover:!opacity-100 hover:!border-retro-yellow hover:!text-retro-yellow hover:!bg-retro-dark hover:z-10 hover:shadow-[0_0_20px_rgba(244,180,27,0.6)] cursor-help flex items-center justify-center"
+          className="bg-retro-gray px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm lg:text-base border-2 border-white/20 text-white shadow-sm font-bold text-center flex-grow transition-all duration-300 group-hover/tech:scale-95 group-hover/tech:opacity-50 hover:!scale-110 hover:!opacity-100 hover:!border-retro-yellow hover:!text-retro-yellow hover:!bg-retro-dark hover:z-10 hover:shadow-[0_0_15px_rgba(244,180,27,0.6)] cursor-help flex items-center justify-center"
         >
           {t}
         </span>
@@ -179,7 +179,7 @@ export default function SimpleView() {
       
       {/* Sticky Navigation */}
       <nav className="sticky top-0 z-50 bg-retro-dark/95 backdrop-blur-md border-b-4 border-retro-gray shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] py-3 px-4 md:px-8">
-        <div className="max-w-screen-2xl mx-auto flex justify-between items-center w-full px-2 lg:px-8">
+        <div className="max-w-6xl mx-auto flex justify-between items-center w-full">
           <div className="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar items-center">
             <a href="#about" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap flex items-center gap-2">
               <UserIcon /> ABOUT
@@ -194,259 +194,273 @@ export default function SimpleView() {
               <PhoneIcon /> CONTACT
             </a>
           </div>
-          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform text-xs md:text-sm px-3 py-2 hidden md:block">
+          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform text-xs md:text-sm px-3 py-1.5 hidden md:block">
             RETURN TO MAP
           </Link>
         </div>
       </nav>
 
-      <div className="px-6 md:px-12 lg:px-20 py-12 max-w-screen-2xl mx-auto w-full space-y-24 md:space-y-32 pb-32 relative z-10">
+      <div className="w-full relative z-10 flex flex-col">
         
-        <motion.header 
-          initial="hidden" animate="visible" variants={fadeUpVariant}
-          className="flex flex-col md:flex-row justify-between items-start md:items-start gap-8 border-b-6 border-retro-gray pb-12 pt-8"
-        >
-          <div className="flex flex-col md:flex-row items-start md:items-start gap-8 group w-full">
-            <div className="relative shrink-0">
-              <div className="absolute inset-0 bg-retro-yellow transform translate-x-3 translate-y-3 group-hover:translate-x-5 group-hover:translate-y-5 transition-transform duration-300"></div>
-              <img 
-                src="/profile.jpg" 
-                alt="Mahmoud Hany" 
-                className="relative w-36 h-36 md:w-56 md:h-56 object-cover object-[50%_10%] scale-[1.05] pixel-border border-6 border-retro-dark shadow-xl z-10 filter grayscale group-hover:grayscale-0 transition-all duration-500"
-              />
-            </div>
-            <div className="w-full mt-4 md:mt-0 flex-1 flex flex-col justify-between h-full min-h-[14rem]">
-              <div className="flex flex-col md:flex-row justify-between items-start gap-5">
-                <div>
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-pixel text-retro-yellow mb-5 leading-tight group-hover:text-retro-light-green transition-colors">{profile.name}</h1>
-                  <h2 className="text-xl md:text-2xl text-retro-light-blue font-pixel mb-6">{profile.role}</h2>
+        {/* HEADER SECTION */}
+        <div className="w-full bg-retro-dark border-b-4 border-retro-gray">
+          <motion.header 
+            initial="hidden" animate="visible" variants={fadeUpVariant}
+            className="max-w-6xl mx-auto px-6 md:px-12 py-12 md:py-16 flex flex-col md:flex-row items-start md:items-start gap-8"
+          >
+            <div className="flex flex-col md:flex-row items-start md:items-start gap-8 group w-full">
+              <div className="relative shrink-0">
+                <div className="absolute inset-0 bg-retro-yellow transform translate-x-3 translate-y-3 group-hover:translate-x-5 group-hover:translate-y-5 transition-transform duration-300"></div>
+                <img 
+                  src="/profile.jpg" 
+                  alt="Mahmoud Hany" 
+                  className="relative w-32 h-32 md:w-48 md:h-48 object-cover object-[50%_10%] scale-[1.05] pixel-border border-4 md:border-6 border-retro-dark shadow-xl z-10 filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                />
+              </div>
+              <div className="w-full mt-2 md:mt-0 flex-1 flex flex-col justify-between h-full min-h-[12rem]">
+                <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+                  <div>
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-pixel text-retro-yellow mb-3 leading-tight group-hover:text-retro-light-green transition-colors">{profile.name}</h1>
+                    <h2 className="text-lg md:text-xl text-retro-light-blue font-pixel mb-4">{profile.role}</h2>
+                  </div>
+                  <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform drop-shadow-[5px_5px_0_rgba(0,0,0,0.5)] md:hidden text-sm px-4 py-2">
+                    MAP
+                  </Link>
                 </div>
-                <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform drop-shadow-[5px_5px_0_rgba(0,0,0,0.5)] md:hidden text-base px-5 py-3">
-                  MAP
-                </Link>
-              </div>
-              
-              {/* Retro Big Contact Buttons */}
-              <div className="w-full mt-auto pt-4">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full">
-                  <a href={`mailto:${profile.email}`} className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-3 py-3 md:py-4 text-xs md:text-sm shadow-md flex justify-center items-center gap-2">
-                    <MailIcon /> EMAIL
-                  </a>
-                  <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-3 py-3 md:py-4 text-xs md:text-sm shadow-md flex justify-center items-center gap-2">
-                    <LinkedinIcon /> LINKEDIN
-                  </a>
-                  <a href={profile.links.github} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-3 py-3 md:py-4 text-xs md:text-sm shadow-md flex justify-center items-center gap-2">
-                    <GithubIcon /> GITHUB
-                  </a>
-                  <a href="https://itch.io/profile/nightfuryexe" target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-3 py-3 md:py-4 text-xs md:text-sm shadow-md flex justify-center items-center gap-2">
-                    <GamepadIcon /> ITCH.IO
+                
+                <div className="w-full mt-auto pt-4">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+                    <a href={`mailto:${profile.email}`} className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-3 py-3 text-xs md:text-sm shadow-sm flex justify-center items-center gap-2">
+                      <MailIcon /> EMAIL
+                    </a>
+                    <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-3 py-3 text-xs md:text-sm shadow-sm flex justify-center items-center gap-2">
+                      <LinkedinIcon /> LINKEDIN
+                    </a>
+                    <a href={profile.links.github} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-3 py-3 text-xs md:text-sm shadow-sm flex justify-center items-center gap-2">
+                      <GithubIcon /> GITHUB
+                    </a>
+                    <a href="https://itch.io/profile/nightfuryexe" target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-3 py-3 text-xs md:text-sm shadow-sm flex justify-center items-center gap-2">
+                      <GamepadIcon /> ITCH.IO
+                    </a>
+                  </div>
+                  <a href="/Mahmoud_Hany_CV.pdf" download className="pixel-btn bg-retro-yellow text-retro-dark hover:bg-white transition-colors px-4 py-3 md:py-4 text-sm md:text-base shadow-sm drop-shadow-[4px_4px_0_rgba(244,180,27,0.3)] w-full flex justify-center items-center gap-2 mt-4 font-bold tracking-widest">
+                    <DownloadIcon /> DOWNLOAD CV
                   </a>
                 </div>
-                <a href="/Mahmoud_Hany_CV.pdf" download className="pixel-btn bg-retro-yellow text-retro-dark hover:bg-white transition-colors px-5 py-4 md:py-5 text-base md:text-lg shadow-md drop-shadow-[5px_5px_0_rgba(244,180,27,0.3)] w-full flex justify-center items-center gap-3 mt-5 font-bold tracking-widest">
-                  <DownloadIcon /> DOWNLOAD CV
-                </a>
               </div>
             </div>
-          </div>
-        </motion.header>
+          </motion.header>
+        </div>
 
-        <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-8 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">About</h3>
-          <p className="text-xl md:text-2xl text-slate-300 leading-relaxed max-w-4xl mb-16 hover:text-white transition-colors duration-300 font-bold">
-            {profile.summary}
-          </p>
-          
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-20">
-            {/* Education Stack */}
-            <div>
-              <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow mb-8 flex items-center gap-4"><span className="text-3xl">🎓</span> Education</h4>
-              <div className="flex flex-col relative pt-4">
-                {education.map((edu, i) => (
-                  <motion.div 
-                    key={edu.id} 
-                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-6 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-yellow hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(244,180,27,0.4)] group`}
-                  >
-                    <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-yellow transition-colors">{edu.degree}</div>
-                    <div className="text-retro-light-blue text-lg mb-2 font-bold">{edu.institution}</div>
-                    <div className="text-slate-400 text-sm font-pixel tracking-widest">{edu.date}</div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Experience Stack */}
-            <div>
-              <h4 className="font-pixel text-xl md:text-2xl text-retro-light-green mb-8 flex items-center gap-4"><span className="text-3xl">⚔️</span> Experience</h4>
-              <div className="flex flex-col relative pt-4">
-                {internships.map((int, i) => (
-                  <motion.div 
-                    key={int.id} 
-                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-6 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-light-green hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(131,235,114,0.4)] group`}
-                  >
-                    <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-light-green transition-colors">{int.title}</div>
-                    <div className="text-retro-light-green text-lg mb-2 font-bold">{int.institution}</div>
-                    <div className="text-slate-400 text-sm font-pixel tracking-widest mb-4">{int.date}</div>
-                    {int.description && (
-                      <div className="text-slate-300 text-base leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 group-hover:mt-4 transition-all duration-500 overflow-hidden">
-                        {int.description}
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section id="skills" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-8 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Technical Arsenal</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {Object.entries(profile.skills).map(([category, items], idx) => (
-              <motion.div 
-                key={category} 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-retro-dark p-6 pixel-border border-4 border-retro-gray hover:border-retro-blue transition-colors"
-              >
-                <h4 className="text-retro-light-blue font-bold text-lg mb-5 uppercase tracking-widest">{category.replace('_', ' ')}</h4>
-                <div className="flex flex-wrap gap-3">
-                  {items.map(item => (
-                    <span key={item} className="bg-retro-purple hover:bg-retro-yellow hover:text-retro-dark hover:-translate-y-1 transition-all duration-300 px-3 py-2 text-sm md:text-base border-2 border-retro-blue font-bold cursor-default shadow-sm">
-                      {item}
-                    </span>
+        {/* ABOUT SECTION (Alternating Background) */}
+        <div className="w-full bg-[#151722] border-b-4 border-retro-gray">
+          <motion.section 
+            id="about" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} 
+            className="scroll-mt-28 max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20"
+          >
+            <h3 className="font-pixel text-xl md:text-2xl text-retro-green mb-6 border-l-8 border-retro-green pl-4 py-1.5 bg-retro-dark/50 shadow-sm">About</h3>
+            <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-4xl mb-12 hover:text-white transition-colors duration-300 font-bold">
+              {profile.summary}
+            </p>
+            
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+              <div>
+                <h4 className="font-pixel text-lg md:text-xl text-retro-yellow mb-6 flex items-center gap-3"><span className="text-2xl">🎓</span> Education</h4>
+                <div className="flex flex-col relative pt-2">
+                  {education.map((edu, i) => (
+                    <motion.div 
+                      key={edu.id} 
+                      className={`pixel-box bg-retro-dark border-[4px] md:border-[6px] border-retro-gray p-5 md:p-6 relative z-${10 - i} ${i > 0 ? '-mt-6' : ''} transition-all duration-500 hover:z-20 hover:border-retro-yellow hover:translate-x-6 hover:-translate-y-2 hover:shadow-[12px_12px_0_rgba(244,180,27,0.4)] group`}
+                    >
+                      <div className="font-pixel text-base md:text-lg text-white mb-2 group-hover:text-retro-yellow transition-colors">{edu.degree}</div>
+                      <div className="text-retro-light-blue text-base mb-2 font-bold">{edu.institution}</div>
+                      <div className="text-slate-400 text-xs md:text-sm font-pixel tracking-widest">{edu.date}</div>
+                    </motion.div>
                   ))}
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
+              </div>
 
-        <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28 mb-24">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-12 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Graduation Projects</h3>
-          <div className="space-y-24">
-            {gradProjects.map((proj, idx) => (
-              <ProjectCard 
-                key={proj.id}
-                proj={proj} 
-                idx={idx}
-                gradInfo={proj.gradInfo}
-              />
-            ))}
-          </div>
-        </motion.section>
+              <div>
+                <h4 className="font-pixel text-lg md:text-xl text-retro-light-green mb-6 flex items-center gap-3"><span className="text-2xl">⚔️</span> Experience</h4>
+                <div className="flex flex-col relative pt-2">
+                  {internships.map((int, i) => (
+                    <motion.div 
+                      key={int.id} 
+                      className={`pixel-box bg-retro-dark border-[4px] md:border-[6px] border-retro-gray p-5 md:p-6 relative z-${10 - i} ${i > 0 ? '-mt-6' : ''} transition-all duration-500 hover:z-20 hover:border-retro-light-green hover:translate-x-6 hover:-translate-y-2 hover:shadow-[12px_12px_0_rgba(131,235,114,0.4)] group`}
+                    >
+                      <div className="font-pixel text-base md:text-lg text-white mb-2 group-hover:text-retro-light-green transition-colors">{int.title}</div>
+                      <div className="text-retro-light-green text-base mb-2 font-bold">{int.institution}</div>
+                      <div className="text-slate-400 text-xs md:text-sm font-pixel tracking-widest mb-3">{int.date}</div>
+                      {int.description && (
+                        <div className="text-slate-300 text-sm md:text-base leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 group-hover:mt-3 transition-all duration-500 overflow-hidden">
+                          {int.description}
+                        </div>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.section>
+        </div>
 
-        <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-12 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Projects</h3>
-          <div className="space-y-24">
-            {normalProjects.map((proj, idx) => (
-              <ProjectCard key={proj.id} proj={proj} idx={idx} />
-            ))}
-          </div>
-        </motion.section>
-
-        <motion.section id="contact" 
-          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.5 } }
-          }}
-          className="pt-16 mt-32 scroll-mt-28 flex flex-col items-center relative z-10"
-        >
-          {/* 1. Quote */}
-          <motion.div 
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-            }}
-            className="w-full border-t-[6px] border-retro-light-green flex flex-col items-center justify-center pt-16 pb-32 shadow-[0_-20px_40px_-10px_rgba(131,235,114,0.15)] gap-6"
+        {/* SKILLS SECTION */}
+        <div className="w-full bg-retro-dark border-b-4 border-retro-gray">
+          <motion.section 
+            id="skills" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} 
+            className="scroll-mt-28 max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20"
           >
-            <p className="font-pixel text-retro-light-green text-xl md:text-3xl drop-shadow-[0_0_15px_rgba(131,235,114,0.8)] leading-loose text-center px-4 max-w-4xl">
-              “Why shouldn't people be able to teleport wherever they want?”
-            </p>
-            <p className="text-retro-light-blue text-base md:text-lg tracking-widest uppercase font-bold text-center">
-              — Palmer Luckey, Founder of Oculus VR
-            </p>
-          </motion.div>
+            <h3 className="font-pixel text-xl md:text-2xl text-retro-green mb-8 border-l-8 border-retro-green pl-4 py-1.5 bg-[#151722]/50 shadow-sm">Technical Arsenal</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              {Object.entries(profile.skills).map(([category, items], idx) => (
+                <motion.div 
+                  key={category} 
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="bg-[#151722] p-5 md:p-6 pixel-border border-[4px] border-retro-gray hover:border-retro-blue transition-colors"
+                >
+                  <h4 className="text-retro-light-blue font-bold text-base md:text-lg mb-4 uppercase tracking-widest">{category.replace('_', ' ')}</h4>
+                  <div className="flex flex-wrap gap-2 md:gap-3">
+                    {items.map(item => (
+                      <span key={item} className="bg-retro-purple hover:bg-retro-yellow hover:text-retro-dark hover:-translate-y-1 transition-all duration-300 px-3 py-1.5 md:py-2 text-xs md:text-sm border-2 border-retro-blue font-bold cursor-default shadow-sm">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        </div>
 
-          {/* 2. Teleport Bubble / Let's Connect */}
-          <motion.div 
+        {/* PROJECTS SECTION (Alternating Background) */}
+        <div className="w-full bg-[#151722] border-b-4 border-retro-gray">
+          <div className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
+            <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28 mb-16 md:mb-20">
+              <h3 className="font-pixel text-xl md:text-2xl text-retro-green mb-10 border-l-8 border-retro-green pl-4 py-1.5 bg-retro-dark/50 shadow-sm">Graduation Projects</h3>
+              <div className="space-y-16">
+                {gradProjects.map((proj, idx) => (
+                  <ProjectCard 
+                    key={proj.id}
+                    proj={proj} 
+                    idx={idx}
+                    gradInfo={proj.gradInfo}
+                  />
+                ))}
+              </div>
+            </motion.section>
+
+            <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
+              <h3 className="font-pixel text-xl md:text-2xl text-retro-green mb-10 border-l-8 border-retro-green pl-4 py-1.5 bg-retro-dark/50 shadow-sm">Projects</h3>
+              <div className="space-y-16">
+                {normalProjects.map((proj, idx) => (
+                  <ProjectCard key={proj.id} proj={proj} idx={idx} />
+                ))}
+              </div>
+            </motion.section>
+          </div>
+        </div>
+
+        {/* CONTACT SECTION */}
+        <div className="w-full bg-retro-dark">
+          <motion.section id="contact" 
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
             variants={{
-              hidden: { opacity: 0, scale: 0.5, filter: "blur(10px)" },
-              visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1, staggerChildren: 0.2, delayChildren: 0.4 } }
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.3 } }
             }}
-            className="w-full max-w-5xl border-[8px] border-retro-light-blue bg-retro-dark p-12 md:p-20 relative shadow-[0_0_50px_rgba(86,156,235,0.4)]"
+            className="pt-16 pb-32 scroll-mt-28 flex flex-col items-center relative z-10 max-w-6xl mx-auto px-6 md:px-12"
           >
-            {/* Teleportation aesthetic layers */}
-            <div className="absolute inset-0 bg-gradient-to-t from-retro-light-blue/20 to-transparent pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-full h-3 bg-retro-light-blue animate-pulse"></div>
-
-            <div className="relative z-10 text-center mb-16">
-              <h3 className="font-pixel text-4xl md:text-5xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] tracking-widest uppercase mb-6">
-                Teleport to Me
-              </h3>
-              <p className="text-retro-light-blue text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-bold">
-                Always down to discuss new projects, building immersive XR experiences or games. Step into a portal below to connect!
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+              }}
+              className="w-full border-t-[4px] md:border-t-[6px] border-retro-light-green flex flex-col items-center justify-center pt-12 pb-20 md:pb-24 shadow-[0_-15px_30px_-10px_rgba(131,235,114,0.15)] gap-5"
+            >
+              <p className="font-pixel text-retro-light-green text-lg md:text-2xl drop-shadow-[0_0_12px_rgba(131,235,114,0.8)] leading-loose text-center px-4 max-w-3xl">
+                “Why shouldn't people be able to teleport wherever they want?”
               </p>
-            </div>
+              <p className="text-retro-light-blue text-sm md:text-base tracking-widest uppercase font-bold text-center">
+                — Palmer Luckey, Founder of Oculus VR
+              </p>
+            </motion.div>
 
-            {/* 3. Teleport Pads */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12 relative z-10 pt-10">
-              
-              <motion.a 
-                href={`mailto:${profile.email}`}
-                variants={{ hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { type: "spring" } } }}
-                whileHover={{ scale: 1.1, y: -10 }}
-                className="flex flex-col items-center gap-6 group relative"
-              >
-                {/* Pad Base */}
-                <div className="w-24 h-24 rounded-full border-[6px] border-retro-yellow bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-yellow group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_30px_rgba(244,180,27,0.5)] group-hover:shadow-[0_0_50px_rgba(244,180,27,0.8)] relative overflow-hidden z-10">
-                  <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-                  <MailIcon />
-                </div>
-                {/* Beam */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-20 h-40 bg-gradient-to-t from-retro-yellow/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-full -z-10 blur-md pointer-events-none"></div>
-                <div className="text-center">
-                  <h4 className="font-pixel text-xl text-retro-yellow mb-2 tracking-wider">EMAIL</h4>
-                  <p className="text-slate-300 font-bold">{profile.email}</p>
-                </div>
-              </motion.a>
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, scale: 0.8, filter: "blur(5px)" },
+                visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.4, duration: 0.8, staggerChildren: 0.2, delayChildren: 0.3 } }
+              }}
+              className="w-full max-w-4xl border-[6px] md:border-[8px] border-retro-light-blue bg-[#151722] p-8 md:p-16 relative shadow-[0_0_40px_rgba(86,156,235,0.3)]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-retro-light-blue/10 to-transparent pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 w-full h-2 bg-retro-light-blue animate-pulse"></div>
 
-              <motion.div 
-                variants={{ hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { type: "spring" } } }}
-                whileHover={{ scale: 1.1, y: -10 }}
-                className="flex flex-col items-center gap-6 group relative"
-              >
-                <div className="w-24 h-24 rounded-full border-[6px] border-retro-light-green bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-light-green group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_30px_rgba(131,235,114,0.5)] group-hover:shadow-[0_0_50px_rgba(131,235,114,0.8)] relative overflow-hidden z-10">
-                  <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-                  <PhoneIcon />
-                </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-20 h-40 bg-gradient-to-t from-retro-light-green/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-full -z-10 blur-md pointer-events-none"></div>
-                <div className="text-center">
-                  <h4 className="font-pixel text-xl text-retro-light-green mb-2 tracking-wider">PHONE</h4>
-                  <p className="text-slate-300 font-bold">{profile.phone}</p>
-                </div>
-              </motion.div>
+              <div className="relative z-10 text-center mb-12">
+                <h3 className="font-pixel text-3xl md:text-4xl text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] tracking-widest uppercase mb-5">
+                  Teleport to Me
+                </h3>
+                <p className="text-retro-light-blue text-base md:text-lg max-w-xl mx-auto leading-relaxed font-bold">
+                  Always down to discuss new projects, building immersive XR experiences or games. Step into a portal below to connect!
+                </p>
+              </div>
 
-              <motion.div 
-                variants={{ hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { type: "spring" } } }}
-                whileHover={{ scale: 1.1, y: -10 }}
-                className="flex flex-col items-center gap-6 group relative"
-              >
-                <div className="w-24 h-24 rounded-full border-[6px] border-retro-red bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-red group-hover:text-white transition-all duration-300 shadow-[0_0_30px_rgba(217,87,99,0.5)] group-hover:shadow-[0_0_50px_rgba(217,87,99,0.8)] relative overflow-hidden z-10">
-                  <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-20 h-40 bg-gradient-to-t from-retro-red/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-full -z-10 blur-md pointer-events-none"></div>
-                <div className="text-center">
-                  <h4 className="font-pixel text-xl text-retro-red mb-2 tracking-wider">BASE</h4>
-                  <p className="text-slate-300 font-bold">{profile.location || "Earth"}</p>
-                </div>
-              </motion.div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 md:gap-8 relative z-10 pt-8">
+                
+                <motion.a 
+                  href={`mailto:${profile.email}`}
+                  variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { type: "spring" } } }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="flex flex-col items-center gap-5 group relative"
+                >
+                  <div className="w-20 h-20 rounded-full border-[4px] border-retro-yellow bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-yellow group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_20px_rgba(244,180,27,0.4)] group-hover:shadow-[0_0_40px_rgba(244,180,27,0.7)] relative overflow-hidden z-10">
+                    <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                    <MailIcon />
+                  </div>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-16 h-32 bg-gradient-to-t from-retro-yellow/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-full -z-10 blur-md pointer-events-none"></div>
+                  <div className="text-center">
+                    <h4 className="font-pixel text-lg text-retro-yellow mb-1 tracking-wider">EMAIL</h4>
+                    <p className="text-slate-300 font-bold text-sm">{profile.email}</p>
+                  </div>
+                </motion.a>
 
-            </div>
-          </motion.div>
-        </motion.section>
+                <motion.div 
+                  variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { type: "spring" } } }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="flex flex-col items-center gap-5 group relative"
+                >
+                  <div className="w-20 h-20 rounded-full border-[4px] border-retro-light-green bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-light-green group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_20px_rgba(131,235,114,0.4)] group-hover:shadow-[0_0_40px_rgba(131,235,114,0.7)] relative overflow-hidden z-10">
+                    <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                    <PhoneIcon />
+                  </div>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-16 h-32 bg-gradient-to-t from-retro-light-green/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-full -z-10 blur-md pointer-events-none"></div>
+                  <div className="text-center">
+                    <h4 className="font-pixel text-lg text-retro-light-green mb-1 tracking-wider">PHONE</h4>
+                    <p className="text-slate-300 font-bold text-sm">{profile.phone}</p>
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { type: "spring" } } }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="flex flex-col items-center gap-5 group relative"
+                >
+                  <div className="w-20 h-20 rounded-full border-[4px] border-retro-red bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-red group-hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(217,87,99,0.4)] group-hover:shadow-[0_0_40px_rgba(217,87,99,0.7)] relative overflow-hidden z-10">
+                    <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  </div>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-16 h-32 bg-gradient-to-t from-retro-red/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-full -z-10 blur-md pointer-events-none"></div>
+                  <div className="text-center">
+                    <h4 className="font-pixel text-lg text-retro-red mb-1 tracking-wider">BASE</h4>
+                    <p className="text-slate-300 font-bold text-sm">{profile.location || "Earth"}</p>
+                  </div>
+                </motion.div>
+
+              </div>
+            </motion.div>
+          </motion.section>
+        </div>
       </div>
     </div>
   );
