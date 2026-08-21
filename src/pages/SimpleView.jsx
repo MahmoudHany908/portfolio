@@ -65,7 +65,7 @@ const fadeUpVariant = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, type: 'spring', bounce: 0.4 } }
 };
 
-const ProjectCard = ({ proj, idx, customLogos }) => (
+const ProjectCard = ({ proj, idx, gradInfo }) => (
   <motion.div 
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -77,7 +77,6 @@ const ProjectCard = ({ proj, idx, customLogos }) => (
       <div>
         <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
           <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
-          {customLogos && <div className="flex items-center gap-3">{customLogos}</div>}
         </div>
         <div className="text-retro-light-blue text-base uppercase tracking-wider">{proj.role}</div>
       </div>
@@ -95,17 +94,39 @@ const ProjectCard = ({ proj, idx, customLogos }) => (
       </div>
     </div>
     
+    {gradInfo && (
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-yellow p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(244,180,27,0.15)] group-hover:shadow-[0_0_20px_rgba(244,180,27,0.3)] transition-all">
+        <div className="absolute top-0 left-0 w-2 h-full bg-retro-yellow"></div>
+        
+        {gradInfo.logos && (
+          <div className="flex flex-wrap gap-2 shrink-0">
+            {gradInfo.logos.map((logo, i) => (
+              <div key={i} className="w-16 h-16 shrink-0 bg-white rounded p-2 flex items-center justify-center border border-white/10 shadow-sm">
+                <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="flex-1">
+          <h5 className="font-pixel text-[10px] md:text-xs text-retro-yellow tracking-[0.2em] mb-2 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
+          <h3 className="font-pixel text-base md:text-lg text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
+        </div>
+        
+        <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-yellow/30 transform rotate-45"></div>
+      </div>
+    )}
+
     {proj.client && (
-      <div className="flex items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
         <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
         {proj.clientLogo && (
           <div className="w-16 h-16 shrink-0 bg-white/5 rounded p-2 flex items-center justify-center border border-white/10">
             <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
           </div>
         )}
-        <div>
-          <h5 className="font-pixel text-[10px] text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
-          <h3 className="font-pixel text-lg md:text-xl text-white tracking-widest">{proj.client}</h3>
+        <div className="flex-1">
+          <h5 className="font-pixel text-[10px] md:text-xs text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
+          <h3 className="font-pixel text-base md:text-lg text-white tracking-widest">{proj.client}</h3>
         </div>
         <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
       </div>
@@ -283,21 +304,25 @@ export default function SimpleView() {
               <ProjectCard 
                 proj={cyberSalvage} 
                 idx={0}
-                customLogos={
-                  <img src="/iti-logo.png" alt="ITI" className="h-10 md:h-12 object-contain bg-white/90 p-1.5 rounded-sm border border-white/20" />
-                } 
+                gradInfo={{
+                  title: "9-Month Program Graduation Project",
+                  text: "Information Technology Institute (ITI)",
+                  logos: [{ src: "/iti-logo.png", alt: "ITI" }]
+                }}
               />
             )}
             {learningLens && (
               <ProjectCard 
                 proj={learningLens} 
                 idx={1}
-                customLogos={
-                  <>
-                    <img src="/ainshams-logo.png" alt="Ain Shams" className="h-10 md:h-12 object-contain bg-white/90 p-1.5 rounded-sm border border-white/20" />
-                    <img src="/uel-logo.png" alt="UEL" className="h-10 md:h-12 object-contain bg-white/90 p-1.5 rounded-sm border border-white/20" />
-                  </>
-                } 
+                gradInfo={{
+                  title: "Bachelor's Graduation Project",
+                  text: "Ain Shams University & University of East London (UEL)",
+                  logos: [
+                    { src: "/ainshams-logo.png", alt: "Ain Shams" },
+                    { src: "/uel-logo.png", alt: "UEL" }
+                  ]
+                }}
               />
             )}
           </div>
