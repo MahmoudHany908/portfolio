@@ -72,26 +72,25 @@ const sectionFocusVariant = {
 
 const ProjectCard = ({ proj, idx, gradInfo }) => (
   <motion.div 
-    initial={{ opacity: 0, y: 50 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ delay: idx * 0.1, type: "spring", bounce: 0.3 }}
-    whileHover={{ scale: 1.02, x: 8 }}
-    className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-6 md:p-8 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group flex flex-col xl:flex-row gap-8 xl:gap-12"
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    transition={{ duration: 0.8 }}
+    className="w-full min-h-screen flex flex-col xl:flex-row border-b-8 border-retro-gray/20 group bg-retro-dark"
   >
-    {/* Left Column: Media & Actions */}
-    <div className="w-full xl:w-1/2 shrink-0 flex flex-col">
-      <div>
+    {/* Left Column: Media & Actions (Pinned/Sticky) */}
+    <div className="w-full xl:w-1/2 shrink-0 bg-black/40 relative border-r-0 xl:border-r-[6px] border-retro-gray/30">
+      <div className="xl:sticky xl:top-0 h-auto xl:h-screen flex flex-col justify-center p-8 md:p-12 lg:p-20 w-full">
         <VideoGallery singleVideo={proj.video} videos={proj.videos} />
         
-        <div className="flex flex-wrap gap-4 mt-6">
+        <div className="flex flex-wrap gap-4 mt-8 justify-center">
           {proj.githubLink && (
-            <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center px-4 py-3 text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+            <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center px-6 py-4 text-sm md:text-base shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
               <GithubIcon /> REPO
             </a>
           )}
           {proj.itchLink && (
-            <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center px-4 py-3 text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
+            <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center px-6 py-4 text-sm md:text-base shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
             </a>
           )}
         </div>
@@ -99,18 +98,16 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
     </div>
 
     {/* Right Column: Details & Tech */}
-    <div className="flex-1 flex flex-col">
-      <div className="flex flex-col mb-6 gap-2 border-b-2 border-retro-gray/30 pb-4">
-        <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
-        <div className="text-retro-light-blue text-sm md:text-base uppercase tracking-wider">{proj.role}</div>
+    <div className="flex-1 flex flex-col p-8 md:p-12 lg:p-20 justify-center min-h-screen">
+      <div className="flex flex-col mb-8 gap-3 border-b-[4px] border-retro-gray/30 pb-6">
+        <h4 className="font-pixel text-2xl md:text-4xl text-retro-yellow group-hover:text-white transition-colors leading-tight">{proj.title}</h4>
+        <div className="text-retro-light-blue text-base md:text-lg uppercase tracking-widest font-bold">{proj.role}</div>
       </div>
       
       {gradInfo && (
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-yellow p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(244,180,27,0.15)] group-hover:shadow-[0_0_20px_rgba(244,180,27,0.3)] transition-all">
-          <div className="absolute top-0 left-0 w-2 h-full bg-retro-yellow"></div>
-          
+        <div className="flex flex-col xl:flex-row items-start xl:items-center gap-6 bg-retro-dark/80 border-l-4 border-retro-yellow p-6 mb-10 shadow-lg">
           {gradInfo.logos && (
-            <div className="flex flex-wrap gap-2 shrink-0">
+            <div className="flex flex-wrap gap-3 shrink-0">
               {gradInfo.logos.map((logo, i) => (
                 <div key={i} className="w-16 h-16 shrink-0 bg-white rounded p-2 flex items-center justify-center border border-white/10 shadow-sm">
                   <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
@@ -122,14 +119,11 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
             <h5 className="font-pixel text-[10px] md:text-xs text-retro-yellow tracking-[0.2em] mb-2 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
             <h3 className="font-pixel text-base md:text-lg text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
           </div>
-          
-          <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-yellow/30 transform rotate-45"></div>
         </div>
       )}
 
       {proj.client && (
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
-          <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
+        <div className="flex flex-col xl:flex-row items-start xl:items-center gap-6 bg-retro-dark/80 border-l-4 border-retro-green p-6 mb-10 shadow-lg">
           {proj.clientLogo && (
             <div className="w-16 h-16 shrink-0 bg-white/5 rounded p-2 flex items-center justify-center border border-white/10">
               <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
@@ -139,19 +133,18 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
             <h5 className="font-pixel text-[10px] md:text-xs text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
             <h3 className="font-pixel text-base md:text-lg text-white tracking-widest">{proj.client}</h3>
           </div>
-          <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
         </div>
       )}
       
-      <p className="text-base md:text-lg text-slate-300 mb-8 leading-loose group-hover:text-white transition-colors">{proj.summary}</p>
+      <p className="text-lg md:text-xl text-slate-300 mb-10 leading-loose group-hover:text-white transition-colors">{proj.summary}</p>
       
       {proj.keyContributions && (
-        <div className="mb-8">
-          <h5 className="font-pixel text-sm md:text-base text-retro-yellow mb-5">Key Contributions</h5>
-          <ul className="space-y-4">
+        <div className="mb-12">
+          <h5 className="font-pixel text-base md:text-lg text-retro-yellow mb-6">Key Contributions</h5>
+          <ul className="space-y-5">
             {proj.keyContributions.map((contrib, i) => (
-              <li key={i} className="flex gap-4 text-slate-300 text-base md:text-lg leading-relaxed group-hover:text-white transition-colors">
-                <span className="text-retro-light-green shrink-0 mt-1 text-sm">►</span>
+              <li key={i} className="flex gap-5 text-slate-300 text-lg leading-relaxed group-hover:text-white transition-colors">
+                <span className="text-retro-light-green shrink-0 mt-1 text-base">►</span>
                 <span>{contrib}</span>
               </li>
             ))}
@@ -159,12 +152,12 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
         </div>
       )}
       
-      <div className="flex flex-wrap justify-start w-full gap-3 mt-auto pt-8 group/tech relative border-t-2 border-retro-gray/30">
+      <div className="flex flex-wrap justify-start w-full gap-3 mt-auto pt-10 border-t-[4px] border-retro-gray/30 group/tech">
         {proj.tech.map(t => (
           <span 
             key={t} 
             title={`Click or hover to learn how ${t} was utilized (data needed)`}
-            className="bg-retro-gray px-3 py-2 text-xs md:text-sm border-2 border-white/20 text-white shadow-sm font-bold text-center transition-all duration-300 group-hover/tech:scale-95 group-hover/tech:opacity-50 hover:!scale-110 hover:!opacity-100 hover:!border-retro-yellow hover:!text-retro-yellow hover:!bg-retro-dark hover:z-10 hover:shadow-[0_0_15px_rgba(244,180,27,0.6)] cursor-help flex items-center justify-center"
+            className="bg-retro-gray px-4 py-2 text-sm md:text-base border-2 border-white/20 text-white shadow-sm font-bold text-center transition-all duration-300 hover:-translate-y-1 hover:border-retro-yellow hover:text-retro-yellow hover:bg-retro-dark cursor-help"
           >
             {t}
           </span>
@@ -208,11 +201,11 @@ export default function SimpleView() {
         </div>
       </nav>
 
-      <div className="px-4 md:px-8 lg:px-12 py-12 max-w-5xl mx-auto w-full space-y-24 md:space-y-32 pb-32 relative z-10">
+      <div className="w-full pb-32 relative z-10 overflow-x-hidden">
         
         <motion.header 
           initial="hidden" animate="visible" variants={fadeUpVariant}
-          className="flex flex-col md:flex-row justify-between items-start md:items-start gap-8 border-b-6 border-retro-gray pb-12 pt-8"
+          className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-16 flex flex-col md:flex-row justify-between items-start md:items-start gap-8 border-b-6 border-retro-gray pb-12"
         >
           <div className="flex flex-col md:flex-row items-start md:items-start gap-8 group w-full">
             <div className="relative shrink-0">
@@ -258,7 +251,7 @@ export default function SimpleView() {
           </div>
         </motion.header>
 
-        <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="scroll-mt-28">
+        <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-32 scroll-mt-28">
           <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">About</h3>
           <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto text-center mb-12 hover:text-white transition-colors duration-300">
             {profile.summary}
@@ -306,7 +299,7 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section id="skills" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="scroll-mt-28">
+        <motion.section id="skills" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-32 scroll-mt-28">
           <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">Technical Arsenal</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {Object.entries(profile.skills).map(([category, items], idx) => (
@@ -330,9 +323,9 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="scroll-mt-28 mb-24">
-          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">Graduation Projects</h3>
-          <div className="space-y-16">
+        <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="w-full pt-32 scroll-mt-28 bg-retro-dark">
+          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-16 text-center pb-4 border-b-4 border-retro-gray border-dashed max-w-5xl mx-auto px-4">Graduation Projects</h3>
+          <div className="w-full flex flex-col">
             {gradProjects.map((proj, idx) => (
               <ProjectCard 
                 key={proj.id}
@@ -344,9 +337,9 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="scroll-mt-28">
-          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">Projects</h3>
-          <div className="space-y-16">
+        <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="w-full pt-32 scroll-mt-28 bg-retro-dark">
+          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-16 text-center pb-4 border-b-4 border-retro-gray border-dashed max-w-5xl mx-auto px-4">Projects</h3>
+          <div className="w-full flex flex-col">
             {normalProjects.map((proj, idx) => (
               <ProjectCard key={proj.id} proj={proj} idx={idx} />
             ))}
@@ -355,7 +348,7 @@ export default function SimpleView() {
 
         <motion.section id="contact" 
           initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant}
-          className="pt-16 mt-32 scroll-mt-28 flex flex-col items-center relative z-10 w-full"
+          className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-32 mt-16 scroll-mt-28 flex flex-col items-center relative z-10 w-full"
         >
           <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed w-full max-w-5xl">Contact</h3>
           {/* 1. Quote */}
