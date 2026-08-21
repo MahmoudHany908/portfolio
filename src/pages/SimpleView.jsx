@@ -266,7 +266,8 @@ export default function SimpleView() {
               {internships.map(int => (
                 <div key={int.id} className="mb-6 last:mb-0">
                   <div className="font-bold text-white text-lg md:text-xl mb-1">{int.title}</div>
-                  <div className="text-retro-light-green text-base">{int.institution} • {int.date}</div>
+                  <div className="text-retro-light-green text-base mb-2">{int.institution} • {int.date}</div>
+                  {int.description && <div className="text-slate-300 text-sm md:text-base leading-relaxed">{int.description}</div>}
                 </div>
               ))}
             </motion.div>

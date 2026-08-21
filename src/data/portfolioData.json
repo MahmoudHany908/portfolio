@@ -21,12 +21,6 @@
   },
   "education": [
     {
-      "id": "iti",
-      "degree": "9-Month Post-Graduate Diploma - Game Programming Track",
-      "institution": "Information Technology Institute (ITI)",
-      "date": "10/2025 - Present"
-    },
-    {
       "id": "ainshams",
       "degree": "Bachelor of Computer and Information Sciences (Digital Multimedia)",
       "institution": "Ain Shams University and University of East London",
@@ -36,16 +30,18 @@
   ],
   "internships": [
     {
-      "id": "cib",
-      "title": "Internship Trainee",
-      "institution": "CIB Egypt",
-      "date": "07/2024 - 08/2024"
+      "id": "nbe",
+      "title": "Unity Developer (Contract)",
+      "institution": "National Bank of Egypt (NBE)",
+      "date": "05/2026 - 08/2026",
+      "description": "Engineered the core C# gameplay architecture, UI layouts, and meta-progression systems for Cyber Salvage, a commissioned mobile title."
     },
     {
-      "id": "iti_train",
-      "title": "Game Development Training using Unity",
+      "id": "iti_9_month",
+      "title": "Game Developer Trainee",
       "institution": "Information Technology Institute (ITI)",
-      "date": "07/2024 - 08/2024"
+      "date": "10/2025 - 08/2026",
+      "description": "Participated in an intensive, full-time 9-month game programming incubator, building full-scale VR/AR and desktop titles using Unity, C#, and .NET."
     }
   ],
   "nodes": [
