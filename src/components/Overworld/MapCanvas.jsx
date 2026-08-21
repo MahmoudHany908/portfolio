@@ -421,10 +421,17 @@ export default function MapCanvas({ onNodeSelect, onAimFire, discovered, unlocke
             {/* Invisible Drag Handle for Aiming */}
             {!isWalking && !isShooting && (
               <div 
-                className={`absolute w-32 h-32 bottom-0 mb-[-16px] rounded-full z-50 ${isAimDragging ? 'cursor-crosshair' : 'cursor-grab active:cursor-grabbing'}`}
+                className={`absolute w-32 h-32 bottom-0 mb-[-16px] rounded-full z-50 pointer-events-auto ${isAimDragging ? 'cursor-crosshair' : 'cursor-grab active:cursor-grabbing'}`}
                 style={{ touchAction: 'none' }}
                 onPointerDown={handleAimPointerDown}
-              />
+              >
+                {/* Visual Aid */}
+                {!isAimDragging && (
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-pixel text-[10px] text-retro-yellow bg-retro-dark/80 px-2 py-1 border border-retro-yellow whitespace-nowrap animate-bounce drop-shadow-md pointer-events-none tracking-widest">
+                    PULL TO AIM
+                  </div>
+                )}
+              </div>
             )}
 
             <div className="pointer-events-none">
