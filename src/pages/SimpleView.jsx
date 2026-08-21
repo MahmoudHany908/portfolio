@@ -95,60 +95,58 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
       </div>
     </div>
 
-    {/* Right Column: Details & Tech */}
-    <div className="flex-1 flex flex-col p-4 md:p-6 lg:p-8 justify-between">
-      <div>
-        <div className="flex flex-col mb-4 gap-2 border-b-[4px] border-retro-gray/30 pb-3">
-          <h4 className="font-pixel text-xl lg:text-2xl text-retro-yellow group-hover:text-white transition-colors leading-tight">{proj.title}</h4>
-          <div className="text-retro-light-blue text-xs md:text-sm uppercase tracking-widest font-bold">{proj.role}</div>
-        </div>
-        
-        <div className="flex-1 flex flex-col gap-4 mb-4">
-          {(gradInfo || proj.client) && (
-            <div className="w-full flex-1 flex flex-col gap-4">
-              {gradInfo && (
-                <div className="flex-1 flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-3 shadow-sm h-full justify-center">
-                  {gradInfo.logos && (
-                    <div className="flex flex-wrap gap-2 shrink-0">
-                      {gradInfo.logos.map((logo, i) => (
-                        <div key={i} className="w-10 h-10 shrink-0 bg-white rounded p-1 flex items-center justify-center border border-white/10 shadow-sm">
-                          <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] mb-1 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
-                    <h3 className="font-pixel text-xs md:text-sm text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
-                  </div>
-                </div>
-              )}
-
-              {proj.client && (
-                <div className="flex-1 flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-green p-3 shadow-sm h-full justify-center">
-                  {proj.clientLogo && (
-                    <div className="w-10 h-10 shrink-0 bg-white/5 rounded p-1 flex items-center justify-center border border-white/10">
-                      <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    <h5 className="font-pixel text-[9px] text-retro-light-green tracking-[0.2em] mb-1 uppercase opacity-80">Commissioned By</h5>
-                    <h3 className="font-pixel text-xs md:text-sm text-white tracking-widest">{proj.client}</h3>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          
-          <div className={`w-full flex flex-col justify-center ${(gradInfo || proj.client) ? 'flex-1' : ''}`}>
-            <p className="text-sm lg:text-base text-slate-300 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
-          </div>
-        </div>
-        
-
+    <div className="flex-1 flex flex-col p-6 md:p-8 lg:p-12">
+      
+      <div className="flex flex-col gap-2 border-b-[4px] border-retro-gray/30 pb-4 shrink-0">
+        <h4 className="font-pixel text-xl lg:text-2xl text-retro-yellow group-hover:text-white transition-colors leading-tight">{proj.title}</h4>
+        <div className="text-retro-light-blue text-xs md:text-sm uppercase tracking-widest font-bold">{proj.role}</div>
       </div>
       
-      <div className="flex flex-wrap justify-start w-full gap-2 mt-2 pt-4 border-t-[4px] border-retro-gray/30 group/tech shrink-0">
+      <div className="flex-1 flex flex-col justify-evenly py-6">
+        {(gradInfo || proj.client) && (
+          <div className="w-full flex flex-col gap-4">
+            {gradInfo && (
+              <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-4 shadow-sm justify-center">
+                {gradInfo.logos && (
+                  <div className="flex flex-wrap gap-2 shrink-0">
+                    {gradInfo.logos.map((logo, i) => (
+                      <div key={i} className="w-10 h-10 shrink-0 bg-white rounded p-1 flex items-center justify-center border border-white/10 shadow-sm">
+                        <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="flex-1">
+                  <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] mb-1 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
+                  <h3 className="font-pixel text-xs md:text-sm text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
+                </div>
+              </div>
+            )}
+
+            {proj.client && (
+              <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-green p-4 shadow-sm justify-center">
+                {proj.clientLogo && (
+                  <div className="w-10 h-10 shrink-0 bg-white/5 rounded p-1 flex items-center justify-center border border-white/10">
+                    <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <h5 className="font-pixel text-[9px] text-retro-light-green tracking-[0.2em] mb-1 uppercase opacity-80">Commissioned By</h5>
+                  <h3 className="font-pixel text-xs md:text-sm text-white tracking-widest">{proj.client}</h3>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        
+        <div className="w-full">
+          <p className="text-sm lg:text-base text-slate-300 leading-loose group-hover:text-white transition-colors text-justify">
+            {proj.summary}
+          </p>
+        </div>
+      </div>
+      
+      <div className="flex flex-wrap justify-start w-full gap-2 pt-6 border-t-[4px] border-retro-gray/30 group/tech shrink-0">
         {proj.tech.map(t => (
           <span 
             key={t} 
