@@ -135,7 +135,7 @@
       "summary": "A mobile game commissioned by the National Bank of Egypt that mixes arena survival with a financial economy sim. Players jump into the arena to fight and gather resources, then head back to the hub to invest and upgrade a factory using simulated market mechanics. The project successfully transforms financial literacy into a genuinely rewarding gameplay loop.",
       "keyContributions": [
         "Architected scalable C# gameplay systems utilizing Object-Oriented Programming (OOP) principles and the Dependency Injection design pattern to decouple components and manage memory efficiently.",
-        "Engineered dynamic UI layouts using Unity's UI Toolkit and implemented meta-progression systems to balance the economy across the arena survival and factory management loops."
+        "Engineered dynamic UI layouts using Unity's Legacy UI and implemented meta-progression systems to balance the economy across the arena survival and factory management loops."
       ],
       "video": "https://player.vimeo.com/video/1219429500",
       "x": 1150,
