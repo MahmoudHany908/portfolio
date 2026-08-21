@@ -65,9 +65,87 @@ const fadeUpVariant = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, type: 'spring', bounce: 0.4 } }
 };
 
+const ProjectCard = ({ proj, idx, customLogos }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ delay: idx * 0.1, type: "spring", bounce: 0.3 }}
+    whileHover={{ scale: 1.02, x: 8 }}
+    className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-6 md:p-8 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group"
+  >
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-5">
+      <div>
+        <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
+          <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
+          {customLogos && <div className="flex items-center gap-3">{customLogos}</div>}
+        </div>
+        <div className="text-retro-light-blue text-base uppercase tracking-wider">{proj.role}</div>
+      </div>
+      <div className="flex gap-4">
+        {proj.githubLink && (
+          <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center self-start">
+            <GithubIcon /> CODE
+          </a>
+        )}
+        {proj.itchLink && (
+          <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center self-start">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
+          </a>
+        )}
+      </div>
+    </div>
+    
+    {proj.client && (
+      <div className="flex items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
+        <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
+        {proj.clientLogo && (
+          <div className="w-16 h-16 shrink-0 bg-white/5 rounded p-2 flex items-center justify-center border border-white/10">
+            <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+          </div>
+        )}
+        <div>
+          <h5 className="font-pixel text-[10px] text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
+          <h3 className="font-pixel text-lg md:text-xl text-white tracking-widest">{proj.client}</h3>
+        </div>
+        <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
+      </div>
+    )}
+    
+    <div className="mb-8">
+      <VideoGallery singleVideo={proj.video} videos={proj.videos} />
+    </div>
+    
+    <p className="text-lg text-slate-300 mb-6 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
+    
+    {proj.keyContributions && (
+      <div className="mb-8">
+        <h5 className="font-pixel text-sm text-retro-yellow mb-4">Key Contributions</h5>
+        <ul className="space-y-3">
+          {proj.keyContributions.map((contrib, i) => (
+            <li key={i} className="flex gap-4 text-slate-300 text-base md:text-lg leading-relaxed group-hover:text-white transition-colors">
+              <span className="text-retro-light-green shrink-0 mt-1">►</span>
+              <span>{contrib}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    
+    <div className="flex flex-wrap gap-3">
+      {proj.tech.map(t => (
+        <span key={t} className="bg-retro-gray px-3 py-1.5 text-xs md:text-sm border-2 border-white/20 text-white shadow-sm font-bold">{t}</span>
+      ))}
+    </div>
+  </motion.div>
+);
+
 export default function SimpleView() {
   const { profile, education, internships, nodes } = portfolioData;
   const projects = nodes.filter(n => n.type === 'project');
+
+  const cyberSalvage = projects.find(n => n.id === 'proj2');
+  const learningLens = projects.find(n => n.id === 'proj1');
+  const normalProjects = projects.filter(n => n.id !== 'proj2' && n.id !== 'proj1');
 
   return (
     <div className="min-h-screen bg-retro-dark text-retro-text font-sans relative">
@@ -198,83 +276,38 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
+        <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28 mb-16">
+          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-8 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Graduation Projects</h3>
+          <div className="space-y-12">
+            {cyberSalvage && (
+              <ProjectCard 
+                proj={cyberSalvage} 
+                idx={0}
+                customLogos={
+                  <img src="/iti-logo.png" alt="ITI" className="h-10 md:h-12 object-contain bg-white/90 p-1.5 rounded-sm border border-white/20" />
+                } 
+              />
+            )}
+            {learningLens && (
+              <ProjectCard 
+                proj={learningLens} 
+                idx={1}
+                customLogos={
+                  <>
+                    <img src="/ainshams-logo.png" alt="Ain Shams" className="h-10 md:h-12 object-contain bg-white/90 p-1.5 rounded-sm border border-white/20" />
+                    <img src="/uel-logo.png" alt="UEL" className="h-10 md:h-12 object-contain bg-white/90 p-1.5 rounded-sm border border-white/20" />
+                  </>
+                } 
+              />
+            )}
+          </div>
+        </motion.section>
+
         <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
           <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-8 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Projects</h3>
           <div className="space-y-12">
-            {projects.map((proj, idx) => (
-              <motion.div 
-                key={proj.id} 
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1, type: "spring", bounce: 0.3 }}
-                whileHover={{ scale: 1.02, x: 8 }}
-                className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-6 md:p-8 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group"
-              >
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-5">
-                  <div>
-                    <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
-                      <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
-                    </div>
-                    <div className="text-retro-light-blue text-base uppercase tracking-wider">{proj.role}</div>
-                  </div>
-                  {proj.githubLink && (
-                    <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center self-start">
-                      <GithubIcon /> CODE
-                    </a>
-                  )}
-                  {proj.itchLink && (
-                    <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center self-start">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
-                    </a>
-                  )}
-                </div>
-                
-                {proj.client && (
-                  <div className="flex items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
-                    {/* Decorative side bar */}
-                    <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
-                    
-                    {proj.clientLogo && (
-                      <div className="w-16 h-16 shrink-0 bg-white/5 rounded p-2 flex items-center justify-center border border-white/10">
-                        <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
-                      </div>
-                    )}
-                    <div>
-                      <h5 className="font-pixel text-[10px] text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
-                      <h3 className="font-pixel text-lg md:text-xl text-white tracking-widest">{proj.client}</h3>
-                    </div>
-                    
-                    {/* Retro decorative elements */}
-                    <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
-                  </div>
-                )}
-                
-                <div className="mb-8">
-                  <VideoGallery singleVideo={proj.video} videos={proj.videos} />
-                </div>
-                
-                <p className="text-lg text-slate-300 mb-6 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
-                
-                {proj.keyContributions && (
-                  <div className="mb-8">
-                    <h5 className="font-pixel text-sm text-retro-yellow mb-4">Key Contributions</h5>
-                    <ul className="space-y-3">
-                      {proj.keyContributions.map((contrib, i) => (
-                        <li key={i} className="flex gap-4 text-slate-300 text-base md:text-lg leading-relaxed group-hover:text-white transition-colors">
-                          <span className="text-retro-light-green shrink-0 mt-1">►</span>
-                          <span>{contrib}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                
-                <div className="flex flex-wrap gap-3">
-                  {proj.tech.map(t => (
-                    <span key={t} className="bg-retro-gray px-3 py-1.5 text-xs md:text-sm border-2 border-white/20 text-white shadow-sm font-bold">{t}</span>
-                  ))}
-                </div>
-              </motion.div>
+            {normalProjects.map((proj, idx) => (
+              <ProjectCard key={proj.id} proj={proj} idx={idx} />
             ))}
           </div>
         </motion.section>
