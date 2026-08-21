@@ -137,19 +137,7 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
         
         <p className="text-sm lg:text-base text-slate-300 mb-4 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
         
-        {proj.keyContributions && (
-          <div className="mb-4">
-            <h5 className="font-pixel text-xs md:text-sm text-retro-yellow mb-2">Key Contributions</h5>
-            <ul className="space-y-2">
-              {proj.keyContributions.map((contrib, i) => (
-                <li key={i} className="flex gap-3 text-slate-300 text-xs lg:text-sm leading-relaxed group-hover:text-white transition-colors">
-                  <span className="text-retro-light-green shrink-0 mt-0.5 text-xs">►</span>
-                  <span>{contrib}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+
       </div>
       
       <div className="flex flex-wrap justify-start w-full gap-2 mt-2 pt-4 border-t-[4px] border-retro-gray/30 group/tech shrink-0">
