@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Smartphone } from 'lucide-react';
 import MapCanvas from '../components/Overworld/MapCanvas';
-import AimOverlay from '../components/Overworld/AimOverlay';
 import ModalOverlay from '../components/UI/ModalOverlay';
 import GameHUD from '../components/UI/GameHUD';
 import SimpleViewToggle from '../components/UI/SimpleViewToggle';
@@ -39,20 +38,11 @@ export default function Overworld() {
   const [shootingTarget, setShootingTarget] = useState(null);
   const [hitNodeId, setHitNodeId] = useState(null);
 
-  // Aim Mode State
-  const [aimMode, setAimMode] = useState(true);
-  const canvasInfoRef = useRef({ scale: 1, left: 0, top: 0 });
-
-  // Callback for MapCanvas to report its current transform values
-  const onCanvasTransform = useCallback((info) => {
-    canvasInfoRef.current = info;
-  }, []);
-
-  // Hit detection: find the closest node within 100px radius of the aimed map position
+  // Hit detection: find the closest node within 150px radius of the aimed map position
   const handleAimFire = useCallback((mapX, mapY) => {
     if (activeNode || isWalking || isDrawing || isShooting) return;
 
-    const HIT_RADIUS = 100;
+    const HIT_RADIUS = 150;
     let closestNode = null;
     let closestDist = Infinity;
 
@@ -174,6 +164,7 @@ export default function Overworld() {
     <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-dark select-none touch-none">
       <MapCanvas 
         onNodeSelect={handleNodeSelect} 
+        onAimFire={handleAimFire}
         discovered={discovered} 
         unlocked={unlocked}
         playerPos={playerPos}
@@ -185,8 +176,6 @@ export default function Overworld() {
         isShooting={isShooting}
         shootingTarget={shootingTarget}
         hitNodeId={hitNodeId}
-        aimMode={aimMode}
-        onCanvasTransform={onCanvasTransform}
       />
       
       {/* Victory Banner Overlay */}
@@ -233,16 +222,6 @@ export default function Overworld() {
       />
 
       <TutorialOverlay />
-
-      {/* Aim Mode Overlay */}
-      <AimOverlay
-        aimMode={aimMode}
-        onFire={handleAimFire}
-        scale={canvasInfoRef.current.scale}
-        cameraOffset={{ left: canvasInfoRef.current.left, top: canvasInfoRef.current.top }}
-        playerPos={playerPos}
-        isMobileLayout={isMobileLayout}
-      />
 
       {/* Mobile Landscape Lock Screen */}
       {isLandscapeMobile && (
