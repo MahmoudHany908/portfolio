@@ -40,7 +40,7 @@ export default function Overworld() {
   const [hitNodeId, setHitNodeId] = useState(null);
 
   // Aim Mode State
-  const [aimMode, setAimMode] = useState(false);
+  const [aimMode, setAimMode] = useState(true);
   const canvasInfoRef = useRef({ scale: 1, left: 0, top: 0 });
 
   // Callback for MapCanvas to report its current transform values

@@ -1,9 +1,8 @@
 import React from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import SimpleViewToggle from './SimpleViewToggle';
 
-export default function GameHUD({ discoveredCount, totalNodes, muted, setMuted, aimMode, setAimMode }) {
+export default function GameHUD({ discoveredCount, totalNodes, muted, setMuted }) {
   const percentage = (discoveredCount / totalNodes) * 100;
   const isComplete = discoveredCount === totalNodes;
 
@@ -26,33 +25,15 @@ export default function GameHUD({ discoveredCount, totalNodes, muted, setMuted, 
         </div>
       </div>
 
-      {/* Bottom Control Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 md:h-20 bg-retro-dark border-t-4 border-slate-600 shadow-2xl flex items-center justify-between px-4 md:px-8 z-40 pointer-events-auto">
+      {/* Centered Bottom Floating Controls */}
+      <div className="absolute bottom-6 md:bottom-10 left-0 right-0 flex items-center justify-center gap-4 md:gap-8 z-40 pointer-events-auto px-4">
         <SimpleViewToggle />
         
-        <Link to="/preview" className="pixel-btn bg-retro-yellow text-retro-dark hover:bg-white transition-colors text-[10px] md:text-sm px-4 py-2 border-4 mx-2">
-          SEE PREVIEW
-        </Link>
-
-        {/* Aim Mode Toggle */}
         <button 
-          tabIndex={-1}
-          className={`pixel-btn transition-colors shadow-xl text-center text-[10px] md:text-lg px-2 md:px-6 py-2 md:py-4 border-4 flex items-center justify-center gap-2 h-10 md:h-16 w-24 md:w-48 ${
-            aimMode 
-              ? 'bg-retro-yellow text-retro-dark border-white shadow-[0_0_20px_rgba(244,180,27,0.5)]' 
-              : 'bg-[#8b5a2b] hover:bg-[#a0692b] text-white border-[#6b3a1b]'
-          }`}
-          onClick={() => setAimMode(!aimMode)}
-        >
-          <span className="text-lg md:text-2xl">🏹</span>
-          <span>{aimMode ? 'AIM ON' : 'AIM'}</span>
-        </button>
-        
-        <button 
-          className="pixel-btn bg-[#569ceb] hover:bg-[#83eb72] transition-colors shadow-xl text-center text-[10px] md:text-lg px-2 md:px-8 py-2 md:py-4 border-4 flex items-center justify-center gap-2 text-white h-10 md:h-16 w-28 md:w-64"
+          className="pixel-btn bg-[#569ceb] hover:bg-[#83eb72] transition-colors shadow-[8px_8px_0_rgba(0,0,0,0.5)] text-center text-sm md:text-2xl px-6 md:px-12 py-3 md:py-6 border-4 flex items-center justify-center gap-3 text-white h-14 md:h-20"
           onClick={() => setMuted(!muted)}
         >
-          {muted ? <VolumeX size={16} className="md:w-6 md:h-6" /> : <Volume2 size={16} className="md:w-6 md:h-6" />}
+          {muted ? <VolumeX size={24} className="w-5 h-5 md:w-8 md:h-8" /> : <Volume2 size={24} className="w-5 h-5 md:w-8 md:h-8" />}
           <span>{muted ? "UNMUTE SFX" : "MUTE SFX"}</span>
         </button>
       </div>
