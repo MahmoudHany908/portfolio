@@ -76,97 +76,100 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ delay: idx * 0.1, type: "spring", bounce: 0.3 }}
     whileHover={{ scale: 1.02, x: 8 }}
-    className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-6 md:p-8 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group"
+    className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-6 md:p-8 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group flex flex-col xl:flex-row gap-8 xl:gap-12"
   >
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-5">
-      <div>
-        <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
-          <h4 className="font-pixel text-lg md:text-xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
+    {/* Left Column: Media & Actions */}
+    <div className="w-full xl:w-5/12 shrink-0 flex flex-col">
+      <div className="xl:sticky xl:top-32">
+        <VideoGallery singleVideo={proj.video} videos={proj.videos} />
+        
+        <div className="flex flex-wrap gap-4 mt-6">
+          {proj.githubLink && (
+            <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center px-4 py-3 text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+              <GithubIcon /> REPO
+            </a>
+          )}
+          {proj.itchLink && (
+            <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center px-4 py-3 text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
+            </a>
+          )}
         </div>
+      </div>
+    </div>
+
+    {/* Right Column: Details & Tech */}
+    <div className="flex-1 flex flex-col">
+      <div className="flex flex-col mb-6 gap-2 border-b-2 border-retro-gray/30 pb-4">
+        <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
         <div className="text-retro-light-blue text-sm md:text-base uppercase tracking-wider">{proj.role}</div>
       </div>
-      <div className="flex gap-4">
-        {proj.githubLink && (
-          <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center self-start px-5 py-3 md:px-6 md:py-3 text-sm md:text-lg shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
-            <GithubIcon /> REPOSITORY
-          </a>
-        )}
-        {proj.itchLink && (
-          <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center self-start px-5 py-3 md:px-6 md:py-3 text-sm md:text-lg shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
-          </a>
-        )}
-      </div>
-    </div>
-    
-    {gradInfo && (
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-yellow p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(244,180,27,0.15)] group-hover:shadow-[0_0_20px_rgba(244,180,27,0.3)] transition-all">
-        <div className="absolute top-0 left-0 w-2 h-full bg-retro-yellow"></div>
-        
-        {gradInfo.logos && (
-          <div className="flex flex-wrap gap-2 shrink-0">
-            {gradInfo.logos.map((logo, i) => (
-              <div key={i} className="w-16 h-16 shrink-0 bg-white rounded p-2 flex items-center justify-center border border-white/10 shadow-sm">
-                <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
-              </div>
-            ))}
+      
+      {gradInfo && (
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-yellow p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(244,180,27,0.15)] group-hover:shadow-[0_0_20px_rgba(244,180,27,0.3)] transition-all">
+          <div className="absolute top-0 left-0 w-2 h-full bg-retro-yellow"></div>
+          
+          {gradInfo.logos && (
+            <div className="flex flex-wrap gap-2 shrink-0">
+              {gradInfo.logos.map((logo, i) => (
+                <div key={i} className="w-16 h-16 shrink-0 bg-white rounded p-2 flex items-center justify-center border border-white/10 shadow-sm">
+                  <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="flex-1">
+            <h5 className="font-pixel text-[10px] md:text-xs text-retro-yellow tracking-[0.2em] mb-2 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
+            <h3 className="font-pixel text-base md:text-lg text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
           </div>
-        )}
-        <div className="flex-1">
-          <h5 className="font-pixel text-[10px] md:text-xs text-retro-yellow tracking-[0.2em] mb-2 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
-          <h3 className="font-pixel text-base md:text-lg text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
+          
+          <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-yellow/30 transform rotate-45"></div>
         </div>
-        
-        <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-yellow/30 transform rotate-45"></div>
-      </div>
-    )}
+      )}
 
-    {proj.client && (
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
-        <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
-        {proj.clientLogo && (
-          <div className="w-16 h-16 shrink-0 bg-white/5 rounded p-2 flex items-center justify-center border border-white/10">
-            <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+      {proj.client && (
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-retro-dark/80 border-2 border-retro-green p-4 mb-8 relative overflow-hidden shadow-[0_0_15px_rgba(131,235,114,0.15)] group-hover:shadow-[0_0_20px_rgba(131,235,114,0.3)] transition-all">
+          <div className="absolute top-0 left-0 w-2 h-full bg-retro-green"></div>
+          {proj.clientLogo && (
+            <div className="w-16 h-16 shrink-0 bg-white/5 rounded p-2 flex items-center justify-center border border-white/10">
+              <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+            </div>
+          )}
+          <div className="flex-1">
+            <h5 className="font-pixel text-[10px] md:text-xs text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
+            <h3 className="font-pixel text-base md:text-lg text-white tracking-widest">{proj.client}</h3>
           </div>
-        )}
-        <div className="flex-1">
-          <h5 className="font-pixel text-[10px] md:text-xs text-retro-light-green tracking-[0.2em] mb-2 uppercase opacity-80">Commissioned By</h5>
-          <h3 className="font-pixel text-base md:text-lg text-white tracking-widest">{proj.client}</h3>
+          <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
         </div>
-        <div className="absolute -bottom-4 -right-4 w-16 h-16 border-t-2 border-l-2 border-retro-green/30 transform rotate-45"></div>
+      )}
+      
+      <p className="text-base md:text-lg text-slate-300 mb-8 leading-loose group-hover:text-white transition-colors">{proj.summary}</p>
+      
+      {proj.keyContributions && (
+        <div className="mb-8">
+          <h5 className="font-pixel text-sm md:text-base text-retro-yellow mb-5">Key Contributions</h5>
+          <ul className="space-y-4">
+            {proj.keyContributions.map((contrib, i) => (
+              <li key={i} className="flex gap-4 text-slate-300 text-base md:text-lg leading-relaxed group-hover:text-white transition-colors">
+                <span className="text-retro-light-green shrink-0 mt-1 text-sm">►</span>
+                <span>{contrib}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      
+      <div className="flex flex-wrap justify-start w-full gap-3 mt-auto pt-8 group/tech relative border-t-2 border-retro-gray/30">
+        {proj.tech.map(t => (
+          <span 
+            key={t} 
+            title={`Click or hover to learn how ${t} was utilized (data needed)`}
+            className="bg-retro-gray px-3 py-2 text-xs md:text-sm border-2 border-white/20 text-white shadow-sm font-bold text-center transition-all duration-300 group-hover/tech:scale-95 group-hover/tech:opacity-50 hover:!scale-110 hover:!opacity-100 hover:!border-retro-yellow hover:!text-retro-yellow hover:!bg-retro-dark hover:z-10 hover:shadow-[0_0_15px_rgba(244,180,27,0.6)] cursor-help flex items-center justify-center"
+          >
+            {t}
+          </span>
+        ))}
       </div>
-    )}
-    
-    <div className="mb-8">
-      <VideoGallery singleVideo={proj.video} videos={proj.videos} />
-    </div>
-    
-    <p className="text-base md:text-lg text-slate-300 mb-8 leading-loose group-hover:text-white transition-colors">{proj.summary}</p>
-    
-    {proj.keyContributions && (
-      <div className="mb-8">
-        <h5 className="font-pixel text-sm md:text-base text-retro-yellow mb-5">Key Contributions</h5>
-        <ul className="space-y-4">
-          {proj.keyContributions.map((contrib, i) => (
-            <li key={i} className="flex gap-5 text-slate-300 text-base md:text-lg leading-loose group-hover:text-white transition-colors">
-              <span className="text-retro-light-green shrink-0 mt-2">►</span>
-              <span>{contrib}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
-    
-    <div className="flex flex-wrap justify-around w-full gap-3 md:gap-4 mt-8 group/tech relative">
-      {proj.tech.map(t => (
-        <span 
-          key={t} 
-          title={`Click or hover to learn how ${t} was utilized (data needed)`}
-          className="bg-retro-gray px-4 py-2 md:px-6 md:py-3 text-sm md:text-base lg:text-lg border-2 border-white/20 text-white shadow-sm font-bold text-center flex-grow transition-all duration-300 group-hover/tech:scale-95 group-hover/tech:opacity-50 hover:!scale-110 hover:!opacity-100 hover:!border-retro-yellow hover:!text-retro-yellow hover:!bg-retro-dark hover:z-10 hover:shadow-[0_0_20px_rgba(244,180,27,0.6)] cursor-help flex items-center justify-center"
-        >
-          {t}
-        </span>
-      ))}
     </div>
   </motion.div>
 );
