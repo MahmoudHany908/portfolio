@@ -103,11 +103,11 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
           <div className="text-retro-light-blue text-xs md:text-sm uppercase tracking-widest font-bold">{proj.role}</div>
         </div>
         
-        <div className="flex flex-col xl:flex-row gap-4 mb-4 items-start">
+        <div className="flex-1 flex flex-col gap-4 mb-4">
           {(gradInfo || proj.client) && (
-            <div className="w-full xl:w-1/2 flex flex-col gap-4 shrink-0">
+            <div className="w-full flex-1 flex flex-col gap-4">
               {gradInfo && (
-                <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-3 shadow-sm h-full">
+                <div className="flex-1 flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-3 shadow-sm h-full justify-center">
                   {gradInfo.logos && (
                     <div className="flex flex-wrap gap-2 shrink-0">
                       {gradInfo.logos.map((logo, i) => (
@@ -125,7 +125,7 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
               )}
 
               {proj.client && (
-                <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-green p-3 shadow-sm h-full">
+                <div className="flex-1 flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-green p-3 shadow-sm h-full justify-center">
                   {proj.clientLogo && (
                     <div className="w-10 h-10 shrink-0 bg-white/5 rounded p-1 flex items-center justify-center border border-white/10">
                       <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
@@ -140,7 +140,7 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
             </div>
           )}
           
-          <div className={`w-full ${(gradInfo || proj.client) ? 'xl:w-1/2' : ''}`}>
+          <div className={`w-full flex flex-col justify-center ${(gradInfo || proj.client) ? 'flex-1' : ''}`}>
             <p className="text-sm lg:text-base text-slate-300 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
           </div>
         </div>
