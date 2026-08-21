@@ -3,6 +3,8 @@
 @theme {
   --font-sans: "Inter", sans-serif;
   --font-pixel: "Press Start 2P", cursive;
+  --font-chakra: "Chakra Petch", sans-serif;
+  --font-jetbrains: "JetBrains Mono", monospace;
   
   --color-retro-dark: #1a1c2c;
   --color-retro-purple: #29366f;

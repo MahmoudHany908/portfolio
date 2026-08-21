@@ -140,7 +140,7 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
         )}
         
         <div className="w-full">
-          <p className="text-sm lg:text-base text-slate-300 leading-loose group-hover:text-white transition-colors text-justify">
+          <p className="font-chakra text-sm lg:text-base text-slate-300 leading-loose group-hover:text-white transition-colors text-justify">
             {proj.summary}
           </p>
         </div>
@@ -151,7 +151,7 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
           <span 
             key={t} 
             title={`Click or hover to learn how ${t} was utilized (data needed)`}
-            className="bg-retro-gray px-2 py-1 text-[10px] md:text-xs border-2 border-white/20 text-white shadow-sm font-bold text-center transition-all duration-300 hover:-translate-y-1 hover:border-retro-yellow hover:text-retro-yellow hover:bg-retro-dark cursor-help"
+            className="font-jetbrains bg-retro-gray px-2 py-1 text-[10px] md:text-xs border-2 border-white/20 text-white shadow-sm font-bold text-center transition-all duration-300 hover:-translate-y-1 hover:border-retro-yellow hover:text-retro-yellow hover:bg-retro-dark cursor-help"
           >
             {t}
           </span>
@@ -247,7 +247,7 @@ export default function SimpleView() {
 
         <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-32 scroll-mt-28">
           <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">About</h3>
-          <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto text-center mb-12 hover:text-white transition-colors duration-300">
+          <p className="font-chakra text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto text-center mb-12 hover:text-white transition-colors duration-300">
             {profile.summary}
           </p>
           
@@ -282,7 +282,7 @@ export default function SimpleView() {
                     <div className="text-retro-light-green text-lg mb-2 font-bold">{int.institution}</div>
                     <div className="text-slate-400 text-sm font-pixel tracking-widest mb-4">{int.date}</div>
                     {int.description && (
-                      <div className="text-slate-300 text-base leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 group-hover:mt-4 transition-all duration-500 overflow-hidden">
+                      <div className="font-chakra text-justify text-slate-300 text-base leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 group-hover:mt-4 transition-all duration-500 overflow-hidden">
                         {int.description}
                       </div>
                     )}
@@ -307,7 +307,7 @@ export default function SimpleView() {
                 <h4 className="text-retro-light-blue font-bold text-lg mb-5 uppercase tracking-widest">{category.replace('_', ' ')}</h4>
                 <div className={`flex flex-wrap gap-3 ${category === 'Personal Skills' ? 'justify-center' : ''}`}>
                   {items.map(item => (
-                    <span key={item} className="bg-retro-purple hover:bg-retro-yellow hover:text-retro-dark hover:-translate-y-1 transition-all duration-300 px-3 py-2 text-sm md:text-base border-2 border-retro-blue font-bold cursor-default shadow-sm">
+                    <span key={item} className="font-jetbrains bg-retro-purple hover:bg-retro-yellow hover:text-retro-dark hover:-translate-y-1 transition-all duration-300 px-3 py-2 text-sm md:text-base border-2 border-retro-blue font-bold cursor-default shadow-sm">
                       {item}
                     </span>
                   ))}
