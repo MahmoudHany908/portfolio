@@ -213,7 +213,7 @@ export default function SimpleView() {
               <img 
                 src="/profile.jpg" 
                 alt="Mahmoud Hany" 
-                className="relative w-36 h-36 md:w-56 md:h-56 object-cover object-top pixel-border border-6 border-retro-dark shadow-xl z-10 filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                className="relative w-36 h-36 md:w-56 md:h-56 object-cover object-[50%_10%] scale-[1.05] pixel-border border-6 border-retro-dark shadow-xl z-10 filter grayscale group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
             <div className="w-full mt-4 md:mt-0 flex-1 flex flex-col justify-between h-full min-h-[14rem]">
