@@ -170,9 +170,8 @@ export default function SimpleView() {
   const { profile, education, internships, nodes } = portfolioData;
   const projects = nodes.filter(n => n.type === 'project');
 
-  const cyberSalvage = projects.find(n => n.id === 'proj2');
-  const learningLens = projects.find(n => n.id === 'proj1');
-  const normalProjects = projects.filter(n => n.id !== 'proj2' && n.id !== 'proj1');
+  const gradProjects = projects.filter(n => n.isGraduationProject);
+  const normalProjects = projects.filter(n => !n.isGraduationProject);
 
   return (
     <div className="min-h-screen bg-retro-dark text-retro-text font-sans relative">
@@ -253,30 +252,49 @@ export default function SimpleView() {
 
         <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
           <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-8 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">About</h3>
-          <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-4xl mb-12 hover:text-white transition-colors duration-300">
+          <p className="text-xl md:text-2xl text-slate-300 leading-relaxed max-w-4xl mb-16 hover:text-white transition-colors duration-300 font-bold">
             {profile.summary}
           </p>
           
-          <div className="grid md:grid-cols-2 gap-10">
-            <motion.div whileHover={{ y: -6, scale: 1.02 }} className="pixel-box group transition-all duration-300 hover:border-retro-yellow hover:shadow-[10px_10px_0_rgba(244,180,27,0.3)] p-6">
-              <h4 className="font-pixel text-base md:text-lg text-retro-yellow mb-6 group-hover:animate-pulse">Education</h4>
-              {education.map(edu => (
-                <div key={edu.id} className="mb-6 last:mb-0">
-                  <div className="font-bold text-white text-lg md:text-xl mb-1">{edu.degree}</div>
-                  <div className="text-retro-light-blue text-base">{edu.institution} • {edu.date}</div>
-                </div>
-              ))}
-            </motion.div>
-            <motion.div whileHover={{ y: -6, scale: 1.02 }} className="pixel-box group transition-all duration-300 hover:border-retro-light-green hover:shadow-[10px_10px_0_rgba(131,235,114,0.3)] p-6">
-              <h4 className="font-pixel text-base md:text-lg text-retro-yellow mb-6 group-hover:animate-pulse">Experience</h4>
-              {internships.map(int => (
-                <div key={int.id} className="mb-6 last:mb-0">
-                  <div className="font-bold text-white text-lg md:text-xl mb-1">{int.title}</div>
-                  <div className="text-retro-light-green text-base mb-2">{int.institution} • {int.date}</div>
-                  {int.description && <div className="text-slate-300 text-sm md:text-base leading-relaxed">{int.description}</div>}
-                </div>
-              ))}
-            </motion.div>
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-20">
+            {/* Education Stack */}
+            <div>
+              <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow mb-8 flex items-center gap-4"><span className="text-3xl">🎓</span> Education</h4>
+              <div className="flex flex-col relative pt-4">
+                {education.map((edu, i) => (
+                  <motion.div 
+                    key={edu.id} 
+                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-6 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-yellow hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(244,180,27,0.4)] group`}
+                  >
+                    <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-yellow transition-colors">{edu.degree}</div>
+                    <div className="text-retro-light-blue text-lg mb-2 font-bold">{edu.institution}</div>
+                    <div className="text-slate-400 text-sm font-pixel tracking-widest">{edu.date}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Experience Stack */}
+            <div>
+              <h4 className="font-pixel text-xl md:text-2xl text-retro-light-green mb-8 flex items-center gap-4"><span className="text-3xl">⚔️</span> Experience</h4>
+              <div className="flex flex-col relative pt-4">
+                {internships.map((int, i) => (
+                  <motion.div 
+                    key={int.id} 
+                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-6 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-light-green hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(131,235,114,0.4)] group`}
+                  >
+                    <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-light-green transition-colors">{int.title}</div>
+                    <div className="text-retro-light-green text-lg mb-2 font-bold">{int.institution}</div>
+                    <div className="text-slate-400 text-sm font-pixel tracking-widest mb-4">{int.date}</div>
+                    {int.description && (
+                      <div className="text-slate-300 text-base leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 group-hover:mt-4 transition-all duration-500 overflow-hidden">
+                        {int.description}
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </motion.section>
 
@@ -307,31 +325,14 @@ export default function SimpleView() {
         <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28 mb-24">
           <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-12 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Graduation Projects</h3>
           <div className="space-y-24">
-            {cyberSalvage && (
+            {gradProjects.map((proj, idx) => (
               <ProjectCard 
-                proj={cyberSalvage} 
-                idx={0}
-                gradInfo={{
-                  title: "9-Month Program Graduation Project",
-                  text: "Information Technology Institute (ITI)",
-                  logos: [{ src: "/iti-logo.png", alt: "ITI" }]
-                }}
+                key={proj.id}
+                proj={proj} 
+                idx={idx}
+                gradInfo={proj.gradInfo}
               />
-            )}
-            {learningLens && (
-              <ProjectCard 
-                proj={learningLens} 
-                idx={1}
-                gradInfo={{
-                  title: "Bachelor's Graduation Project",
-                  text: "Ain Shams University & University of East London (UEL)",
-                  logos: [
-                    { src: "/ainshams-logo.png", alt: "Ain Shams" },
-                    { src: "/uel-logo.png", alt: "UEL" }
-                  ]
-                }}
-              />
-            )}
+            ))}
           </div>
         </motion.section>
 
@@ -345,105 +346,106 @@ export default function SimpleView() {
         </motion.section>
 
         <motion.section id="contact" 
-          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-          className="pt-16 mt-32 scroll-mt-28"
+          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.5 } }
+          }}
+          className="pt-16 mt-32 scroll-mt-28 flex flex-col items-center relative z-10"
         >
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 justify-between items-stretch">
-            
-            {/* Left Column: Let's Connect */}
-            <div className="lg:w-5/12 space-y-10">
-              <h3 className="font-pixel text-3xl md:text-4xl text-retro-light-blue drop-shadow-[0_0_10px_rgba(86,156,235,0.6)] tracking-widest uppercase">
-                Let's Connect
-              </h3>
-              <p className="text-retro-light-blue text-lg md:text-xl leading-relaxed">
-                Always down to discuss new projects, building immersive XR experiences or games. Whether we're teaming up for the next project or just chatting about games, my inbox is always open. Feel free to reach out!
-              </p>
-              
-              <div className="space-y-6 pt-4">
-                <a href={`mailto:${profile.email}`} className="flex items-center gap-6 group hover:cursor-pointer bg-retro-dark p-4 border-2 border-retro-gray hover:border-retro-yellow transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0_rgba(244,180,27,0.5)]">
-                  <div className="w-14 h-14 shrink-0 bg-retro-purple flex items-center justify-center text-white group-hover:bg-retro-yellow group-hover:text-retro-dark transition-colors">
-                    <MailIcon />
-                  </div>
-                  <div>
-                    <h4 className="font-pixel text-xl text-retro-light-green mb-1 tracking-wider group-hover:text-retro-yellow transition-colors">EMAIL</h4>
-                    <p className="text-slate-300 text-base md:text-lg group-hover:text-white transition-colors">{profile.email}</p>
-                  </div>
-                </a>
-                
-                <div className="flex items-center gap-6 group bg-retro-dark p-4 border-2 border-retro-gray hover:border-retro-yellow transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0_rgba(244,180,27,0.5)]">
-                  <div className="w-14 h-14 shrink-0 bg-retro-purple flex items-center justify-center text-white group-hover:bg-retro-yellow group-hover:text-retro-dark transition-colors">
-                    <PhoneIcon />
-                  </div>
-                  <div>
-                    <h4 className="font-pixel text-xl text-retro-light-green mb-1 tracking-wider group-hover:text-retro-yellow transition-colors">PHONE</h4>
-                    <p className="text-slate-300 text-base md:text-lg group-hover:text-white transition-colors">{profile.phone}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-6 group bg-retro-dark p-4 border-2 border-retro-gray hover:border-retro-yellow transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0_rgba(244,180,27,0.5)]">
-                  <div className="w-14 h-14 shrink-0 bg-retro-purple flex items-center justify-center text-white group-hover:bg-retro-yellow group-hover:text-retro-dark transition-colors">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  </div>
-                  <div>
-                    <h4 className="font-pixel text-xl text-retro-light-green mb-1 tracking-wider group-hover:text-retro-yellow transition-colors">LOCATION</h4>
-                    <p className="text-slate-300 text-base md:text-lg group-hover:text-white transition-colors">{profile.location || "Egypt"}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Knight Dialogue */}
-            <div className="lg:w-7/12 mt-12 lg:mt-0 relative flex flex-col justify-center">
-              <div className="border-4 border-retro-light-blue p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center md:items-stretch bg-retro-dark/80 backdrop-blur-sm shadow-[0_0_30px_rgba(86,156,235,0.2)] hover:shadow-[0_0_40px_rgba(86,156,235,0.4)] transition-shadow duration-500">
-                
-                {/* Knight Avatar Box */}
-                <div className="flex flex-col items-center gap-4 shrink-0 justify-center group">
-                  <div className="w-32 h-32 md:w-36 md:h-36 border-4 border-retro-light-blue bg-retro-dark flex items-center justify-center overflow-hidden shadow-[0_0_20px_rgba(86,156,235,0.5)] group-hover:border-retro-yellow group-hover:shadow-[0_0_30px_rgba(244,180,27,0.6)] transition-all duration-300">
-                    <svg width="128" height="128" viewBox="0 0 16 16" overflow="visible" className="transform scale-[2.5]">
-                      <rect x="7" y="0" width="2" height="1" fill="#d95763" />
-                      <rect x="8" y="1" width="3" height="2" fill="#d95763" />
-                      <rect x="5" y="2" width="6" height="2" fill="#a4a5a1" />
-                      <rect x="4" y="4" width="8" height="4" fill="#daddd8" />
-                      <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
-                      <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
-                      <rect x="8" y="5" width="1" height="1" className="fill-retro-light-green group-hover:fill-retro-yellow transition-colors duration-300" />
-                      <rect x="5" y="8" width="6" height="4" fill="#a4a5a1" />
-                      <rect x="5" y="11" width="6" height="1" fill="#3b5dc9" />
-                      <rect x="7" y="10" width="2" height="2" fill="#f4b41b" />
-                      <rect x="3" y="8" width="2" height="3" fill="#a4a5a1" />
-                      <rect x="11" y="8" width="2" height="3" fill="#a4a5a1" />
-                      <rect x="2" y="10" width="1" height="2" fill="#1a1c2c" />
-                      <rect x="13" y="10" width="1" height="2" fill="#1a1c2c" />
-                      <rect x="5" y="12" width="2" height="3" fill="#a4a5a1" />
-                      <rect x="9" y="12" width="2" height="3" fill="#a4a5a1" />
-                      <rect x="5" y="15" width="2" height="1" fill="#1a1c2c" />
-                      <rect x="9" y="15" width="2" height="1" fill="#1a1c2c" />
-                    </svg>
-                  </div>
-                  <span className="font-pixel text-white text-sm tracking-widest text-center whitespace-nowrap group-hover:text-retro-yellow transition-colors duration-300">Virtual Mahmoud</span>
-                </div>
-                
-                {/* Dialogue Box */}
-                <div className="flex-1 border-2 border-retro-light-green p-5 md:p-6 relative flex flex-col justify-center">
-                  <div className="absolute top-1/2 -left-4 w-0 h-0 border-y-[12px] border-y-transparent border-r-[16px] border-r-retro-light-green transform -translate-y-1/2 hidden md:block"></div>
-                  <div className="absolute -top-4 left-1/2 w-0 h-0 border-x-[12px] border-x-transparent border-b-[16px] border-b-retro-light-green transform -translate-x-1/2 md:hidden"></div>
-                  
-                  <p className="text-retro-light-blue text-base md:text-lg leading-relaxed font-sans mb-4">
-                    Hey 👋 I'm Virtual Mahmoud—a tiny, bug-free clone of the real developer. I mostly just hang out here while the human Mahmoud builds VR games and survives 3-day game jams. If you want to team up or talk games, drop him an email!
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-32 pt-10 border-t-[4px] border-retro-light-green flex flex-col items-center justify-center pb-10 shadow-[0_-15px_30px_-15px_rgba(131,235,114,0.3)] gap-4">
-            <p className="font-pixel text-retro-light-green text-lg md:text-xl drop-shadow-[0_0_12px_rgba(131,235,114,0.8)] leading-relaxed text-center px-4">
+          {/* 1. Quote */}
+          <motion.div 
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+            }}
+            className="w-full border-t-[6px] border-retro-light-green flex flex-col items-center justify-center pt-16 pb-32 shadow-[0_-20px_40px_-10px_rgba(131,235,114,0.15)] gap-6"
+          >
+            <p className="font-pixel text-retro-light-green text-xl md:text-3xl drop-shadow-[0_0_15px_rgba(131,235,114,0.8)] leading-loose text-center px-4 max-w-4xl">
               “Why shouldn't people be able to teleport wherever they want?”
             </p>
-            <p className="text-retro-light-blue text-sm md:text-base tracking-widest uppercase font-bold text-center">
+            <p className="text-retro-light-blue text-base md:text-lg tracking-widest uppercase font-bold text-center">
               — Palmer Luckey, Founder of Oculus VR
             </p>
-          </div>
+          </motion.div>
+
+          {/* 2. Teleport Bubble / Let's Connect */}
+          <motion.div 
+            variants={{
+              hidden: { opacity: 0, scale: 0.5, filter: "blur(10px)" },
+              visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1, staggerChildren: 0.2, delayChildren: 0.4 } }
+            }}
+            className="w-full max-w-5xl border-[8px] border-retro-light-blue bg-retro-dark p-12 md:p-20 relative shadow-[0_0_50px_rgba(86,156,235,0.4)]"
+          >
+            {/* Teleportation aesthetic layers */}
+            <div className="absolute inset-0 bg-gradient-to-t from-retro-light-blue/20 to-transparent pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-full h-3 bg-retro-light-blue animate-pulse"></div>
+
+            <div className="relative z-10 text-center mb-16">
+              <h3 className="font-pixel text-4xl md:text-5xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] tracking-widest uppercase mb-6">
+                Teleport to Me
+              </h3>
+              <p className="text-retro-light-blue text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-bold">
+                Always down to discuss new projects, building immersive XR experiences or games. Step into a portal below to connect!
+              </p>
+            </div>
+
+            {/* 3. Teleport Pads */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12 relative z-10 pt-10">
+              
+              <motion.a 
+                href={`mailto:${profile.email}`}
+                variants={{ hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { type: "spring" } } }}
+                whileHover={{ scale: 1.1, y: -10 }}
+                className="flex flex-col items-center gap-6 group relative"
+              >
+                {/* Pad Base */}
+                <div className="w-24 h-24 rounded-full border-[6px] border-retro-yellow bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-yellow group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_30px_rgba(244,180,27,0.5)] group-hover:shadow-[0_0_50px_rgba(244,180,27,0.8)] relative overflow-hidden z-10">
+                  <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                  <MailIcon />
+                </div>
+                {/* Beam */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-20 h-40 bg-gradient-to-t from-retro-yellow/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-full -z-10 blur-md pointer-events-none"></div>
+                <div className="text-center">
+                  <h4 className="font-pixel text-xl text-retro-yellow mb-2 tracking-wider">EMAIL</h4>
+                  <p className="text-slate-300 font-bold">{profile.email}</p>
+                </div>
+              </motion.a>
+
+              <motion.div 
+                variants={{ hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { type: "spring" } } }}
+                whileHover={{ scale: 1.1, y: -10 }}
+                className="flex flex-col items-center gap-6 group relative"
+              >
+                <div className="w-24 h-24 rounded-full border-[6px] border-retro-light-green bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-light-green group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_30px_rgba(131,235,114,0.5)] group-hover:shadow-[0_0_50px_rgba(131,235,114,0.8)] relative overflow-hidden z-10">
+                  <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                  <PhoneIcon />
+                </div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-20 h-40 bg-gradient-to-t from-retro-light-green/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-full -z-10 blur-md pointer-events-none"></div>
+                <div className="text-center">
+                  <h4 className="font-pixel text-xl text-retro-light-green mb-2 tracking-wider">PHONE</h4>
+                  <p className="text-slate-300 font-bold">{profile.phone}</p>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                variants={{ hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { type: "spring" } } }}
+                whileHover={{ scale: 1.1, y: -10 }}
+                className="flex flex-col items-center gap-6 group relative"
+              >
+                <div className="w-24 h-24 rounded-full border-[6px] border-retro-red bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-red group-hover:text-white transition-all duration-300 shadow-[0_0_30px_rgba(217,87,99,0.5)] group-hover:shadow-[0_0_50px_rgba(217,87,99,0.8)] relative overflow-hidden z-10">
+                  <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-20 h-40 bg-gradient-to-t from-retro-red/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-y-full -z-10 blur-md pointer-events-none"></div>
+                <div className="text-center">
+                  <h4 className="font-pixel text-xl text-retro-red mb-2 tracking-wider">BASE</h4>
+                  <p className="text-slate-300 font-bold">{profile.location || "Earth"}</p>
+                </div>
+              </motion.div>
+
+            </div>
+          </motion.div>
         </motion.section>
       </div>
     </div>

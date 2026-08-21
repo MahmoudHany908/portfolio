@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "cinematic-ui": {
+      "source": "akseolabs-seo/cinematic-ui",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "6f86a653097d222d86c2316b3cc80fe393e20f2c98f6ac26d695434f79adbb73"
+    },
+    "gemini-api-dev": {
+      "source": "google-gemini/gemini-skills",
+      "sourceType": "github",
+      "skillPath": "skills/gemini-api-dev/SKILL.md",
+      "computedHash": "ade92313b4a3fafbc647fb2c4a67f32640bbb6fc5a875a6c56fe1e10580c4278"
+    }
+  }
+}

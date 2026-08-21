@@ -132,6 +132,14 @@
       "client": "National Bank of Egypt",
       "clientLogo": "/nbe-logo.png",
       "clientBadge": "NBE",
+      "isGraduationProject": true,
+      "gradInfo": {
+        "title": "9-Month Program Graduation Project",
+        "text": "Information Technology Institute (ITI)",
+        "logos": [
+          { "src": "/iti-logo.png", "alt": "ITI" }
+        ]
+      },
       "summary": "A mobile game commissioned by the National Bank of Egypt that mixes arena survival with a financial economy sim. Players jump into the arena to fight and gather resources, then head back to the hub to invest and upgrade a factory using simulated market mechanics. The project successfully transforms financial literacy into a genuinely rewarding gameplay loop.",
       "keyContributions": [
         "Architected scalable C# gameplay systems utilizing Object-Oriented Programming (OOP) principles and the Dependency Injection design pattern to decouple components and manage memory efficiently.",
@@ -150,6 +158,15 @@
       "title": "The Learning Lens",
       "role": "Unity & Backend Developer | Team Leader",
       "tech": ["Unity", "C#", ".NET", "Entity Framework Core", "Python", "AR Core", "Meta SDK", "OpenXR", "REST APIs"],
+      "isGraduationProject": true,
+      "gradInfo": {
+        "title": "Bachelor's Graduation Project",
+        "text": "Ain Shams University & University of East London (UEL)",
+        "logos": [
+          { "src": "/ainshams-logo.png", "alt": "Ain Shams" },
+          { "src": "/uel-logo.png", "alt": "UEL" }
+        ]
+      },
       "summary": "An educational VR/AR application built to make interactive learning highly engaging. Instead of reading about concepts, students experience virtual hands-on lessons. The architecture requires seamless synchronization between complex live backend data and the interactive Unity frontend to create a cohesive classroom environment.",
       "keyContributions": [
         "Led backend development by architecting scalable services with .NET, Entity Framework (EF) Core, and Python to manage complex real-time data synchronization.",
