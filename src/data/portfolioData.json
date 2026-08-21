@@ -70,7 +70,7 @@
       "type": "project",
       "title": "ESCCTRL",
       "role": "Level Designer & Programmer",
-      "tech": ["SFML", "C++"],
+      "tech": ["C++", "SFML", "OOP", "2D Physics", "Parallax Rendering"],
       "summary": "A moody 2D atmospheric platformer built from scratch using SFML and C++ during an intense 3-day game jam. The main hook combines a shape-shifting mechanic with tight spatial navigation through tricky levels, utilizing deep parallax layering so the environment dynamically reacts to movement.",
       "keyContributions": [
         "Programmed core gameplay loops in C++ using the SFML framework, implementing robust object-oriented systems for health, damage, trap triggers, and a dynamic weather/rain controller.",
@@ -90,7 +90,7 @@
       "type": "project",
       "title": "Subject Null",
       "role": "VR Developer & Level Designer",
-      "tech": ["Unity", "Meta Quest 2/3"],
+      "tech": ["Unity", "C#", "Meta XR SDK", "OpenXR", "Mesh Manipulation", "Unity Version Control"],
       "summary": "A narrative-driven VR puzzle game designed for standalone XR devices. The core gameplay revolves around a dynamic mesh slicing mechanic and swapping between different vision states to solve spatial puzzles. Players navigate through a mysterious, atmospheric facility by viewing the world from totally different perspectives.",
       "keyContributions": [
         "Engineered core VR gameplay mechanics using C# and the Meta SDK/OpenXR, specifically building a dynamic runtime mesh slicing system and distinct player vision states.",
@@ -109,7 +109,7 @@
       "type": "project",
       "title": "VR Wave Shooter",
       "role": "Solo Developer",
-      "tech": ["Unity", "C#", "XRIT"],
+      "tech": ["Unity", "C#", "XR Interaction Toolkit", "OpenXR", "Observer pattern", "Object Pooling", "Memory Management"],
       "summary": "An intense, wave-based VR shooter optimized to run smoothly on standalone headsets without dropping frames. The gameplay focuses on surviving against an ever-growing swarm of enemies while managing a strict ammo economy, requiring careful shot placement as the rounds progress and chaos escalates.",
       "keyContributions": [
         "Developed standalone VR combat mechanics using the XR Interaction Toolkit (XRIT), focusing on optimized draw calls and strict memory management for mobile headset performance.",
@@ -128,7 +128,7 @@
       "type": "project",
       "title": "Cyber Salvage",
       "role": "Unity Developer",
-      "tech": ["Unity", "C#", "VContainer (DI)"],
+      "tech": ["Unity", "C#", "uGUI", "Dependency Injection", "OOP", "Mobile Optimization"],
       "client": "National Bank of Egypt",
       "clientLogo": "/nbe-logo.png",
       "clientBadge": "NBE",
@@ -149,7 +149,7 @@
       "type": "project",
       "title": "The Learning Lens",
       "role": "Unity & Backend Developer | Team Leader",
-      "tech": ["Unity", "C#", ".NET", "EF Core", "Python"],
+      "tech": ["Unity", "C#", ".NET", "Entity Framework Core", "Python", "AR Core", "Meta SDK", "OpenXR", "REST APIs"],
       "summary": "An educational VR/AR application built to make interactive learning highly engaging. Instead of reading about concepts, students experience virtual hands-on lessons. The architecture requires seamless synchronization between complex live backend data and the interactive Unity frontend to create a cohesive classroom environment.",
       "keyContributions": [
         "Led backend development by architecting scalable services with .NET, Entity Framework (EF) Core, and Python to manage complex real-time data synchronization.",
