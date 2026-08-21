@@ -103,39 +103,47 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
           <div className="text-retro-light-blue text-xs md:text-sm uppercase tracking-widest font-bold">{proj.role}</div>
         </div>
         
-        {gradInfo && (
-          <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-3 mb-4 shadow-sm">
-            {gradInfo.logos && (
-              <div className="flex flex-wrap gap-2 shrink-0">
-                {gradInfo.logos.map((logo, i) => (
-                  <div key={i} className="w-10 h-10 shrink-0 bg-white rounded p-1 flex items-center justify-center border border-white/10 shadow-sm">
-                    <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
+        <div className="flex flex-col xl:flex-row gap-4 mb-4 items-start">
+          {(gradInfo || proj.client) && (
+            <div className="w-full xl:w-1/2 flex flex-col gap-4 shrink-0">
+              {gradInfo && (
+                <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-3 shadow-sm h-full">
+                  {gradInfo.logos && (
+                    <div className="flex flex-wrap gap-2 shrink-0">
+                      {gradInfo.logos.map((logo, i) => (
+                        <div key={i} className="w-10 h-10 shrink-0 bg-white rounded p-1 flex items-center justify-center border border-white/10 shadow-sm">
+                          <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] mb-1 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
+                    <h3 className="font-pixel text-xs md:text-sm text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
                   </div>
-                ))}
-              </div>
-            )}
-            <div className="flex-1">
-              <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] mb-1 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
-              <h3 className="font-pixel text-xs md:text-sm text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
-            </div>
-          </div>
-        )}
+                </div>
+              )}
 
-        {proj.client && (
-          <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-green p-3 mb-4 shadow-sm">
-            {proj.clientLogo && (
-              <div className="w-10 h-10 shrink-0 bg-white/5 rounded p-1 flex items-center justify-center border border-white/10">
-                <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
-              </div>
-            )}
-            <div className="flex-1">
-              <h5 className="font-pixel text-[9px] text-retro-light-green tracking-[0.2em] mb-1 uppercase opacity-80">Commissioned By</h5>
-              <h3 className="font-pixel text-xs md:text-sm text-white tracking-widest">{proj.client}</h3>
+              {proj.client && (
+                <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-green p-3 shadow-sm h-full">
+                  {proj.clientLogo && (
+                    <div className="w-10 h-10 shrink-0 bg-white/5 rounded p-1 flex items-center justify-center border border-white/10">
+                      <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <h5 className="font-pixel text-[9px] text-retro-light-green tracking-[0.2em] mb-1 uppercase opacity-80">Commissioned By</h5>
+                    <h3 className="font-pixel text-xs md:text-sm text-white tracking-widest">{proj.client}</h3>
+                  </div>
+                </div>
+              )}
             </div>
+          )}
+          
+          <div className={`w-full ${(gradInfo || proj.client) ? 'xl:w-1/2' : ''}`}>
+            <p className="text-sm lg:text-base text-slate-300 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
           </div>
-        )}
-        
-        <p className="text-sm lg:text-base text-slate-300 mb-4 leading-relaxed group-hover:text-white transition-colors">{proj.summary}</p>
+        </div>
         
 
       </div>
