@@ -16,13 +16,13 @@ const TerrainBackground = () => (
   />
 );
 
-const SectionBanner = ({ text, x, y }) => (
+const SectionBanner = ({ text, x, y, color = '#569ceb' }) => (
   <div 
     className="absolute pointer-events-none flex flex-col items-center justify-center z-20 opacity-90"
     style={{ left: x, top: y, transform: 'translate(-50%, -50%)' }}
   >
     <div className="bg-retro-dark border-4 border-white px-8 py-3 shadow-[8px_8px_0_rgba(0,0,0,0.5)] flex items-center justify-center">
-      <span className="font-pixel text-2xl text-[#569ceb] tracking-widest drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">{text}</span>
+      <span className="font-pixel text-2xl tracking-widest drop-shadow-[2px_2px_0_rgba(0,0,0,1)]" style={{ color }}>{text}</span>
     </div>
     {/* Wooden poles supporting the sign */}
     <div className="absolute top-full flex gap-16 -mt-1 -z-10">
@@ -30,6 +30,20 @@ const SectionBanner = ({ text, x, y }) => (
       <div className="w-3 h-10 bg-[#8b5a2b] border-x-2 border-black"></div>
     </div>
   </div>
+);
+
+const ZoneRegion = ({ x, y, rx, ry, color }) => (
+  <div 
+    className="absolute pointer-events-none z-[2] rounded-[40%] blur-3xl opacity-20"
+    style={{
+      left: x,
+      top: y,
+      width: rx * 2,
+      height: ry * 2,
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: color,
+    }}
+  />
 );
 
 const PixelKnight = ({ isWalking, flipX }) => (
@@ -104,8 +118,8 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
     const midX = (pX + cX) / 2;
     const path = `M ${pX} ${pY} C ${midX} ${pY}, ${midX} ${cY}, ${cX} ${cY}`;
     
-    // A segment leading to node [i] is "active" if node [i] is discovered
-    const isActive = discovered.has(curr.id);
+    // A segment is active only if both connected nodes have been discovered
+    const isActive = discovered.has(prev.id) && discovered.has(curr.id);
     trailSegments.push({ id: `trail-${curr.id}`, path, isActive });
   }
 
@@ -141,7 +155,17 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
           y: dragY
         }}
       >
-        <SectionBanner text="PROJECTS" x={isMobileLayout ? 450 : 870} y={isMobileLayout ? 780 : 120} />
+        {/* SKILLS ZONE */}
+        <ZoneRegion x={isMobileLayout ? 450 : 225} y={isMobileLayout ? 600 : 325} rx={150} ry={150} color="#f4b41b" />
+        <SectionBanner text="SKILLS" x={isMobileLayout ? 450 : 225} y={isMobileLayout ? 420 : 150} color="#f4b41b" />
+
+        {/* PROJECTS ZONE */}
+        <ZoneRegion x={isMobileLayout ? 450 : 875} y={isMobileLayout ? 1300 : 475} rx={isMobileLayout ? 250 : 350} ry={isMobileLayout ? 500 : 300} color="#569ceb" />
+        <SectionBanner text="PROJECTS" x={isMobileLayout ? 450 : 870} y={isMobileLayout ? 780 : 120} color="#569ceb" />
+
+        {/* CONTACT ZONE */}
+        <ZoneRegion x={isMobileLayout ? 450 : 1450} y={isMobileLayout ? 2000 : 675} rx={150} ry={150} color="#83eb72" />
+        <SectionBanner text="CONTACT" x={isMobileLayout ? 450 : 1450} y={isMobileLayout ? 1820 : 500} color="#83eb72" />
 
         {/* The Guided Trail */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
