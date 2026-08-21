@@ -65,20 +65,25 @@ const fadeUpVariant = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, type: 'spring', bounce: 0.4 } }
 };
 
+const sectionFocusVariant = {
+  hidden: { opacity: 0.15, filter: 'blur(4px)', scale: 0.95 },
+  visible: { opacity: 1, filter: 'blur(0px)', scale: 1, transition: { duration: 0.8, ease: "easeOut", staggerChildren: 0.3 } }
+};
+
 const ProjectCard = ({ proj, idx, gradInfo }) => (
   <motion.div 
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ delay: idx * 0.1, type: "spring", bounce: 0.3 }}
     whileHover={{ scale: 1.02, x: 8 }}
-    className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-8 md:p-12 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group"
+    className="pixel-box bg-retro-dark border-[6px] border-retro-purple p-6 md:p-8 transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] group"
   >
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-5">
       <div>
         <div className="flex flex-col md:flex-row md:items-center gap-4 mb-3">
-          <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
+          <h4 className="font-pixel text-lg md:text-xl text-retro-yellow group-hover:text-white transition-colors">{proj.title}</h4>
         </div>
-        <div className="text-retro-light-blue text-base uppercase tracking-wider">{proj.role}</div>
+        <div className="text-retro-light-blue text-sm md:text-base uppercase tracking-wider">{proj.role}</div>
       </div>
       <div className="flex gap-4">
         {proj.githubLink && (
@@ -136,14 +141,14 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
       <VideoGallery singleVideo={proj.video} videos={proj.videos} />
     </div>
     
-    <p className="text-xl md:text-2xl text-slate-300 mb-8 leading-loose group-hover:text-white transition-colors">{proj.summary}</p>
+    <p className="text-base md:text-lg text-slate-300 mb-8 leading-loose group-hover:text-white transition-colors">{proj.summary}</p>
     
     {proj.keyContributions && (
       <div className="mb-8">
-        <h5 className="font-pixel text-base md:text-lg text-retro-yellow mb-5">Key Contributions</h5>
+        <h5 className="font-pixel text-sm md:text-base text-retro-yellow mb-5">Key Contributions</h5>
         <ul className="space-y-4">
           {proj.keyContributions.map((contrib, i) => (
-            <li key={i} className="flex gap-5 text-slate-300 text-lg md:text-xl leading-loose group-hover:text-white transition-colors">
+            <li key={i} className="flex gap-5 text-slate-300 text-base md:text-lg leading-loose group-hover:text-white transition-colors">
               <span className="text-retro-light-green shrink-0 mt-2">►</span>
               <span>{contrib}</span>
             </li>
@@ -200,7 +205,7 @@ export default function SimpleView() {
         </div>
       </nav>
 
-      <div className="px-6 md:px-12 lg:px-20 py-12 max-w-screen-2xl mx-auto w-full space-y-24 md:space-y-32 pb-32 relative z-10">
+      <div className="px-4 md:px-8 lg:px-12 py-12 max-w-5xl mx-auto w-full space-y-24 md:space-y-32 pb-32 relative z-10">
         
         <motion.header 
           initial="hidden" animate="visible" variants={fadeUpVariant}
@@ -212,14 +217,14 @@ export default function SimpleView() {
               <img 
                 src="/profile.jpg" 
                 alt="Mahmoud Hany" 
-                className="relative w-36 h-36 md:w-56 md:h-56 object-cover object-[50%_10%] scale-[1.05] pixel-border border-6 border-retro-dark shadow-xl z-10 filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                className="relative w-28 h-28 md:w-40 md:h-40 object-cover object-[50%_10%] scale-[1.05] pixel-border border-6 border-retro-dark shadow-xl z-10 filter grayscale group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
-            <div className="w-full mt-4 md:mt-0 flex-1 flex flex-col justify-between h-full min-h-[14rem]">
+            <div className="w-full mt-4 md:mt-0 flex-1 flex flex-col justify-between h-full min-h-[12rem]">
               <div className="flex flex-col md:flex-row justify-between items-start gap-5">
                 <div>
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-pixel text-retro-yellow mb-5 leading-tight group-hover:text-retro-light-green transition-colors">{profile.name}</h1>
-                  <h2 className="text-xl md:text-2xl text-retro-light-blue font-pixel mb-6">{profile.role}</h2>
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-pixel text-retro-yellow mb-4 leading-tight group-hover:text-retro-light-green transition-colors">{profile.name}</h1>
+                  <h2 className="text-lg md:text-xl text-retro-light-blue font-pixel mb-4">{profile.role}</h2>
                 </div>
                 <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform drop-shadow-[5px_5px_0_rgba(0,0,0,0.5)] md:hidden text-base px-5 py-3">
                   MAP
@@ -250,9 +255,9 @@ export default function SimpleView() {
           </div>
         </motion.header>
 
-        <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-8 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">About</h3>
-          <p className="text-xl md:text-2xl text-slate-300 leading-relaxed max-w-4xl mb-16 hover:text-white transition-colors duration-300 font-bold">
+        <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="scroll-mt-28">
+          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">About</h3>
+          <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto text-center mb-12 hover:text-white transition-colors duration-300">
             {profile.summary}
           </p>
           
@@ -298,8 +303,8 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section id="skills" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-8 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Technical Arsenal</h3>
+        <motion.section id="skills" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="scroll-mt-28">
+          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">Technical Arsenal</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {Object.entries(profile.skills).map(([category, items], idx) => (
               <motion.div 
@@ -322,9 +327,9 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28 mb-24">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-12 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Graduation Projects</h3>
-          <div className="space-y-24">
+        <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="scroll-mt-28 mb-24">
+          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">Graduation Projects</h3>
+          <div className="space-y-16">
             {gradProjects.map((proj, idx) => (
               <ProjectCard 
                 key={proj.id}
@@ -336,9 +341,9 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="scroll-mt-28">
-          <h3 className="font-pixel text-2xl md:text-3xl text-retro-green mb-12 border-l-8 border-retro-green pl-5 py-2 bg-retro-dark/50 shadow-sm">Projects</h3>
-          <div className="space-y-24">
+        <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="scroll-mt-28">
+          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">Projects</h3>
+          <div className="space-y-16">
             {normalProjects.map((proj, idx) => (
               <ProjectCard key={proj.id} proj={proj} idx={idx} />
             ))}
@@ -346,13 +351,10 @@ export default function SimpleView() {
         </motion.section>
 
         <motion.section id="contact" 
-          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.5 } }
-          }}
-          className="pt-16 mt-32 scroll-mt-28 flex flex-col items-center relative z-10"
+          initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant}
+          className="pt-16 mt-32 scroll-mt-28 flex flex-col items-center relative z-10 w-full"
         >
+          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed w-full max-w-5xl">Contact</h3>
           {/* 1. Quote */}
           <motion.div 
             variants={{
