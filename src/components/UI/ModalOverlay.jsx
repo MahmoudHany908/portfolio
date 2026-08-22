@@ -82,16 +82,6 @@ export default function ModalOverlay({ node, onClose }) {
               <div>
                 <div className="flex items-center gap-3 mb-2 flex-wrap">
                   <h2 className="text-lg md:text-xl text-retro-yellow leading-loose m-0">{node.title}</h2>
-                  {node.client && (
-                    <div className="flex items-center gap-2 bg-retro-green/20 border border-retro-green px-2 py-0.5">
-                      {node.clientLogo && (
-                        <img src={node.clientLogo} alt={node.client} className="w-5 h-5 object-contain drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" />
-                      )}
-                      <span className="text-retro-light-green text-[10px] font-pixel tracking-wider uppercase">
-                        Client: {node.client}
-                      </span>
-                    </div>
-                  )}
                 </div>
                 {node.role && <h3 className="text-xs text-retro-light-blue font-pixel leading-loose m-0">{node.role}</h3>}
               </div>
@@ -100,8 +90,8 @@ export default function ModalOverlay({ node, onClose }) {
             <div className="font-sans text-retro-text space-y-6 leading-relaxed">
               {node.type === 'about' && (
                 <div className="space-y-4">
-                  <p className="text-lg border-l-4 border-retro-blue pl-4 text-slate-300">
-                    Passionate Game Developer dedicated to blending technical execution with narrative vision to craft immersive experiences. A collaborative problem-solver skilled in thoughtful level design and rapid prototyping, seeking to build high-quality game systems in a professional studio.
+                  <p className="font-chakra text-justify text-lg border-l-4 border-retro-blue pl-4 text-slate-300 leading-loose">
+                    {portfolioData.profile.summary}
                   </p>
                 </div>
               )}
@@ -149,21 +139,44 @@ export default function ModalOverlay({ node, onClose }) {
               {node.summary && node.type !== 'about' && node.type !== 'contact' && node.type !== 'skills' && (
                 <div className="space-y-6">
                   <VideoGallery singleVideo={node.video} videos={node.videos} />
-                  <p className="text-lg border-l-4 border-retro-blue pl-4 text-slate-300">{node.summary}</p>
                   
-                  {node.keyContributions && (
-                    <div className="mt-6">
-                      <h4 className="font-pixel text-[12px] text-retro-yellow mb-4">Key Contributions</h4>
-                      <ul className="list-none space-y-2">
-                        {node.keyContributions.map((contrib, i) => (
-                          <li key={i} className="flex gap-3 text-slate-300 text-sm md:text-base leading-relaxed">
-                            <span className="text-retro-light-green mt-1 shrink-0">►</span>
-                            <span>{contrib}</span>
-                          </li>
-                        ))}
-                      </ul>
+                  {(node.gradInfo || node.client) && (
+                    <div className="w-full flex flex-col gap-4">
+                      {node.gradInfo && (
+                        <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-4 shadow-sm justify-center">
+                          {node.gradInfo.logos && (
+                            <div className="flex flex-wrap gap-2 shrink-0">
+                              {node.gradInfo.logos.map((logo, i) => (
+                                <div key={i} className="w-10 h-10 shrink-0 bg-white rounded p-1 flex items-center justify-center border border-white/10 shadow-sm">
+                                  <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          <div className="flex-1">
+                            <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] mb-1 uppercase opacity-90">{node.gradInfo.title || "Graduation Project"}</h5>
+                            <h3 className="font-pixel text-xs md:text-sm text-white tracking-wide leading-relaxed">{node.gradInfo.text}</h3>
+                          </div>
+                        </div>
+                      )}
+
+                      {node.client && (
+                        <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-green p-4 shadow-sm justify-center">
+                          {node.clientLogo && (
+                            <div className="w-10 h-10 shrink-0 bg-white/5 rounded p-1 flex items-center justify-center border border-white/10">
+                              <img src={node.clientLogo} alt={node.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+                            </div>
+                          )}
+                          <div className="flex-1">
+                            <h5 className="font-pixel text-[9px] text-retro-light-green tracking-[0.2em] mb-1 uppercase opacity-80">Commissioned By</h5>
+                            <h3 className="font-pixel text-xs md:text-sm text-white tracking-widest">{node.client}</h3>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
+
+                  <p className="font-chakra text-justify text-lg border-l-4 border-retro-blue pl-4 text-slate-300 leading-loose">{node.summary}</p>
                 </div>
               )}
               
@@ -172,7 +185,7 @@ export default function ModalOverlay({ node, onClose }) {
                   <h4 className="font-pixel text-[10px] text-retro-green mb-4 mt-8">TECH STACK</h4>
                   <div className="flex flex-wrap gap-2">
                     {node.tech.map(t => (
-                      <span key={t} className="bg-retro-purple px-3 py-1 text-sm border border-retro-blue font-medium">{t}</span>
+                      <span key={t} className="font-jetbrains bg-retro-gray px-3 py-1 text-xs border-2 border-white/20 text-white shadow-sm font-bold text-center transition-all duration-300 hover:-translate-y-1 hover:border-retro-yellow hover:text-retro-yellow hover:bg-retro-dark cursor-help">{t}</span>
                     ))}
                   </div>
                 </div>
