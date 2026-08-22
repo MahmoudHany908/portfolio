@@ -33,7 +33,7 @@ export default function VideoGallery({ singleVideo, videos }) {
       </div>
       
       {/* Video Selector Row */}
-      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-retro-gray scrollbar-track-retro-dark">
+      <div className="flex justify-center gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-retro-gray scrollbar-track-retro-dark">
         {videos.map((vid, idx) => {
           let thumb = '';
           if (vid.url.includes('youtube.com/embed/')) {
