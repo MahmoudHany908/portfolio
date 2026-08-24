@@ -93,85 +93,6 @@
       "icon": "crystal"
     },
     {
-      "id": "proj5",
-      "type": "project",
-      "title": "ESCCTRL",
-      "role": "Level Designer & Programmer",
-      "tech": [
-        "C++",
-        "SFML",
-        "OOP",
-        "2D Physics",
-        "Parallax Rendering"
-      ],
-      "summary": "A moody 2D atmospheric platformer built from scratch using SFML and C++ during an intense 3-day game jam. The main hook combines a shape-shifting mechanic with tight spatial navigation through tricky levels, utilizing deep parallax layering so the environment dynamically reacts to movement.",
-      "keyContributions": [
-        "Programmed core gameplay loops in C++ using the SFML framework, implementing robust object-oriented systems for health, damage, trap triggers, and a dynamic weather/rain controller.",
-        "Engineered deep parallax layering for dynamic environment reactions and tuned physics parameters (jump arcs, shape-shifting transitions) to ensure tight spatial navigation."
-      ],
-      "githubLink": "https://github.com/eslam135/ESCCTRL",
-      "itchLink": "https://senpaii2.itch.io/escctrl",
-      "video": "https://player.vimeo.com/video/1219428175",
-      "x": 600,
-      "y": 250,
-      "pX": 450,
-      "pY": 900,
-      "icon": "pc"
-    },
-    {
-      "id": "proj4",
-      "type": "project",
-      "title": "Subject Null",
-      "role": "VR Developer & Level Designer",
-      "tech": [
-        "Unity",
-        "C#",
-        "Meta XR SDK",
-        "OpenXR",
-        "Mesh Manipulation",
-        "Unity Version Control"
-      ],
-      "summary": "A narrative-driven VR puzzle game designed for standalone XR devices. The core gameplay revolves around a dynamic mesh slicing mechanic and swapping between different vision states to solve spatial puzzles. Players navigate through a mysterious, atmospheric facility by viewing the world from totally different perspectives.",
-      "keyContributions": [
-        "Engineered core VR gameplay mechanics using C# and the Meta SDK/OpenXR, specifically building a dynamic runtime mesh slicing system and distinct player vision states.",
-        "Designed intricate spatial puzzles and managed project repository workflows utilizing Unity Version Control (UVC) to facilitate rapid, seamless iteration."
-      ],
-      "itchLink": "https://nightfuryexe.itch.io/subject-null",
-      "video": "https://www.youtube.com/embed/xhyxFllVVQY",
-      "x": 800,
-      "y": 450,
-      "pX": 400,
-      "pY": 1100,
-      "icon": "vr"
-    },
-    {
-      "id": "proj3",
-      "type": "project",
-      "title": "VR Wave Shooter",
-      "role": "Solo Developer",
-      "tech": [
-        "Unity",
-        "C#",
-        "XR Interaction Toolkit",
-        "OpenXR",
-        "Observer pattern",
-        "Object Pooling",
-        "Memory Management"
-      ],
-      "summary": "An intense, wave-based VR shooter optimized to run smoothly on standalone headsets without dropping frames. The gameplay focuses on surviving against an ever-growing swarm of enemies while managing a strict ammo economy, requiring careful shot placement as the rounds progress and chaos escalates.",
-      "keyContributions": [
-        "Developed standalone VR combat mechanics using the XR Interaction Toolkit (XRIT), focusing on optimized draw calls and strict memory management for mobile headset performance.",
-        "Scripted scalable C# enemy spawning algorithms and dynamic round progression while balancing a strict ammo economy to drive strategic gameplay."
-      ],
-      "githubLink": "https://github.com/MahmoudHany908/VR_Shooter",
-      "video": "https://player.vimeo.com/video/1219429982",
-      "x": 1000,
-      "y": 250,
-      "pX": 500,
-      "pY": 1300,
-      "icon": "vr"
-    },
-    {
       "id": "proj2",
       "type": "project",
       "title": "Cyber Salvage",
@@ -204,10 +125,10 @@
         "Engineered event-driven UI architectures using Unity's standard Canvas system (uGUI) and custom scripting, seamlessly integrating meta-progression mechanics to balance the dual-loop economy."
       ],
       "video": "https://player.vimeo.com/video/1219429500",
-      "x": 1150,
-      "y": 550,
-      "pX": 400,
-      "pY": 1500,
+      "x": 600,
+      "y": 250,
+      "pX": 450,
+      "pY": 900,
       "icon": "mobile"
     },
     {
@@ -261,6 +182,85 @@
           "url": "https://www.youtube.com/embed/mlR2QsI3T5w"
         }
       ],
+      "x": 800,
+      "y": 450,
+      "pX": 400,
+      "pY": 1100,
+      "icon": "vr"
+    },
+    {
+      "id": "proj5",
+      "type": "project",
+      "title": "ESCCTRL",
+      "role": "Level Designer & Programmer",
+      "tech": [
+        "C++",
+        "SFML",
+        "OOP",
+        "2D Physics",
+        "Parallax Rendering"
+      ],
+      "summary": "A moody 2D atmospheric platformer built from scratch using SFML and C++ during an intense 3-day game jam. The main hook combines a shape-shifting mechanic with tight spatial navigation through tricky levels, utilizing deep parallax layering so the environment dynamically reacts to movement.",
+      "keyContributions": [
+        "Programmed core gameplay loops in C++ using the SFML framework, implementing robust object-oriented systems for health, damage, trap triggers, and a dynamic weather/rain controller.",
+        "Engineered deep parallax layering for dynamic environment reactions and tuned physics parameters (jump arcs, shape-shifting transitions) to ensure tight spatial navigation."
+      ],
+      "githubLink": "https://github.com/eslam135/ESCCTRL",
+      "itchLink": "https://senpaii2.itch.io/escctrl",
+      "video": "https://player.vimeo.com/video/1219428175",
+      "x": 1000,
+      "y": 250,
+      "pX": 500,
+      "pY": 1300,
+      "icon": "pc"
+    },
+    {
+      "id": "proj4",
+      "type": "project",
+      "title": "Subject Null",
+      "role": "VR Developer & Level Designer",
+      "tech": [
+        "Unity",
+        "C#",
+        "Meta XR SDK",
+        "OpenXR",
+        "Mesh Manipulation",
+        "Unity Version Control"
+      ],
+      "summary": "A narrative-driven VR puzzle game designed for standalone XR devices. The core gameplay revolves around a dynamic mesh slicing mechanic and swapping between different vision states to solve spatial puzzles. Players navigate through a mysterious, atmospheric facility by viewing the world from totally different perspectives.",
+      "keyContributions": [
+        "Engineered core VR gameplay mechanics using C# and the Meta SDK/OpenXR, specifically building a dynamic runtime mesh slicing system and distinct player vision states.",
+        "Designed intricate spatial puzzles and managed project repository workflows utilizing Unity Version Control (UVC) to facilitate rapid, seamless iteration."
+      ],
+      "itchLink": "https://nightfuryexe.itch.io/subject-null",
+      "video": "https://www.youtube.com/embed/xhyxFllVVQY",
+      "x": 1150,
+      "y": 550,
+      "pX": 400,
+      "pY": 1500,
+      "icon": "vr"
+    },
+    {
+      "id": "proj3",
+      "type": "project",
+      "title": "VR Wave Shooter",
+      "role": "Solo Developer",
+      "tech": [
+        "Unity",
+        "C#",
+        "XR Interaction Toolkit",
+        "OpenXR",
+        "Observer pattern",
+        "Object Pooling",
+        "Memory Management"
+      ],
+      "summary": "An intense, wave-based VR shooter optimized to run smoothly on standalone headsets without dropping frames. The gameplay focuses on surviving against an ever-growing swarm of enemies while managing a strict ammo economy, requiring careful shot placement as the rounds progress and chaos escalates.",
+      "keyContributions": [
+        "Developed standalone VR combat mechanics using the XR Interaction Toolkit (XRIT), focusing on optimized draw calls and strict memory management for mobile headset performance.",
+        "Scripted scalable C# enemy spawning algorithms and dynamic round progression while balancing a strict ammo economy to drive strategic gameplay."
+      ],
+      "githubLink": "https://github.com/MahmoudHany908/VR_Shooter",
+      "video": "https://player.vimeo.com/video/1219429982",
       "x": 950,
       "y": 700,
       "pX": 500,
