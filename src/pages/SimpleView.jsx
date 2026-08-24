@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import VideoGallery from '../components/UI/VideoGallery';
@@ -168,28 +168,67 @@ export default function SimpleView() {
   const gradProjects = projects.filter(n => n.isGraduationProject);
   const normalProjects = projects.filter(n => !n.isGraduationProject);
 
+  // Scroll spy for active navbar highlighting
+  const [activeSection, setActiveSection] = useState('about');
+  const navSections = ['about', 'skills', 'grad-projects', 'contact'];
+
+  useEffect(() => {
+    const observers = [];
+    navSections.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSection(id);
+        },
+        { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
   return (
     <div className="min-h-screen bg-retro-dark text-retro-text font-sans relative">
       <RetroParticles />
       
       {/* Sticky Navigation */}
-      <nav className="sticky top-0 z-50 bg-retro-dark/95 backdrop-blur-md border-b-4 border-retro-gray shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] py-3 px-4 md:px-8">
-        <div className="max-w-screen-2xl mx-auto flex justify-between items-center w-full px-2 lg:px-8">
-          <div className="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar items-center">
-            <a href="#about" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap flex items-center gap-2">
-              <UserIcon /> ABOUT
-            </a>
-            <a href="#skills" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap flex items-center gap-2">
-              <WrenchIcon /> SKILLS
-            </a>
-            <a href="#projects" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap flex items-center gap-2">
-              <FolderIcon /> PROJECTS
-            </a>
-            <a href="#contact" className="font-pixel text-xs md:text-sm text-retro-light-blue hover:text-white transition-colors whitespace-nowrap flex items-center gap-2">
-              <PhoneIcon /> CONTACT
-            </a>
+      <nav className="sticky top-0 z-50 bg-retro-dark/95 backdrop-blur-md border-b-4 border-retro-gray shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] py-2 md:py-3 px-3 md:px-8">
+        <div className="max-w-screen-2xl mx-auto flex justify-between items-center w-full px-1 lg:px-8">
+          {/* Pixel M Logo */}
+          <div className="hidden md:flex items-center mr-6 shrink-0">
+            <span className="font-pixel text-xl text-retro-yellow drop-shadow-[0_0_8px_rgba(244,180,27,0.6)] select-none">M</span>
+            <span className="font-pixel text-[10px] text-retro-gray ml-1 tracking-widest hidden lg:inline">AZROA</span>
           </div>
-          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform text-xs md:text-sm px-3 py-2 hidden md:block">
+          <div className="flex gap-2 md:gap-6 overflow-x-auto no-scrollbar items-center flex-1">
+            {[
+              { id: 'about', label: 'ABOUT', Icon: UserIcon },
+              { id: 'skills', label: 'SKILLS', Icon: WrenchIcon },
+              { id: 'grad-projects', label: 'PROJECTS', Icon: FolderIcon },
+              { id: 'contact', label: 'CONTACT', Icon: PhoneIcon },
+            ].map(({ id, label, Icon }) => {
+              const isActive = activeSection === id;
+              return (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className={`font-pixel text-[10px] md:text-sm whitespace-nowrap flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 relative transition-all duration-300 hover:scale-105 ${
+                    isActive
+                      ? 'text-retro-yellow drop-shadow-[0_0_10px_rgba(244,180,27,0.6)]'
+                      : 'text-retro-light-blue hover:text-white'
+                  }`}
+                >
+                  {isActive && <span className="text-retro-yellow text-xs md:text-sm animate-pulse">▸</span>}
+                  <Icon /> {label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-retro-yellow shadow-[0_0_8px_rgba(244,180,27,0.8)] rounded-full" />
+                  )}
+                </a>
+              );
+            })}
+          </div>
+          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform text-[10px] md:text-sm px-2 md:px-3 py-1.5 md:py-2 hidden md:block">
             RETURN TO MAP
           </Link>
         </div>
@@ -259,7 +298,7 @@ export default function SimpleView() {
                 {education.map((edu, i) => (
                   <motion.div 
                     key={edu.id} 
-                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-6 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-yellow hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(244,180,27,0.4)] group`}
+                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-4 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-yellow hover:translate-x-4 md:hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(244,180,27,0.4)] group`}
                   >
                     <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-yellow transition-colors">{edu.degree}</div>
                     <div className="text-retro-light-blue text-lg mb-2 font-bold">{edu.institution}</div>
@@ -276,7 +315,7 @@ export default function SimpleView() {
                 {internships.map((int, i) => (
                   <motion.div 
                     key={int.id} 
-                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-6 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-light-green hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(131,235,114,0.4)] group`}
+                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-4 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-light-green hover:translate-x-4 md:hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(131,235,114,0.4)] group`}
                   >
                     <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-light-green transition-colors">{int.title}</div>
                     <div className="text-retro-light-green text-lg mb-2 font-bold">{int.institution}</div>
@@ -319,7 +358,7 @@ export default function SimpleView() {
 
         <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="w-full pt-32 scroll-mt-28 bg-retro-dark">
           <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-16 text-center pb-4 border-b-4 border-retro-gray border-dashed max-w-7xl mx-auto px-4">Graduation Projects</h3>
-          <div className="max-w-7xl mx-auto px-4 flex flex-col gap-32">
+          <div className="max-w-7xl mx-auto px-2 md:px-4 flex flex-col gap-16 md:gap-32">
             {gradProjects.map((proj, idx) => (
               <ProjectCard 
                 key={proj.id}
@@ -333,7 +372,7 @@ export default function SimpleView() {
 
         <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="w-full pt-32 scroll-mt-28 bg-retro-dark">
           <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-16 text-center pb-4 border-b-4 border-retro-gray border-dashed max-w-7xl mx-auto px-4">Projects</h3>
-          <div className="max-w-7xl mx-auto px-4 flex flex-col gap-32">
+          <div className="max-w-7xl mx-auto px-2 md:px-4 flex flex-col gap-16 md:gap-32">
             {normalProjects.map((proj, idx) => (
               <ProjectCard key={proj.id} proj={proj} idx={idx} />
             ))}
@@ -367,7 +406,7 @@ export default function SimpleView() {
               hidden: { opacity: 0, scale: 0.5, filter: "blur(10px)" },
               visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1, staggerChildren: 0.2, delayChildren: 0.4 } }
             }}
-            className="w-full max-w-5xl border-[8px] border-retro-light-blue bg-retro-dark p-12 md:p-20 relative shadow-[0_0_50px_rgba(86,156,235,0.4)]"
+            className="w-full max-w-5xl border-[6px] md:border-[8px] border-retro-light-blue bg-retro-dark p-6 md:p-12 lg:p-20 relative shadow-[0_0_50px_rgba(86,156,235,0.4)]"
           >
             {/* Teleportation aesthetic layers */}
             <div className="absolute inset-0 bg-gradient-to-t from-retro-light-blue/20 to-transparent pointer-events-none"></div>
@@ -392,7 +431,7 @@ export default function SimpleView() {
                 className="flex flex-col items-center gap-6 group relative"
               >
                 {/* Pad Base */}
-                <div className="w-24 h-24 rounded-full border-[6px] border-retro-yellow bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-yellow group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_30px_rgba(244,180,27,0.5)] group-hover:shadow-[0_0_50px_rgba(244,180,27,0.8)] relative overflow-hidden z-10">
+                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 md:border-[6px] border-retro-yellow bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-yellow group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_30px_rgba(244,180,27,0.5)] group-hover:shadow-[0_0_50px_rgba(244,180,27,0.8)] relative overflow-hidden z-10">
                   <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                   <MailIcon />
                 </div>
@@ -409,7 +448,7 @@ export default function SimpleView() {
                 whileHover={{ scale: 1.1, y: -10 }}
                 className="flex flex-col items-center gap-6 group relative"
               >
-                <div className="w-24 h-24 rounded-full border-[6px] border-retro-light-green bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-light-green group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_30px_rgba(131,235,114,0.5)] group-hover:shadow-[0_0_50px_rgba(131,235,114,0.8)] relative overflow-hidden z-10">
+                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 md:border-[6px] border-retro-light-green bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-light-green group-hover:text-retro-dark transition-all duration-300 shadow-[0_0_30px_rgba(131,235,114,0.5)] group-hover:shadow-[0_0_50px_rgba(131,235,114,0.8)] relative overflow-hidden z-10">
                   <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                   <PhoneIcon />
                 </div>
@@ -425,7 +464,7 @@ export default function SimpleView() {
                 whileHover={{ scale: 1.1, y: -10 }}
                 className="flex flex-col items-center gap-6 group relative"
               >
-                <div className="w-24 h-24 rounded-full border-[6px] border-retro-red bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-red group-hover:text-white transition-all duration-300 shadow-[0_0_30px_rgba(217,87,99,0.5)] group-hover:shadow-[0_0_50px_rgba(217,87,99,0.8)] relative overflow-hidden z-10">
+                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 md:border-[6px] border-retro-red bg-retro-dark flex items-center justify-center text-white group-hover:bg-retro-red group-hover:text-white transition-all duration-300 shadow-[0_0_30px_rgba(217,87,99,0.5)] group-hover:shadow-[0_0_50px_rgba(217,87,99,0.8)] relative overflow-hidden z-10">
                   <div className="absolute bottom-0 w-full h-full bg-gradient-to-t from-white/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 </div>

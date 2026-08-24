@@ -46,7 +46,7 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
       onPointerEnter={handlePointerEnter}
       onClick={handleClick}
     >
-      <div className={`relative w-32 h-32 flex items-center justify-center pointer-events-auto transition-all duration-100 ${isHit ? 'scale-125 brightness-200 drop-shadow-[0_0_20px_white]' : 'hover:scale-110'}`}>
+      <div className={`relative w-20 h-20 md:w-32 md:h-32 flex items-center justify-center pointer-events-auto transition-all duration-100 ${isHit ? 'scale-125 brightness-200 drop-shadow-[0_0_20px_white]' : 'hover:scale-110'}`}>
         {/* Glowing Background Circle (Option B) */}
         <div 
           className={`absolute inset-2 rounded-full opacity-80 transition-all ${!isUnlocked ? 'grayscale opacity-40' : ''}`}
@@ -88,7 +88,7 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
 
       {/* Label */}
       <div 
-        className={`absolute -bottom-8 font-pixel text-sm whitespace-nowrap bg-retro-dark px-3 py-1 border-2 border-white transition-opacity duration-300 ${isUnlocked ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100 pointer-events-none drop-shadow-md z-40 flex items-center gap-2`}
+        className={`absolute -bottom-6 md:-bottom-8 font-pixel text-[10px] md:text-sm whitespace-nowrap bg-retro-dark px-2 md:px-3 py-0.5 md:py-1 border-2 border-white transition-opacity duration-300 ${isUnlocked ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100 pointer-events-none drop-shadow-md z-40 flex items-center gap-1 md:gap-2`}
       >
         <span style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}>{node.title}</span>
         {node.clientBadge && (

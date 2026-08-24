@@ -62,16 +62,16 @@ export default function ModalOverlay({ node, onClose }) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="absolute top-0 right-0 w-full md:w-[600px] h-full bg-retro-dark border-l-8 border-retro-gray p-8 z-50 overflow-y-auto pointer-events-auto shadow-2xl"
+            className="absolute top-0 right-0 w-full md:w-[600px] h-full bg-retro-dark border-l-0 md:border-l-8 border-retro-gray p-4 md:p-8 z-50 overflow-y-auto pointer-events-auto shadow-2xl"
           >
             <button 
               onClick={onClose} 
-              className="absolute top-6 right-6 text-retro-text hover:text-retro-red transition-colors"
+              className="absolute top-4 right-4 md:top-6 md:right-6 text-retro-text hover:text-retro-red transition-colors z-10"
             >
-              <X size={28} />
+              <X size={24} className="md:w-7 md:h-7" />
             </button>
             
-            <div className="pixel-box mb-8 mt-4 flex items-center gap-6">
+            <div className="pixel-box mb-6 md:mb-8 mt-2 md:mt-4 flex items-center gap-4 md:gap-6">
               {node.type === 'about' && (
                 <img 
                   src="/profile.jpg" 
