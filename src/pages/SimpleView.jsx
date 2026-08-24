@@ -300,7 +300,7 @@ export default function SimpleView() {
                     key={edu.id} 
                     className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-4 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-2 md:-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-yellow hover:translate-x-4 md:hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(244,180,27,0.4)] group`}
                   >
-                    <div className="font-pixel text-sm md:text-base text-white mb-3 group-hover:text-retro-yellow transition-colors leading-relaxed">{edu.degree}</div>
+                    <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-yellow transition-colors text-justify">{edu.degree}</div>
                     <div className="text-retro-light-blue text-lg mb-2 font-bold">{edu.institution}</div>
                     <div className="text-slate-400 text-sm font-pixel tracking-widest">{edu.date}</div>
                   </motion.div>
