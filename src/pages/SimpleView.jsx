@@ -246,7 +246,7 @@ export default function SimpleView() {
               <img 
                 src="/profile.jpg" 
                 alt="Mahmoud Hany" 
-                className="relative w-28 h-28 md:w-40 md:h-40 object-cover object-[50%_10%] scale-[1.05] pixel-border border-6 border-retro-dark shadow-xl z-10 filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                className="relative w-28 h-28 md:w-40 md:h-40 object-cover object-[50%_10%] scale-[1.05] pixel-border border-6 border-retro-dark shadow-xl z-10 md:filter md:grayscale md:group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
             <div className="w-full mt-4 md:mt-0 flex-1 flex flex-col justify-between h-full min-h-[12rem]">
@@ -298,7 +298,7 @@ export default function SimpleView() {
                 {education.map((edu, i) => (
                   <motion.div 
                     key={edu.id} 
-                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-4 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-yellow hover:translate-x-4 md:hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(244,180,27,0.4)] group`}
+                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-4 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-2 md:-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-yellow hover:translate-x-4 md:hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(244,180,27,0.4)] group`}
                   >
                     <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-yellow transition-colors">{edu.degree}</div>
                     <div className="text-retro-light-blue text-lg mb-2 font-bold">{edu.institution}</div>
@@ -315,7 +315,7 @@ export default function SimpleView() {
                 {internships.map((int, i) => (
                   <motion.div 
                     key={int.id} 
-                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-4 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-light-green hover:translate-x-4 md:hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(131,235,114,0.4)] group`}
+                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-4 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-2 md:-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-light-green hover:translate-x-4 md:hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(131,235,114,0.4)] group`}
                   >
                     <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-light-green transition-colors">{int.title}</div>
                     <div className="text-retro-light-green text-lg mb-2 font-bold">{int.institution}</div>
