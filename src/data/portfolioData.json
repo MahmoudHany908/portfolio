@@ -63,6 +63,13 @@
   ],
   "internships": [
     {
+      "id": "kodland",
+      "title": "Game Development Instructor",
+      "institution": "Kodland (Part-time, Online)",
+      "date": "08/2026 - Present",
+      "description": "Teach game development and Lua scripting in Roblox Studio to students aged 10 to 12 through live online classes."
+    },
+    {
       "id": "nbe",
       "title": "Unity Developer (Contract)",
       "institution": "National Bank of Egypt (NBE)",
