@@ -47,7 +47,7 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
       onClick={handleClick}
     >
       <div className={`relative w-20 h-20 md:w-32 md:h-32 flex items-center justify-center pointer-events-auto transition-all duration-100 ${isHit ? 'scale-125 brightness-200 drop-shadow-[0_0_20px_white]' : 'hover:scale-110'}`}>
-        {/* Glowing Background Circle (Option B) */}
+        {/* Glowing Background Circle */}
         <div 
           className={`absolute inset-2 rounded-full opacity-80 transition-all ${!isUnlocked ? 'grayscale opacity-40' : ''}`}
           style={{ 
@@ -94,6 +94,11 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
         {node.clientBadge && (
           <span className="bg-retro-green/20 text-retro-light-green border border-retro-green px-1.5 py-0.5 text-[8px] uppercase tracking-wider">
             {node.clientBadge}
+          </span>
+        )}
+        {node.awardBadge && (
+          <span className="bg-retro-yellow/20 text-retro-yellow border border-retro-yellow px-1.5 py-0.5 text-[8px] uppercase tracking-wider">
+            ★ {node.awardBadge}
           </span>
         )}
       </div>

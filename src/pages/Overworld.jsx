@@ -25,7 +25,7 @@ export default function Overworld() {
   const [isLandscapeMobile, setIsLandscapeMobile] = useState(() => window.innerWidth < 768 && window.innerWidth > window.innerHeight);
   
   const [playerPos, setPlayerPos] = useState(() => 
-    window.innerWidth < 768 ? { x: 200, y: 300 } : { x: -80, y: 675 }
+    window.innerWidth < 768 ? { x: 200, y: 300 } : { x: -80, y: 680 }
   );
   
   const [isWalking, setIsWalking] = useState(false);
@@ -51,7 +51,7 @@ export default function Overworld() {
         if (activeNode) {
           setPlayerPos({ x: newIsMobile ? activeNode.pX : activeNode.x, y: newIsMobile ? activeNode.pY : activeNode.y });
         } else if (playerPos.x === -80 || playerPos.x === 200 || playerPos.x === 250) {
-          setPlayerPos(newIsMobile ? { x: 200, y: 300 } : { x: -80, y: 675 });
+          setPlayerPos(newIsMobile ? { x: 200, y: 300 } : { x: -80, y: 680 });
         }
       }
     };

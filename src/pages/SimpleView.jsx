@@ -35,6 +35,10 @@ const PhoneIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
 );
 
+const TrophyIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+);
+
 const RetroParticles = () => {
   // Use a fixed array for rendering consistency without window.innerHeight dependencies during initial render
   const particles = Array.from({ length: 40 }).map((_, i) => ({
@@ -75,11 +79,11 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6 }}
-    className="w-full h-auto xl:h-[85vh] flex flex-col xl:flex-row pixel-box bg-retro-dark border-[6px] border-retro-purple transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] hover:-translate-y-2 group overflow-hidden"
+    className="w-full h-auto xl:min-h-[85vh] flex flex-col xl:flex-row pixel-box bg-retro-dark border-[6px] border-retro-purple transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] hover:-translate-y-2 group overflow-hidden"
   >
     {/* Left Column: Media & Actions */}
     <div className="w-full xl:w-1/2 shrink-0 bg-black/40 flex flex-col justify-center border-b-[6px] xl:border-b-0 xl:border-r-[6px] border-retro-purple relative p-4 md:p-6 lg:p-8">
-      <VideoGallery singleVideo={proj.video} videos={proj.videos} />
+      <VideoGallery singleVideo={proj.video} videos={proj.videos} image={proj.image} />
       
       <div className="flex flex-wrap gap-4 mt-6 justify-center">
         {proj.githubLink && (
@@ -92,18 +96,30 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
           </a>
         )}
+        {proj.jamLink && (
+          <a href={proj.jamLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-yellow text-retro-dark font-bold flex gap-2 items-center px-4 py-3 text-xs md:text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+            <TrophyIcon /> JAM
+          </a>
+        )}
       </div>
     </div>
 
-    <div className="flex-1 flex flex-col p-6 md:p-8 lg:p-12">
+    <div className="flex-1 flex flex-col p-6 md:p-8 lg:p-12 justify-between">
       
       <div className="flex flex-col gap-2 border-b-[4px] border-retro-gray/30 pb-4 shrink-0">
-        <h4 className="font-pixel text-xl lg:text-2xl text-retro-yellow group-hover:text-white transition-colors leading-tight">{proj.title}</h4>
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <h4 className="font-pixel text-xl lg:text-2xl text-retro-yellow group-hover:text-white transition-colors leading-tight">{proj.title}</h4>
+          {proj.date && (
+            <span className="font-jetbrains text-xs text-retro-gray bg-black/40 px-2 py-1 rounded border border-white/10 font-bold">
+              {proj.date}
+            </span>
+          )}
+        </div>
         <div className="text-retro-light-blue text-xs md:text-sm uppercase tracking-widest font-bold">{proj.role}</div>
       </div>
       
-      <div className="flex-1 flex flex-col justify-evenly py-6">
-        {(gradInfo || proj.client) && (
+      <div className="flex-1 flex flex-col justify-evenly py-6 gap-6">
+        {(gradInfo || proj.client || proj.jam) && (
           <div className="w-full flex flex-col gap-4">
             {gradInfo && (
               <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-4 shadow-sm justify-center">
@@ -136,13 +152,42 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
                 </div>
               </div>
             )}
+
+            {proj.jam && (
+              <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-4 shadow-sm">
+                <div className="flex-1">
+                  <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] mb-1 uppercase opacity-90 flex items-center gap-2">
+                    <TrophyIcon /> {proj.jam}
+                  </h5>
+                  {proj.award && (
+                    <h3 className="font-pixel text-xs md:text-sm text-retro-light-green tracking-wide leading-relaxed font-bold mt-1">
+                      ★ {proj.award}
+                    </h3>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
         
         <div className="w-full">
-          <p className="font-chakra text-sm lg:text-base text-slate-300 leading-loose group-hover:text-white transition-colors text-justify">
+          <p className="font-chakra text-sm lg:text-base text-slate-300 leading-loose group-hover:text-white transition-colors text-justify mb-4">
             {proj.summary}
           </p>
+
+          {proj.keyContributions && proj.keyContributions.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-retro-gray/30">
+              <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] uppercase mb-3 opacity-90">Key Contributions</h5>
+              <ul className="space-y-2 border-l-2 border-retro-yellow/40 pl-4">
+                {proj.keyContributions.map((kc, i) => (
+                  <li key={i} className="font-chakra text-xs lg:text-sm text-slate-300 leading-relaxed flex items-start gap-2">
+                    <span className="text-retro-yellow select-none shrink-0 mt-0.5">▸</span>
+                    <span>{kc}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
       

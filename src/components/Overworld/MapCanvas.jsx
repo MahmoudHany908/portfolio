@@ -114,8 +114,8 @@ const PixelKnight = ({ isWalking, flipX, isDrawing, isShooting }) => (
 export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isDrawing, isShooting, shootingTarget, hitNodeId, onCanvasTransform }) {
   const [scale, setScale] = useState(1);
   const dragY = useMotionValue(0);
-  const CANVAS_WIDTH = isMobileLayout ? 900 : 1600;
-  const CANVAS_HEIGHT = isMobileLayout ? 2200 : 900;
+  const CANVAS_WIDTH = isMobileLayout ? 900 : 1800;
+  const CANVAS_HEIGHT = isMobileLayout ? 3200 : 900;
 
   // Reset drag offset when player moves so camera recenters perfectly
   useEffect(() => {
@@ -187,7 +187,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
       {/* Fixed Coordinate Canvas */}
       <motion.div 
         drag={isMobileLayout ? "y" : false}
-        dragConstraints={{ top: -800, bottom: 800 }}
+        dragConstraints={{ top: -2000, bottom: 800 }}
         dragElastic={0.2}
         animate={{ left: numericLeft, top: numericTop }}
         transition={{ duration: 1.2, ease: "easeInOut" }}
@@ -202,16 +202,16 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
         }}
       >
         {/* SKILLS ZONE */}
-        <ZoneRegion x={isMobileLayout ? 450 : 225} y={isMobileLayout ? 600 : 325} rx={150} ry={150} color="#f4b41b" />
-        <SectionBanner text="SKILLS" x={isMobileLayout ? 450 : 225} y={isMobileLayout ? 420 : 150} color="#f4b41b" />
+        <ZoneRegion x={isMobileLayout ? 450 : 180} y={isMobileLayout ? 550 : 320} rx={140} ry={140} color="#f4b41b" />
+        <SectionBanner text="SKILLS" x={isMobileLayout ? 450 : 180} y={isMobileLayout ? 420 : 140} color="#f4b41b" />
 
         {/* PROJECTS ZONE */}
-        <ZoneRegion x={isMobileLayout ? 450 : 875} y={isMobileLayout ? 1300 : 475} rx={isMobileLayout ? 250 : 350} ry={isMobileLayout ? 500 : 300} color="#569ceb" />
-        <SectionBanner text="PROJECTS" x={isMobileLayout ? 450 : 870} y={isMobileLayout ? 780 : 120} color="#569ceb" />
+        <ZoneRegion x={isMobileLayout ? 450 : 1000} y={isMobileLayout ? 1675 : 330} rx={isMobileLayout ? 260 : 700} ry={isMobileLayout ? 1000 : 250} color="#569ceb" />
+        <SectionBanner text="PROJECTS" x={isMobileLayout ? 450 : 1000} y={isMobileLayout ? 690 : 90} color="#569ceb" />
 
         {/* CONTACT ZONE */}
-        <ZoneRegion x={isMobileLayout ? 450 : 1450} y={isMobileLayout ? 2000 : 675} rx={150} ry={150} color="#83eb72" />
-        <SectionBanner text="CONTACT" x={isMobileLayout ? 450 : 1450} y={isMobileLayout ? 1820 : 500} color="#83eb72" />
+        <ZoneRegion x={isMobileLayout ? 450 : 1620} y={isMobileLayout ? 2850 : 700} rx={140} ry={140} color="#83eb72" />
+        <SectionBanner text="CONTACT" x={isMobileLayout ? 450 : 1620} y={isMobileLayout ? 2720 : 850} color="#83eb72" />
 
         {/* The Guided Trail */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
@@ -312,7 +312,7 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
                 transition={{ type: 'spring', delay: 0.5, damping: 12 }}
                 className="absolute -top-2 left-12 bg-white text-black font-pixel text-xs px-4 py-3 border-4 border-black whitespace-nowrap drop-shadow-xl z-50"
               >
-                {(playerPos.x === 225 && playerPos.y === 675) || (playerPos.x === 450 && playerPos.y === 300) ? "Hire Mahmoud!" : "Still didn't hire him?"}
+                {(playerPos.x === 180 && playerPos.y === 680) || (playerPos.x === 450 && playerPos.y === 300) ? "Hire Mahmoud!" : "Still didn't hire him?"}
                 {/* Arrow pointing left at the character's body */}
                 <div className="absolute top-1/2 -left-3 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-r-[12px] border-t-transparent border-b-transparent border-r-black"></div>
                 <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-0 h-0 border-t-[4px] border-b-[4px] border-r-[8px] border-t-transparent border-b-transparent border-r-white"></div>

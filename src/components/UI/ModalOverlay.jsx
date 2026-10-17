@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Gamepad2, Code, Box, Braces, Star, Wrench, Brain, GitBranch, Users } from 'lucide-react';
+import { X, Gamepad2, Code, Box, Braces, Star, Wrench, Brain, GitBranch, Users, Trophy } from 'lucide-react';
 import VideoGallery from './VideoGallery';
 import portfolioData from '../../data/portfolioData.json';
 
@@ -138,9 +138,9 @@ export default function ModalOverlay({ node, onClose }) {
 
               {node.summary && node.type !== 'about' && node.type !== 'contact' && node.type !== 'skills' && (
                 <div className="space-y-6">
-                  <VideoGallery singleVideo={node.video} videos={node.videos} />
+                  <VideoGallery singleVideo={node.video} videos={node.videos} image={node.image} />
                   
-                  {(node.gradInfo || node.client) && (
+                  {(node.gradInfo || node.client || node.jam) && (
                     <div className="w-full flex flex-col gap-4">
                       {node.gradInfo && (
                         <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-4 shadow-sm justify-center">
@@ -173,10 +173,39 @@ export default function ModalOverlay({ node, onClose }) {
                           </div>
                         </div>
                       )}
+
+                      {node.jam && (
+                        <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-4 shadow-sm">
+                          <div className="flex-1">
+                            <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] mb-1 uppercase opacity-90 flex items-center gap-2">
+                              <Trophy size={14} /> {node.jam}
+                            </h5>
+                            {node.award && (
+                              <h3 className="font-pixel text-xs md:text-sm text-retro-light-green tracking-wide leading-relaxed font-bold mt-1">
+                                ★ {node.award}
+                              </h3>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
-                  <p className="font-chakra text-justify text-lg border-l-4 border-retro-blue pl-4 text-slate-300 leading-loose">{node.summary}</p>
+                  <p className="font-chakra text-justify text-base md:text-lg border-l-4 border-retro-blue pl-4 text-slate-300 leading-loose">{node.summary}</p>
+
+                  {node.keyContributions && node.keyContributions.length > 0 && (
+                    <div className="pt-2">
+                      <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] uppercase mb-3 opacity-90">Key Contributions</h5>
+                      <ul className="space-y-2 border-l-2 border-retro-yellow/40 pl-4">
+                        {node.keyContributions.map((kc, i) => (
+                          <li key={i} className="font-chakra text-xs md:text-sm text-slate-300 leading-relaxed flex items-start gap-2">
+                            <span className="text-retro-yellow select-none shrink-0 mt-0.5">▸</span>
+                            <span>{kc}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               )}
               
@@ -192,8 +221,8 @@ export default function ModalOverlay({ node, onClose }) {
               )}
 
               {/* Action Buttons */}
-              {(node.githubLink || node.itchLink) && (
-                <div className="flex gap-4 pt-8 mt-8 border-t border-retro-gray/50">
+              {(node.githubLink || node.itchLink || node.jamLink) && (
+                <div className="flex flex-wrap gap-4 pt-8 mt-8 border-t border-retro-gray/50">
                   {node.githubLink && (
                     <a href={node.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center">
                       <GithubIcon /> REPOSITORY
@@ -202,6 +231,11 @@ export default function ModalOverlay({ node, onClose }) {
                   {node.itchLink && (
                     <a href={node.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center">
                       <Gamepad2 size={16} /> PLAY DEMO
+                    </a>
+                  )}
+                  {node.jamLink && (
+                    <a href={node.jamLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-yellow text-retro-dark font-bold flex gap-2 items-center">
+                      <Trophy size={16} /> JAM PAGE
                     </a>
                   )}
                 </div>
