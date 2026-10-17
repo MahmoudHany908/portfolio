@@ -106,7 +106,6 @@
       ],
       "client": "National Bank of Egypt",
       "clientLogo": "/nbe-logo.png",
-      "clientBadge": "NBE",
       "isGraduationProject": true,
       "gradInfo": {
         "title": "9-Month Program Graduation Project",
@@ -194,7 +193,6 @@
       "role": "Gameplay Systems & Level Designer",
       "jam": "KSA National Day Game Jam",
       "award": "Rank: 3rd Place & Best Innovation Award",
-      "awardBadge": "3rd Place & Innovation",
       "tech": [
         "Unity",
         "C#",

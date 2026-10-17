@@ -7,11 +7,15 @@ const colors = {
   'w': '#a06a38', // Wood highlight
   'B': '#1a1c2c', // Black outline / deep shadow
   'R': '#d95763', // Red accent
-  'Y': '#f4b41b', // Yellow accent
+  'Y': '#f4b41b', // Yellow accent / Gold
+  'O': '#d48b15', // Dark Gold
   'S': '#94b0c2', // Light stone
   's': '#566c86', // Dark stone
-  'D': '#333c57', // Door/Dark hole
-  'C': '#ffffff'  // White highlight
+  'D': '#1e2337', // Deep chest interior / shadow
+  'C': '#ffffff', // White highlight
+  'E': '#006738', // NBE Forest Green
+  'e': '#009a52', // NBE Bright Green
+  'b': '#569ceb'  // Blue gem / sapphire
 };
 
 function generateDataURI(asciiArr, width, height) {
@@ -154,6 +158,111 @@ const projectsChest = [
   "................................"
 ];
 
+const projectsChestOpen = [
+  "................................",
+  "................................",
+  ".........BBBBBBBBBBBBBB.........",
+  "........BSSSSSSSSSSSSSSB........",
+  ".......BSSwwwwwwwwwwwwSSB.......",
+  "......BSSWwwwwwwwwwwwwWSSB......",
+  "......BSSWwwBBBBwwBBBBWSSB......",
+  "......BSSWwwwwwwwwwwwwWSSB......",
+  "......BSSSSSSSSSSSSSSSSSSB......",
+  "......BBBBBBBBBBBBBBBBBBBB......",
+  "......BDDDDDDDDDDDDDDDDDDB......",
+  "......BDDYCCYDDDYbCYDDDYDB......",
+  "......BDYYYYYYDYbYbYYYYDDB......",
+  "......BDYYRYYYYYYYYYYYRYDB......",
+  "......BDYYYYCYYYYYbYYYYYDB......",
+  "......BSSYYYYYYYYYYYYYYSSB......",
+  "......BBBBBBBBSSBBBBBBBBBB......",
+  "......BSSWwwwwB..BwwwwWwSSB.....",
+  "......BSSWWWWWB..BWWWWWwSSB.....",
+  "......BSSWwwwwBYYBwwwwWwSSB.....",
+  "......BSSWWWWWBBBBWWWWwWSSB.....",
+  "......BSSWwwwwwwwwwwWwWSSB......",
+  "......BSSWWWWWWWWWWWWWwSSB......",
+  "......BSSSSSSSSSSSSSSSSSSB......",
+  "......BBBBBBBBBBBBBBBBBBBB......",
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "................................",
+  "................................"
+];
+
+const nbeLogo = [
+  "................................",
+  "................................",
+  "...........BBBBBBBBBB...........",
+  ".........BBEEEEEEEEEEBB.........",
+  "........BEEEEEEEEEEEEEEB........",
+  ".......BEEEEEEEEEEEEEEEEB.......",
+  "......BEECCCCCCCCCCCCCCEEB......",
+  ".....BEECCCCCCCCCCCCCCCCEEB.....",
+  ".....BEECBBBBBBBBBBBBCCEERB.....",
+  "....BEECCBYYYYYYYYYYBCCCEEB.....",
+  "....BEECCBYYYYYYYYYYBCCCEEB.....",
+  "....BEECCBBYYYYYYYYBCCCCEEB.....",
+  "....BEECCCBBYYYYYYBBCCCCEEB.....",
+  "....BEECCCCBBBBBBBBCCCCCEEB.....",
+  "....BEECCCCCCCCCCCCCCCCCEEB.....",
+  "....BEECCBYYBBYYBBYYBCCCEEB.....",
+  "....BEECCBYYBBYYBBYYBCCCEEB.....",
+  "....BEECCBYYBBYYBBYYBCCCEEB.....",
+  "....BEECCBYYBBYYBBYYBCCCEEB.....",
+  "....BEECCBYYBBYYBBYYBCCCEEB.....",
+  "....BEECCBYYBBYYBBYYBCCCEEB.....",
+  "....BEECCBYYBBYYBBYYBCCCEEB.....",
+  "....BEECCBBBBBBBBBBBBCCCEEB.....",
+  "....BEECCCCCCCCCCCCCCCCCEEB.....",
+  ".....BEECCCCCCCCCCCCCCCCEEB.....",
+  ".....BEEEEEEEEEEEEEEEEEEEEB.....",
+  "......BBEEEEEEEEEEEEEEEEBB......",
+  "........BBBBBBBBBBBBBBBB........",
+  "................................",
+  "................................",
+  "................................",
+  "................................"
+];
+
+const trophy3 = [
+  "................................",
+  "................................",
+  "..........BBBBBBBBBBBB..........",
+  ".........BYYYYYYYYYYYYB.........",
+  "..BBBB...BYYYYYYYYYYYYB...BBBB..",
+  ".BYYYB..BYYYYYYYYYYYYYYB..BYYYB.",
+  ".BYYYB..BYYYYYYYYYYYYYYB..BYYYB.",
+  ".BYYYB..BYYYYBBBBBBBBYYB..BYYYB.",
+  ".BYYYB..BYYYYYYYYYYYBYYB..BYYYB.",
+  "..BBBB..BYYYYYYBBBBBBYYB..BBBB..",
+  ".........BYYYYYYYYYYBYB.........",
+  ".........BYYYBBBBBBBBYB.........",
+  ".........BYYYYYYYYYYYYB.........",
+  "..........BYYYYYYYYYYB..........",
+  "...........BYYYYYYYYB...........",
+  "............BYYYYYYB............",
+  ".............BYYYYB.............",
+  "..............BYYB..............",
+  "..............BYYB..............",
+  ".............BYYYYB.............",
+  "............BYYYYYYB............",
+  "...........BYYYYYYYYB...........",
+  "..........BBBBBBBBBBBB..........",
+  ".........BWWWWWWWWWWWWB.........",
+  ".........BWwBBBBBBBBwWB.........",
+  ".........BWwSSSSSSSSwWB.........",
+  ".........BWwSssssssSwWB.........",
+  ".........BWwSSSSSSSSwWB.........",
+  ".........BWWWWWWWWWWWWB.........",
+  "..........BBBBBBBBBBBB..........",
+  "................................",
+  "................................"
+];
+
 const contactMailbox = [
   "................................",
   "................................",
@@ -232,5 +341,8 @@ export const PathTile = generateDataURI(pathTile, 16, 16);
 export const LandmarkStart = generateDataURI(startSign, 32, 32);
 export const LandmarkSkills = generateDataURI(skillsTower, 32, 32);
 export const LandmarkProjects = generateDataURI(projectsChest, 32, 32);
+export const LandmarkProjectsOpen = generateDataURI(projectsChestOpen, 32, 32);
+export const LandmarkNBE = generateDataURI(nbeLogo, 32, 32);
+export const LandmarkTrophy3 = generateDataURI(trophy3, 32, 32);
 export const LandmarkContact = generateDataURI(contactMailbox, 32, 32);
 export const LockIcon = generateDataURI(lockIcon, 16, 16);

@@ -1,13 +1,24 @@
 import React from 'react';
 import useGameAudio from '../../hooks/useGameAudio';
-import { LandmarkStart, LandmarkSkills, LandmarkProjects, LandmarkContact, LockIcon } from './PixelAssets';
+import { 
+  LandmarkStart, 
+  LandmarkSkills, 
+  LandmarkProjects, 
+  LandmarkProjectsOpen, 
+  LandmarkNBE, 
+  LandmarkTrophy3, 
+  LandmarkContact, 
+  LockIcon 
+} from './PixelAssets';
 
-const getLandmarkSVG = (id) => {
+const getLandmarkSVG = (id, isCompleted) => {
   switch (id) {
     case 'about': return LandmarkStart;
     case 'skills': return LandmarkSkills;
     case 'contact': return LandmarkContact;
-    default: return LandmarkProjects; // projects use chest
+    case 'proj2': return LandmarkNBE; // NBE pixel art landmark
+    case 'proj6': return LandmarkTrophy3; // #3 badge / trophy landmark
+    default: return isCompleted ? LandmarkProjectsOpen : LandmarkProjects; // projects use chest (open if completed)
   }
 };
 
@@ -18,14 +29,17 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
     switch (node.type) {
       case 'start': return { bg: '#d95763', text: 'text-[#d95763]' };
       case 'skill': return { bg: '#f4b41b', text: 'text-[#f4b41b]' };
-      case 'project': return { bg: '#569ceb', text: 'text-[#569ceb]' };
+      case 'project': 
+        return isCompleted 
+          ? { bg: '#f4b41b', text: 'text-[#f4b41b]' } 
+          : { bg: '#569ceb', text: 'text-[#569ceb]' };
       case 'contact': return { bg: '#83eb72', text: 'text-[#83eb72]' };
       default: return { bg: '#ffffff', text: 'text-white' };
     }
   };
 
   const colors = getColors();
-  const LandmarkSVG = getLandmarkSVG(node.id);
+  const LandmarkSVG = getLandmarkSVG(node.id, isCompleted);
 
   const handlePointerEnter = () => {
     if (isUnlocked) playHover();
@@ -88,9 +102,24 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
 
       {/* Label */}
       <div 
-        className={`absolute -bottom-6 md:-bottom-8 font-pixel text-[10px] md:text-sm whitespace-nowrap bg-retro-dark px-2 md:px-3 py-0.5 md:py-1 border-2 border-white transition-opacity duration-300 ${isUnlocked ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100 pointer-events-none drop-shadow-md z-40 flex items-center gap-1 md:gap-2`}
+        className={`absolute font-pixel text-[10px] md:text-sm bg-retro-dark px-2 md:px-3 py-0.5 md:py-1 border-2 border-white transition-opacity duration-300 ${
+          isUnlocked ? 'opacity-100' : 'opacity-0'
+        } group-hover:opacity-100 pointer-events-none drop-shadow-md z-40 flex items-center justify-center gap-1 md:gap-2 ${
+          node.id === 'proj6' 
+            ? '-bottom-8 md:-bottom-10 text-center whitespace-normal' 
+            : '-bottom-6 md:-bottom-8 whitespace-nowrap'
+        }`}
       >
-        <span style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}>{node.title}</span>
+        {node.id === 'proj6' ? (
+          <span 
+            className="leading-tight block text-center"
+            style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}
+          >
+            Two Bows<br />Off Frame
+          </span>
+        ) : (
+          <span style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}>{node.title}</span>
+        )}
         {node.clientBadge && (
           <span className="bg-retro-green/20 text-retro-light-green border border-retro-green px-1.5 py-0.5 text-[8px] uppercase tracking-wider">
             {node.clientBadge}
