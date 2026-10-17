@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, animate } from 'framer-motion';
 import NodeMarker from './NodeMarker';
 import portfolioData from '../../data/portfolioData.json';
 import { TerrainGrassTile, PathTile } from './PixelAssets';
@@ -114,12 +114,22 @@ const PixelKnight = ({ isWalking, flipX, isDrawing, isShooting }) => (
 export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isDrawing, isShooting, shootingTarget, hitNodeId, onCanvasTransform }) {
   const [scale, setScale] = useState(1);
   const dragY = useMotionValue(0);
+  const [isPanned, setIsPanned] = useState(false);
   const CANVAS_WIDTH = isMobileLayout ? 900 : 1800;
   const CANVAS_HEIGHT = isMobileLayout ? 3200 : 900;
+
+  // Track if mobile user has panned away from the current player position
+  useEffect(() => {
+    return dragY.on("change", (latest) => {
+      const panned = Math.abs(latest) > 220;
+      setIsPanned(prev => prev !== panned ? panned : prev);
+    });
+  }, [dragY]);
 
   // Reset drag offset when player moves so camera recenters perfectly
   useEffect(() => {
     dragY.set(0);
+    setIsPanned(false);
   }, [playerPos, dragY]);
 
   // Responsive scaling to fit canvas inside the window
@@ -170,6 +180,23 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
     ? (window.innerHeight * 0.35) - (playerPos.y * scale)
     : (window.innerHeight / 2) - ((CANVAS_HEIGHT / 2) * scale);
 
+  // Dynamic vertical drag constraints for mobile mode:
+  // Strictly bounds swiping between the start checkpoint (About) and end checkpoint (Contact),
+  // with a comfortable overscroll buffer so the user NEVER goes out of the map or gets stuck.
+  const buffer = 120; // px buffer past the start and end checkpoints
+  const firstNodeY = 300; // About checkpoint pY
+  const lastNodeY = 2850; // Contact checkpoint pY
+  const dragConstraints = isMobileLayout && playerPos ? {
+    // When dragging UP (exploring towards Contact), limit so Contact doesn't go above screen
+    top: ((window.innerHeight * 0.35) - buffer) - (lastNodeY * scale) - numericTop,
+    // When dragging DOWN (exploring towards About), limit so About doesn't go below screen
+    bottom: ((window.innerHeight * 0.35) + buffer) - (firstNodeY * scale) - numericTop
+  } : undefined;
+
+  const handleRecenter = () => {
+    animate(dragY, 0, { type: 'spring', damping: 25, stiffness: 300 });
+  };
+
   // Report transform values to parent for AimOverlay coordinate conversion
   useEffect(() => {
     if (onCanvasTransform) {
@@ -182,13 +209,12 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
       {/* Background that fills screen regardless of scale */}
       <TerrainBackground />
 
-
-
       {/* Fixed Coordinate Canvas */}
       <motion.div 
-        drag={isMobileLayout ? "y" : false}
-        dragConstraints={{ top: -2000, bottom: 800 }}
-        dragElastic={0.2}
+        drag={isMobileLayout && !isWalking && !isDrawing && !isShooting ? "y" : false}
+        dragConstraints={dragConstraints}
+        dragElastic={isMobileLayout ? 0.08 : false}
+        dragTransition={{ bounceStiffness: 450, bounceDamping: 30, power: 0.15, timeConstant: 200 }}
         animate={{ left: numericLeft, top: numericTop }}
         transition={{ duration: 1.2, ease: "easeInOut" }}
         className="absolute cursor-grab active:cursor-grabbing" 
@@ -334,6 +360,22 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
           </motion.div>
         )}
       </motion.div>
+
+      {/* Recenter Button when panned away from player on mobile */}
+      <AnimatePresence>
+        {isMobileLayout && isPanned && !isWalking && !isDrawing && !isShooting && (
+          <motion.button
+            initial={{ opacity: 0, y: 15, scale: 0.85 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 15, scale: 0.85 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={handleRecenter}
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-retro-dark/95 border-2 border-retro-yellow text-retro-yellow px-4 py-2 font-pixel text-[11px] flex items-center gap-2 shadow-[4px_4px_0_rgba(0,0,0,0.8)] cursor-pointer active:translate-y-1 tracking-wider"
+          >
+            <span>🎯</span> RECENTER
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
