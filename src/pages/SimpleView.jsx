@@ -107,14 +107,7 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
     <div className="flex-1 flex flex-col p-6 md:p-8 lg:p-12 justify-between">
       
       <div className="flex flex-col gap-2 border-b-[4px] border-retro-gray/30 pb-4 shrink-0">
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <h4 className="font-pixel text-xl lg:text-2xl text-retro-yellow group-hover:text-white transition-colors leading-tight">{proj.title}</h4>
-          {proj.date && (
-            <span className="font-jetbrains text-xs text-retro-gray bg-black/40 px-2 py-1 rounded border border-white/10 font-bold">
-              {proj.date}
-            </span>
-          )}
-        </div>
+        <h4 className="font-pixel text-xl lg:text-2xl text-retro-yellow group-hover:text-white transition-colors leading-tight">{proj.title}</h4>
         <div className="text-retro-light-blue text-xs md:text-sm uppercase tracking-widest font-bold">{proj.role}</div>
       </div>
       
