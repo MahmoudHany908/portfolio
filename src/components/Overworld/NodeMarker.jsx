@@ -106,17 +106,18 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
           isUnlocked ? 'opacity-100' : 'opacity-0'
         } group-hover:opacity-100 pointer-events-none drop-shadow-md z-40 flex items-center justify-center gap-1 md:gap-2 ${
           node.id === 'proj6' 
-            ? '-bottom-8 md:-bottom-10 text-center whitespace-normal' 
+            ? '-bottom-9 md:-bottom-11' 
             : '-bottom-6 md:-bottom-8 whitespace-nowrap'
         }`}
       >
         {node.id === 'proj6' ? (
-          <span 
-            className="leading-tight block text-center"
+          <div 
+            className="flex flex-col items-center leading-tight font-pixel text-center"
             style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}
           >
-            Two Bows<br />Off Frame
-          </span>
+            <span className="whitespace-nowrap">Two Bows</span>
+            <span className="whitespace-nowrap">Off Frame</span>
+          </div>
         ) : (
           <span style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}>{node.title}</span>
         )}
