@@ -65,9 +65,12 @@
     {
       "id": "kodland",
       "title": "Game Development Instructor",
-      "institution": "Kodland (Part-time, Online)",
+      "institution": "Kodland (Part-time, Remote)",
       "date": "08/2026 - Present",
-      "description": "Teach game development and Lua scripting in Roblox Studio to students aged 10 to 12 through live online classes."
+      "bullets": [
+        "Teach game development and Lua scripting in Roblox Studio to students aged 10 to 12 in live remote classes.",
+        "Debug student scripts in real time and give project feedback."
+      ]
     },
     {
       "id": "nbe",

@@ -353,14 +353,26 @@ export default function SimpleView() {
                 {internships.map((int, i) => (
                   <motion.div 
                     key={int.id} 
-                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-4 md:p-8 relative z-${10 - i} ${i > 0 ? '-mt-2 md:-mt-8' : ''} transition-all duration-500 hover:z-20 hover:border-retro-light-green hover:translate-x-4 md:hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(131,235,114,0.4)] group`}
+                    style={{ zIndex: 10 - i }}
+                    className={`pixel-box bg-retro-dark border-[6px] border-retro-gray p-4 md:p-8 relative ${i > 0 ? '-mt-2 md:-mt-8' : ''} transition-all duration-500 hover:!z-30 hover:border-retro-light-green hover:translate-x-4 md:hover:translate-x-8 hover:-translate-y-2 hover:shadow-[16px_16px_0_rgba(131,235,114,0.4)] group`}
                   >
                     <div className="font-pixel text-lg md:text-xl text-white mb-3 group-hover:text-retro-light-green transition-colors">{int.title}</div>
                     <div className="text-retro-light-green text-lg mb-2 font-bold">{int.institution}</div>
                     <div className="text-slate-400 text-sm font-pixel tracking-widest mb-4">{int.date}</div>
-                    {int.description && (
-                      <div className="font-chakra text-justify text-slate-300 text-base leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 group-hover:mt-4 transition-all duration-500 overflow-hidden">
-                        {int.description}
+                    {(int.bullets || int.description) && (
+                      <div className="font-chakra text-slate-300 text-base leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-96 group-hover:mt-4 transition-all duration-500 overflow-hidden">
+                        {int.bullets ? (
+                          <ul className="space-y-1.5 list-none p-0 m-0 text-sm leading-relaxed tracking-tight">
+                            {int.bullets.map((bullet, idx) => (
+                              <li key={idx} className="flex items-start gap-2">
+                                <span className="text-retro-light-green shrink-0 select-none">•</span>
+                                <span>{bullet}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <div className="text-justify">{int.description}</div>
+                        )}
                       </div>
                     )}
                   </motion.div>
