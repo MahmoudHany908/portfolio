@@ -67,8 +67,17 @@ export default function VideoGallery({ singleVideo, videos, image }) {
 
   if (image) {
     return (
-      <div className="relative w-full aspect-video mb-6 pixel-border border-4 border-retro-gray shadow-lg overflow-hidden bg-black flex items-center justify-center">
-        <img src={image} alt="Project visual" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      <div className="relative w-full aspect-video mb-6 pixel-border border-4 border-retro-gray shadow-lg overflow-hidden bg-retro-dark flex items-center justify-center">
+        {/* Subtle blurred ambient backdrop to fill letterbox cleanly */}
+        <div 
+          className="absolute inset-0 bg-center bg-cover filter blur-lg opacity-35 scale-110 pointer-events-none"
+          style={{ backgroundImage: `url(${image})` }}
+        />
+        <img 
+          src={image} 
+          alt="Project visual" 
+          className="relative z-10 w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]" 
+        />
       </div>
     );
   }

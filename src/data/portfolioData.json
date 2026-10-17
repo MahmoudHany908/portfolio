@@ -206,7 +206,6 @@
       ],
       "summary": "2D stealth-platformer chasing an escaped cat through three uniquely styled paintings, each granting a distinct traversal ability, while avoiding detection from gallery visitors' shadows.",
       "keyContributions": [
-        "Rank: 3rd place and best innovation award in KSA National Day Game Jam.",
         "Built all gameplay systems, player abilities, stealth detection, level and UI management.",
         "Handled level design across all three paintings and wrote and voiced the narrative."
       ],
