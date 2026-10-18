@@ -11,33 +11,49 @@
       "github": "https://github.com/MahmoudHany908"
     },
     "skills": {
+      "Programming Languages": [
+        "C",
+        "C++",
+        "C#",
+        "Lua"
+      ],
       "Game Engines & Graphics": [
         "Unity Engine",
         "Unreal Engine",
+        "Roblox Studio",
         "SFML",
-        "OpenGL"
+        "OpenGL",
+        "WebGL"
       ],
       "Tools": [
-        "AR Core",
         "XR Interaction Toolkit",
-        "Meta SDK",
-        "UI Toolkit",
-        "OpenXR"
+        "Meta XR SDK",
+        "ARCore",
+        "OpenXR",
+        "VContainer",
+        "UI Toolkit"
       ],
       "Core Concepts": [
-        "Object-Oriented Programming",
-        "Data Structures",
-        "Design Patterns"
+        "Object-Oriented Programming (OOP)",
+        "Data Structures & Algorithms",
+        "Design Patterns",
+        "Dependency Injection (DI)"
+      ],
+      "Game Design & Theory": [
+        "Level Design",
+        "Visual Communication",
+        "Rapid Prototyping"
       ],
       "Version Control": [
-        "GitHub",
-        "Unity Version Control (UVC)"
+        "Git / GitHub",
+        "Unity Version Control (Plastic SCM)"
       ],
       "Personal Skills": [
         "Communication",
         "Leadership",
         "Presentation Skills",
-        "Research"
+        "Research",
+        "Technical Mentorship"
       ]
     },
     "languages": [

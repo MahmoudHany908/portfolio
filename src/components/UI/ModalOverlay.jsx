@@ -19,16 +19,18 @@ const getSkillIcon = (skillName) => {
   if (s.includes('unity')) return <UnityIcon />;
   if (s.includes('unreal')) return <div className="font-bold font-sans text-xs flex items-center justify-center rounded-full bg-white text-black w-4 h-4">U</div>;
   if (s.includes('git')) return <GithubIcon />;
-  if (s.includes('c#') || s.includes('c++') || s.includes('gl') || s.includes('sfml')) return <Code size={16} />;
-  if (s.includes('xr') || s.includes('ar ') || s.includes('meta')) return <Box size={16} />;
-  if (s.includes('programming') || s.includes('structures') || s.includes('patterns')) return <Braces size={16} />;
+  if (s.includes('c#') || s.includes('c++') || s === 'c' || s.includes('lua') || s.includes('gl') || s.includes('sfml')) return <Code size={16} />;
+  if (s.includes('xr') || s.includes('ar') || s.includes('meta') || s.includes('vcontainer') || s.includes('toolkit')) return <Box size={16} />;
+  if (s.includes('programming') || s.includes('structures') || s.includes('patterns') || s.includes('injection')) return <Braces size={16} />;
   return <Star size={16} />;
 };
 
 const getCategoryIcon = (category) => {
+  if (category.includes('Language')) return <Code size={20} className="text-retro-yellow" />;
   if (category.includes('Engine')) return <Gamepad2 size={20} className="text-retro-light-blue" />;
   if (category.includes('Tools')) return <Wrench size={20} className="text-retro-orange" />;
   if (category.includes('Core')) return <Brain size={20} className="text-retro-purple" />;
+  if (category.includes('Design')) return <Brain size={20} className="text-retro-yellow" />;
   if (category.includes('Version')) return <GitBranch size={20} className="text-retro-red" />;
   if (category.includes('Personal')) return <Users size={20} className="text-retro-green" />;
   return <Star size={20} />;
