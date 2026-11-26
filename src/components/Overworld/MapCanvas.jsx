@@ -184,8 +184,8 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
   // Strictly bounds swiping between the start checkpoint (About) and end checkpoint (Contact),
   // with a comfortable overscroll buffer so the user NEVER goes out of the map or gets stuck.
   const buffer = 120; // px buffer past the start and end checkpoints
-  const firstNodeY = 300; // About checkpoint pY
-  const lastNodeY = 2850; // Contact checkpoint pY
+  const firstNodeY = 260; // About checkpoint pY
+  const lastNodeY = 2900; // Contact checkpoint pY
   const dragConstraints = isMobileLayout && playerPos ? {
     // When dragging UP (exploring towards Contact), limit so Contact doesn't go above screen
     top: ((window.innerHeight * 0.35) - buffer) - (lastNodeY * scale) - numericTop,

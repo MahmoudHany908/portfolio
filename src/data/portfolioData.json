@@ -89,6 +89,16 @@
       ]
     },
     {
+      "id": "gm",
+      "title": "Unity VR Developer (Contract)",
+      "institution": "General Motors",
+      "date": "10/2026 - 11/2026",
+      "bullets": [
+        "Developed a two-module VR QA training suite (Vehicle Quality Inspector and Gap & Flush precision Simulator) for GM's annual Quality Week event.",
+        "Deployed Vehicle Quality Inspector as the event's main showcase, earning strong feedback from QA teams for improving detection of subtle visual defects under time pressure."
+      ]
+    },
+    {
       "id": "nbe",
       "title": "Unity Developer (Contract)",
       "institution": "National Bank of Egypt (NBE)",
@@ -101,20 +111,20 @@
       "id": "about",
       "type": "about",
       "title": "Start Point (About Me)",
-      "x": 180,
+      "x": 150,
       "y": 680,
       "pX": 450,
-      "pY": 300,
+      "pY": 260,
       "icon": "house"
     },
     {
       "id": "skills",
       "type": "skills",
       "title": "Skill Tree",
-      "x": 180,
+      "x": 150,
       "y": 320,
       "pX": 450,
-      "pY": 550,
+      "pY": 500,
       "icon": "crystal"
     },
     {
@@ -149,10 +159,10 @@
         "Engineered event-driven UI architectures using Unity's standard Canvas system (uGUI) and custom scripting, seamlessly integrating meta-progression mechanics to balance the dual-loop economy."
       ],
       "video": "https://player.vimeo.com/video/1219429500",
-      "x": 380,
+      "x": 300,
       "y": 220,
       "pX": 400,
-      "pY": 800,
+      "pY": 740,
       "icon": "mobile"
     },
     {
@@ -206,10 +216,58 @@
           "url": "https://www.youtube.com/embed/mlR2QsI3T5w"
         }
       ],
-      "x": 560,
+      "x": 450,
       "y": 440,
       "pX": 500,
-      "pY": 1050,
+      "pY": 980,
+      "icon": "vr"
+    },
+    {
+      "id": "proj_gm",
+      "type": "project",
+      "title": "General Motors Quality Week VR Training Suite",
+      "role": "Unity VR Developer",
+      "client": "General Motors",
+      "clientLogo": "/gm-logo.svg",
+      "tech": [
+        "Unity 6",
+        "C#",
+        "OpenXR",
+        "XR Interaction Toolkit (XRIT)",
+        "URP",
+        "NUnit"
+      ],
+      "summary": "A two-module VR QA training suite developed for General Motors' annual Quality Week event, featuring the Vehicle Quality Inspector and Gap & Flush Precision Simulator to train and challenge QA teams under realistic factory conditions.",
+      "keyContributions": [
+        "Vehicle Inspector: Timed VR inspection module challenging QA trainees to locate scratches, dents, and missing trim, plates, and logos across a full-scale vehicle.",
+        "Gap & Flush Precision Simulator: Industrial optical Gap Gun simulation featuring seam-aligned docking, OpenXR haptics, a toggleable 2D/3D wrist spec tablet, and an editor-configurable conveyor inspection bay."
+      ],
+      "videos": [
+        {
+          "title": "Vehicle Inspector",
+          "url": "https://player.vimeo.com/video/1250395874",
+          "thumbnail": "https://i.vimeocdn.com/video/2231025933-8d9ce7df47bf20283ab671a2375dc75a1453b3f8c2e7c8d637c5e6123fde24ad-d_295x166?region=us"
+        },
+        {
+          "title": "Gap & Flush Simulator",
+          "url": "https://player.vimeo.com/video/1250398984",
+          "thumbnail": "https://i.vimeocdn.com/video/2231028112-94d32a6b247bf3aa0844a2442aaa74c9e0b2f774fbd17d3df988c78e5c7e3898-d_295x166?region=us"
+        }
+      ],
+      "vimeoLinks": [
+        {
+          "title": "VEHICLE INSPECTOR",
+          "url": "https://vimeo.com/1250395874"
+        },
+        {
+          "title": "GAP & FLUSH",
+          "url": "https://vimeo.com/1250398984"
+        }
+      ],
+      "x": 600,
+      "y": 220,
+      "pX": 400,
+      "pY": 1220,
       "icon": "vr"
     },
     {
@@ -235,10 +293,10 @@
       "itchLink": "https://habieba-eladdad.itch.io/two-bows-off-frame",
       "jamLink": "https://www.gamedevksa.com/jams/nationalgamejam",
       "video": "https://player.vimeo.com/video/1233829458",
-      "x": 740,
-      "y": 220,
-      "pX": 400,
-      "pY": 1300,
+      "x": 750,
+      "y": 440,
+      "pX": 500,
+      "pY": 1460,
       "icon": "pc"
     },
     {
@@ -261,10 +319,10 @@
       ],
       "itchLink": "https://darkensoda.itch.io/night-shift-taxi",
       "image": "/night-shift-taxi.jpg",
-      "x": 920,
-      "y": 440,
-      "pX": 500,
-      "pY": 1550,
+      "x": 900,
+      "y": 220,
+      "pX": 400,
+      "pY": 1700,
       "icon": "pc"
     },
     {
@@ -287,10 +345,10 @@
       ],
       "itchLink": "https://sohilalaasar.itch.io/loadnexplode",
       "image": "/loadnexplode.png",
-      "x": 1100,
-      "y": 220,
-      "pX": 400,
-      "pY": 1800,
+      "x": 1050,
+      "y": 440,
+      "pX": 500,
+      "pY": 1940,
       "icon": "pc"
     },
     {
@@ -313,10 +371,10 @@
       "githubLink": "https://github.com/eslam135/ESCCTRL",
       "itchLink": "https://senpaii2.itch.io/escctrl",
       "video": "https://player.vimeo.com/video/1219428175",
-      "x": 1280,
-      "y": 440,
-      "pX": 500,
-      "pY": 2050,
+      "x": 1200,
+      "y": 220,
+      "pX": 400,
+      "pY": 2180,
       "icon": "pc"
     },
     {
@@ -339,10 +397,10 @@
       ],
       "itchLink": "https://nightfuryexe.itch.io/subject-null",
       "video": "https://www.youtube.com/embed/xhyxFllVVQY",
-      "x": 1460,
-      "y": 220,
-      "pX": 400,
-      "pY": 2300,
+      "x": 1350,
+      "y": 440,
+      "pX": 500,
+      "pY": 2420,
       "icon": "vr"
     },
     {
@@ -366,20 +424,20 @@
       ],
       "githubLink": "https://github.com/MahmoudHany908/VR_Shooter",
       "video": "https://player.vimeo.com/video/1219429982",
-      "x": 1620,
-      "y": 440,
-      "pX": 500,
-      "pY": 2550,
+      "x": 1500,
+      "y": 220,
+      "pX": 400,
+      "pY": 2660,
       "icon": "vr"
     },
     {
       "id": "contact",
       "type": "contact",
       "title": "Save Point (Contact)",
-      "x": 1620,
-      "y": 700,
+      "x": 1650,
+      "y": 680,
       "pX": 450,
-      "pY": 2850,
+      "pY": 2900,
       "icon": "telephone"
     }
   ]

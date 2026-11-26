@@ -39,6 +39,10 @@ const TrophyIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
 );
 
+const VimeoIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 11.4C4.603 8.816 3.834 7.522 3.01 7.522c-.179 0-.806.378-1.881 1.132L0 7.197c1.185-1.044 2.351-2.084 3.501-3.128C5.123 2.601 6.34 1.83 7.147 1.745c1.932-.178 3.123 1.134 3.555 3.937.523 3.393.888 5.508 1.094 6.353.626 2.87 1.304 4.307 2.032 4.307.558 0 1.238-.891 2.037-2.67.799-1.78 1.235-3.134 1.305-4.07.139-1.564-.452-2.345-1.777-2.345-.626 0-1.27.145-1.933.433 1.288-4.225 3.755-6.275 7.4-6.149 2.709.096 3.987 1.815 3.835 5.155z"/></svg>
+);
+
 const RetroParticles = () => {
   // Use a fixed array for rendering consistency without window.innerHeight dependencies during initial render
   const particles = Array.from({ length: 40 }).map((_, i) => ({
@@ -101,6 +105,11 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
             <TrophyIcon /> JAM
           </a>
         )}
+        {proj.vimeoLinks && proj.vimeoLinks.map((v, i) => (
+          <a key={i} href={v.url} target="_blank" rel="noreferrer" className="pixel-btn bg-[#1ab7ea] hover:bg-white hover:text-retro-dark text-white font-bold flex gap-2 items-center px-4 py-3 text-xs md:text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)] transition-colors">
+            <VimeoIcon /> {v.title}
+          </a>
+        ))}
       </div>
     </div>
 

@@ -105,7 +105,7 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
         className={`absolute font-pixel text-[10px] md:text-sm bg-retro-dark px-2 md:px-3 py-0.5 md:py-1 border-2 border-white transition-opacity duration-300 ${
           isUnlocked ? 'opacity-100' : 'opacity-0'
         } group-hover:opacity-100 pointer-events-none drop-shadow-md z-40 flex items-center justify-center gap-1 md:gap-2 ${
-          node.id === 'proj6' 
+          node.id === 'proj6' || node.id === 'proj_gm'
             ? '-bottom-9 md:-bottom-11' 
             : '-bottom-6 md:-bottom-8 whitespace-nowrap'
         }`}
@@ -117,6 +117,14 @@ export default function NodeMarker({ node, x, y, isCompleted, isUnlocked, isHit,
           >
             <span className="whitespace-nowrap">Two Bows</span>
             <span className="whitespace-nowrap">Off Frame</span>
+          </div>
+        ) : node.id === 'proj_gm' ? (
+          <div 
+            className="flex flex-col items-center leading-tight font-pixel text-center"
+            style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}
+          >
+            <span className="whitespace-nowrap">GM Quality Week</span>
+            <span className="whitespace-nowrap">VR Suite</span>
           </div>
         ) : (
           <span style={{ color: !isUnlocked ? '#94a3b8' : colors.text.replace('text-[', '').replace(']', '') }}>{node.title}</span>

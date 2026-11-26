@@ -14,6 +14,10 @@ const UnityIcon = () => (
   </svg>
 );
 
+const VimeoIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 11.4C4.603 8.816 3.834 7.522 3.01 7.522c-.179 0-.806.378-1.881 1.132L0 7.197c1.185-1.044 2.351-2.084 3.501-3.128C5.123 2.601 6.34 1.83 7.147 1.745c1.932-.178 3.123 1.134 3.555 3.937.523 3.393.888 5.508 1.094 6.353.626 2.87 1.304 4.307 2.032 4.307.558 0 1.238-.891 2.037-2.67.799-1.78 1.235-3.134 1.305-4.07.139-1.564-.452-2.345-1.777-2.345-.626 0-1.27.145-1.933.433 1.288-4.225 3.755-6.275 7.4-6.149 2.709.096 3.987 1.815 3.835 5.155z"/></svg>
+);
+
 const getSkillIcon = (skillName) => {
   const s = skillName.toLowerCase();
   if (s.includes('unity')) return <UnityIcon />;
@@ -223,7 +227,7 @@ export default function ModalOverlay({ node, onClose }) {
               )}
 
               {/* Action Buttons */}
-              {(node.githubLink || node.itchLink || node.jamLink) && (
+              {(node.githubLink || node.itchLink || node.jamLink || node.vimeoLinks) && (
                 <div className="flex flex-wrap gap-4 pt-8 mt-8 border-t border-retro-gray/50">
                   {node.githubLink && (
                     <a href={node.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center">
@@ -240,6 +244,11 @@ export default function ModalOverlay({ node, onClose }) {
                       <Trophy size={16} /> JAM PAGE
                     </a>
                   )}
+                  {node.vimeoLinks && node.vimeoLinks.map((v, i) => (
+                    <a key={i} href={v.url} target="_blank" rel="noreferrer" className="pixel-btn bg-[#1ab7ea] hover:bg-white hover:text-retro-dark text-white font-bold flex gap-2 items-center">
+                      <VimeoIcon /> {v.title}
+                    </a>
+                  ))}
                 </div>
               )}
             </div>
