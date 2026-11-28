@@ -287,28 +287,28 @@ export default function SimpleView() {
   const { profile, education, internships, nodes } = portfolioData;
   const nodeById = Object.fromEntries(nodes.map(n => [n.id, n]));
 
-  // Strictly sorted newest -> oldest within each category matching CV dates & Map names!
+  // Ordered by Flagship Impact ("Best Foot Forward") within each category matching Map order!
   const categoryGroups = [
     {
       id: 'clients',
       title: 'Clients',
       color: '#38bdf8',
       icon: HubIconSims,
-      items: [nodeById.proj_gm, nodeById.proj2].filter(Boolean) // 11/2026 -> 08/2026
+      items: [nodeById.proj_gm, nodeById.proj2].filter(Boolean) // General Motors -> NBE (Cyber Salvage)
     },
     {
       id: 'vr',
       title: 'VR',
       color: '#c084fc',
       icon: HubIconVR,
-      items: [nodeById.proj3, nodeById.proj4, nodeById.proj1].filter(Boolean) // 04/2026 -> 02/2026 -> 07/2025
+      items: [nodeById.proj1, nodeById.proj4, nodeById.proj3].filter(Boolean) // The Learning Lens -> Subject Null -> VR Wave Shooter
     },
     {
       id: '2d',
       title: '2D',
       color: '#f4b41b',
       icon: HubIconJams,
-      items: [nodeById.proj6, nodeById.proj7, nodeById.proj8, nodeById.proj5].filter(Boolean) // 09/2026 -> 08/2026 -> 07/2026 -> 12/2025
+      items: [nodeById.proj6, nodeById.proj5, nodeById.proj7, nodeById.proj8].filter(Boolean) // Two Bows Off Frame -> ESCCTRL -> Night Shift Taxi -> LoadNExplode
     }
   ];
 

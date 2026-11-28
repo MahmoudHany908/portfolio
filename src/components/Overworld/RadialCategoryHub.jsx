@@ -7,6 +7,10 @@ import { LockIcon } from './PixelAssets';
 import { GAME_SPRITES, HubIconSims, HubIconVR, HubIconJams } from './GamePixelIcons';
 
 export const LIVE_CATEGORIES = (nodeById, isMobileLayout = false) => {
+  const clientsProjects = [nodeById.proj_gm, nodeById.proj2].filter(Boolean);
+  const vrProjects = [nodeById.proj1, nodeById.proj4, nodeById.proj3].filter(Boolean);
+  const twoDProjects = [nodeById.proj6, nodeById.proj5, nodeById.proj7, nodeById.proj8].filter(Boolean);
+
   if (!isMobileLayout) {
     return [
       {
@@ -16,7 +20,7 @@ export const LIVE_CATEGORIES = (nodeById, isMobileLayout = false) => {
         sprite: HubIconSims,
         x: 620,
         y: 410,
-        projects: [nodeById.proj_gm, nodeById.proj2].filter(Boolean)
+        projects: clientsProjects
       },
       {
         id: 'cat_vr',
@@ -25,7 +29,7 @@ export const LIVE_CATEGORIES = (nodeById, isMobileLayout = false) => {
         sprite: HubIconVR,
         x: 1010,
         y: 450,
-        projects: [nodeById.proj3, nodeById.proj4, nodeById.proj1].filter(Boolean)
+        projects: vrProjects
       },
       {
         id: 'cat_2d',
@@ -34,7 +38,7 @@ export const LIVE_CATEGORIES = (nodeById, isMobileLayout = false) => {
         sprite: HubIconJams,
         x: 1400,
         y: 390,
-        projects: [nodeById.proj6, nodeById.proj7, nodeById.proj8, nodeById.proj5].filter(Boolean)
+        projects: twoDProjects
       }
     ];
   }
@@ -48,7 +52,7 @@ export const LIVE_CATEGORIES = (nodeById, isMobileLayout = false) => {
       sprite: HubIconSims,
       x: 450,
       y: 1180,
-      projects: [nodeById.proj_gm, nodeById.proj2].filter(Boolean)
+      projects: clientsProjects
     },
     {
       id: 'cat_vr',
@@ -57,7 +61,7 @@ export const LIVE_CATEGORIES = (nodeById, isMobileLayout = false) => {
       sprite: HubIconVR,
       x: 450,
       y: 1700,
-      projects: [nodeById.proj3, nodeById.proj4, nodeById.proj1].filter(Boolean)
+      projects: vrProjects
     },
     {
       id: 'cat_2d',
@@ -66,7 +70,7 @@ export const LIVE_CATEGORIES = (nodeById, isMobileLayout = false) => {
       sprite: HubIconJams,
       x: 450,
       y: 2220,
-      projects: [nodeById.proj6, nodeById.proj7, nodeById.proj8, nodeById.proj5].filter(Boolean)
+      projects: twoDProjects
     }
   ];
 };
