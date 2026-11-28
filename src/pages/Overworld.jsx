@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Smartphone, Sparkles } from 'lucide-react';
 import MapCanvas from '../components/Overworld/MapCanvas';
-import { LIVE_CATEGORIES, shortProjectLabel } from '../components/Overworld/RadialCategoryHub';
+import { shortProjectLabel, getWorldSpec } from '../components/Overworld/RadialCategoryHub';
+import { MobileStageTray } from '../components/Overworld/MobileLabControls';
 import { GAME_SPRITES } from '../components/Overworld/GamePixelIcons';
 import ModalOverlay from '../components/UI/ModalOverlay';
 import GameHUD from '../components/UI/GameHUD';
@@ -126,12 +127,18 @@ export default function Overworld() {
 
   const unlocked = new Set(portfolioData.nodes.map((n) => n.id));
   const nodeById = Object.fromEntries(portfolioData.nodes.map((n) => [n.id, n]));
-  const categories = LIVE_CATEGORIES(nodeById);
 
   const [isMobileLayout, setIsMobileLayout] = useState(() => window.innerWidth < 768);
   const [isLandscapeMobile, setIsLandscapeMobile] = useState(
     () => window.innerWidth < 768 && window.innerWidth > window.innerHeight
   );
+
+  // Locked-in Mobile UX: Vertical Strip + Stage-Select Bottom Tray + Classic Side-Slide Panel
+  const [cameraFocusPos, setCameraFocusPos] = useState(null);
+  const [stageTrayData, setStageTrayData] = useState(null);
+
+  const world = getWorldSpec(nodeById, isMobileLayout);
+  const categories = world.categories;
 
   // Locked-in Crimson Armored Archer (cross removed) & 18px / 18px / 20px Typography
   const archerType = 'gandalf';
@@ -142,16 +149,17 @@ export default function Overworld() {
     titlePx: 20    // Main checkpoint labels (About Me, Skills, Clients, VR, 2D, Contact)
   };
 
-  const INITIAL_DESKTOP_POS = { x: 460, y: 790 };
-  const INITIAL_MOBILE_POS = { x: 450, y: 170 };
-
-  const [playerPos, setPlayerPos] = useState(() =>
-    window.innerWidth < 768 ? INITIAL_MOBILE_POS : INITIAL_DESKTOP_POS
-  );
+  const [playerPos, setPlayerPos] = useState(() => {
+    const initialWorld = getWorldSpec(nodeById, window.innerWidth < 768);
+    return { x: initialWorld.spawn.x, y: initialWorld.spawn.y };
+  });
 
   const [isWalking, setIsWalking] = useState(false);
   const [walkDuration, setWalkDuration] = useState(0);
-  const [flipX, setFlipX] = useState(() => window.innerWidth >= 768);
+  const [flipX, setFlipX] = useState(() => {
+    const initialWorld = getWorldSpec(nodeById, window.innerWidth < 768);
+    return initialWorld.spawn.flipX;
+  });
 
   // Shooting, Hub-Pinning & Impact State
   const [clampedHubId, setClampedHubId] = useState(null);
@@ -171,8 +179,12 @@ export default function Overworld() {
 
       if (newIsMobile !== isMobileLayout) {
         setIsMobileLayout(newIsMobile);
-        setPlayerPos(newIsMobile ? INITIAL_MOBILE_POS : INITIAL_DESKTOP_POS);
-        setFlipX(!newIsMobile);
+        const nextWorld = getWorldSpec(nodeById, newIsMobile);
+        setPlayerPos({ x: nextWorld.spawn.x, y: nextWorld.spawn.y });
+        setFlipX(nextWorld.spawn.flipX);
+        setCameraFocusPos(null);
+        setClampedHubId(null);
+        setStageTrayData(null);
       }
     };
     window.addEventListener('resize', handleResize);
@@ -189,17 +201,23 @@ export default function Overworld() {
     const destY = standCoords?.y ?? targetY;
 
     const dist = Math.hypot(targetX - playerPos.x, targetY - playerPos.y);
-    const arrowFlightMs = Math.max(550, Math.min(dist * 0.75, 920));
-    const impactHoldMs = 420; // Hold so player clearly sees the arrow strike, shockwave, and shake!
-    const bowPullMs = 660; // Synced to all 3 archers' 8-frame bow-nock & pull animation!
+    // Snappier touch timing on mobile + camera glides onto target during flight so impact is always front & center!
+    const arrowFlightMs = isMobileLayout
+      ? Math.max(420, Math.min(dist * 0.55, 700))
+      : Math.max(550, Math.min(dist * 0.75, 920));
+    const impactHoldMs = isMobileLayout ? 360 : 420;
+    const bowPullMs = isMobileLayout ? 480 : 660;
 
     if (hubIdToHoldOpen) setLockedShotHubId(hubIdToHoldOpen);
     setAimingNodeId(node.id);
     setFlipX(targetX < playerPos.x);
 
-    // Phase 1: DRAW BOW & LOCK TARGET RETICLE (660ms)
+    // Phase 1: DRAW BOW & LOCK TARGET RETICLE
     setIsDrawing(true);
     setShootingTarget({ x: targetX, y: targetY, duration: arrowFlightMs / 1000 });
+    if (isMobileLayout) {
+      setCameraFocusPos({ x: targetX, y: targetY });
+    }
 
     setTimeout(() => {
       // Phase 2: RELEASE ARROW (plays archer's 3 release/twang frames!)
@@ -218,10 +236,11 @@ export default function Overworld() {
         setTimeout(() => {
           // Phase 4: ARCHER RUNS IN (8-frame sprint cycle!) -> OPEN MODAL
           const dashDist = Math.hypot(destX - playerPos.x, destY - playerPos.y);
-          const dashDuration = Math.max(0.35, Math.min(dashDist / 780, 0.95));
+          const dashDuration = Math.max(0.32, Math.min(dashDist / 820, 0.88));
           setIsWalking(true);
           setWalkDuration(dashDuration);
           setPlayerPos({ x: destX, y: destY });
+          if (isMobileLayout) setCameraFocusPos(null);
           if (!muted) playSpawn();
 
           setTimeout(() => {
@@ -237,9 +256,8 @@ export default function Overworld() {
 
   const handleNodeSelect = (node) => {
     setClampedHubId(null);
-    const targetX = isMobileLayout ? node.pX : node.x;
-    const targetY = isMobileLayout ? node.pY : node.y;
-    fireArrowAtTarget(node, { x: targetX, y: targetY }, { x: targetX, y: targetY }, null);
+    setStageTrayData(null);
+    fireArrowAtTarget(node, { x: node.x, y: node.y }, { x: node.x, y: node.y }, null);
   };
 
   const handleCategoryProjectSelect = (proj, coords, categoryId) => {
@@ -325,7 +343,19 @@ export default function Overworld() {
         clampedHubId={clampedHubId}
         setClampedHubId={setClampedHubId}
         fontSizes={fontSizes}
+        cameraFocusPos={cameraFocusPos}
+        onCameraFocusChange={setCameraFocusPos}
+        onOpenStageTray={(cat, coords) => setStageTrayData({ category: cat, coords })}
         muted={muted}
+      />
+
+      {/* Mobile Stage-Select Bottom Tray for Clients · VR · 2D */}
+      <MobileStageTray
+        category={stageTrayData?.category || null}
+        hubCoords={stageTrayData?.coords || null}
+        discovered={discovered}
+        onSelectProject={handleCategoryProjectSelect}
+        onClose={() => setStageTrayData(null)}
       />
 
       {/* 100% Victory Banner Overlay */}

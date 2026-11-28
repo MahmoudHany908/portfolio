@@ -319,6 +319,43 @@ export default function SimpleView() {
   const [trackOffset, setTrackOffset] = useState(0);
   const cartridgeViewportRef = useRef(null);
   const activeCartridgeRef = useRef(null);
+  const touchGestureRef = useRef(null);
+
+  const handleCarouselTouchStart = (e) => {
+    const t = e.touches[0];
+    if (!t) return;
+    touchGestureRef.current = { x: t.clientX, y: t.clientY, canceled: false };
+  };
+
+  const handleCarouselTouchMove = (e) => {
+    const g = touchGestureRef.current;
+    const t = e.touches[0];
+    if (!g || g.canceled || !t) return;
+    const dx = Math.abs(t.clientX - g.x);
+    const dy = Math.abs(t.clientY - g.y);
+    // Cancel immediately if the user is scrolling vertically!
+    if (dy > 16 && dy > dx * 0.55) {
+      g.canceled = true;
+    }
+  };
+
+  const handleCarouselTouchEnd = (e) => {
+    const g = touchGestureRef.current;
+    touchGestureRef.current = null;
+    if (!g || g.canceled || activeItems.length <= 1) return;
+    const t = e.changedTouches[0];
+    if (!t) return;
+    const deltaX = t.clientX - g.x;
+    const deltaY = t.clientY - g.y;
+    // Require a clear, deliberate horizontal-only swipe on the cartridge bar itself
+    if (Math.abs(deltaX) > 55 && Math.abs(deltaY) < 24 && Math.abs(deltaX) > Math.abs(deltaY) * 2.5) {
+      if (deltaX < 0) {
+        setCarouselIdx((i) => (i + 1) % activeItems.length);
+      } else {
+        setCarouselIdx((i) => (i - 1 + activeItems.length) % activeItems.length);
+      }
+    }
+  };
 
   const activeItems =
     selectedCat === 'all'
@@ -413,8 +450,9 @@ export default function SimpleView() {
               );
             })}
           </div>
-          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform text-[10px] md:text-sm px-2 md:px-3 py-1.5 md:py-2 hidden md:block">
-            RETURN TO MAP
+          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform text-[9px] md:text-sm px-2.5 md:px-3 py-1.5 md:py-2 ml-1">
+            <span className="md:hidden">MAP</span>
+            <span className="hidden md:inline">RETURN TO MAP</span>
           </Link>
         </div>
       </nav>
@@ -423,31 +461,37 @@ export default function SimpleView() {
         
         <motion.header 
           initial="hidden" animate="visible" variants={fadeUpVariant}
-          className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-16 flex flex-col md:flex-row justify-between items-start md:items-start gap-8 border-b-6 border-retro-gray pb-12"
+          className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-12 md:pt-16 flex flex-col md:flex-row justify-between items-center md:items-start gap-8 border-b-6 border-retro-gray pb-12"
         >
-          <div className="flex flex-col md:flex-row items-start md:items-start gap-8 group w-full">
-            <div className="relative shrink-0">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 group w-full">
+            <div className="relative shrink-0 mx-auto md:mx-0">
               <div className="absolute inset-0 bg-retro-yellow transform translate-x-3 translate-y-3 group-hover:translate-x-5 group-hover:translate-y-5 transition-transform duration-300"></div>
               <img 
                 src="/profile.jpg" 
                 alt="Mahmoud Hany" 
-                className="relative w-28 h-28 md:w-40 md:h-40 object-cover object-[50%_10%] scale-[1.05] pixel-border border-6 border-retro-dark shadow-xl z-10 md:filter md:grayscale md:group-hover:grayscale-0 transition-all duration-500"
+                className="relative w-32 h-32 md:w-40 md:h-40 object-cover object-[50%_10%] scale-[1.05] pixel-border border-6 border-retro-dark shadow-xl z-10 md:filter md:grayscale md:group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
-            <div className="w-full mt-4 md:mt-0 flex-1 flex flex-col justify-between h-full min-h-[12rem]">
-              <div className="flex flex-col md:flex-row justify-between items-start gap-5">
-                <div>
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-pixel text-retro-yellow mb-4 leading-tight group-hover:text-retro-light-green transition-colors">{profile.name}</h1>
-                  <h2 className="text-lg md:text-xl text-retro-light-blue font-pixel mb-4">{profile.role}</h2>
-                </div>
-                <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform drop-shadow-[5px_5px_0_rgba(0,0,0,0.5)] md:hidden text-base px-5 py-3">
-                  MAP
-                </Link>
+            <div className="w-full mt-2 md:mt-0 flex-1 flex flex-col items-center md:items-start justify-between h-full min-h-[12rem]">
+              <div className="w-full text-center md:text-left">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-pixel text-retro-yellow mb-3 md:mb-4 leading-snug md:leading-tight group-hover:text-retro-light-green transition-colors">
+                  {profile.name}
+                </h1>
+                <h2 className="text-base sm:text-lg md:text-xl text-retro-light-blue font-pixel mb-2 md:mb-4">
+                  {profile.role}
+                </h2>
               </div>
               
-              {/* Retro Big Contact Buttons */}
-              <div className="w-full mt-auto pt-4">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full">
+              {/* Retro Action & Contact Buttons — cleanly aligned & full-width on mobile! */}
+              <div className="w-full mt-auto pt-4 space-y-4 md:space-y-5">
+                <Link
+                  to="/"
+                  className="pixel-btn bg-retro-red text-white hover:bg-white hover:text-retro-dark transition-colors px-5 py-3.5 text-sm shadow-md drop-shadow-[5px_5px_0_rgba(0,0,0,0.5)] w-full flex md:hidden justify-center items-center gap-2.5 font-bold tracking-widest"
+                >
+                  <GamepadIcon /> RETURN TO MAP
+                </Link>
+
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 w-full">
                   <a href={`mailto:${profile.email}`} className="pixel-btn bg-retro-blue text-white hover:bg-white hover:text-retro-dark transition-colors px-3 py-3 md:py-4 text-xs md:text-sm shadow-md flex justify-center items-center gap-2">
                     <MailIcon /> EMAIL
                   </a>
@@ -461,7 +505,7 @@ export default function SimpleView() {
                     <GamepadIcon /> ITCH.IO
                   </a>
                 </div>
-                <a href="/Mahmoud_Hany_CV.pdf" download className="pixel-btn bg-retro-yellow text-retro-dark hover:bg-white transition-colors px-5 py-4 md:py-5 text-base md:text-lg shadow-md drop-shadow-[5px_5px_0_rgba(244,180,27,0.3)] w-full flex justify-center items-center gap-3 mt-5 font-bold tracking-widest">
+                <a href="/Mahmoud_Hany_CV.pdf" download className="pixel-btn bg-retro-yellow text-retro-dark hover:bg-white transition-colors px-5 py-4 md:py-5 text-sm sm:text-base md:text-lg shadow-md drop-shadow-[5px_5px_0_rgba(244,180,27,0.3)] w-full flex justify-center items-center gap-3 font-bold tracking-widest">
                   <DownloadIcon /> DOWNLOAD CV
                 </a>
               </div>
@@ -530,7 +574,7 @@ export default function SimpleView() {
         </motion.section>
 
         <motion.section id="skills" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-32 scroll-mt-28">
-          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">Technical Arsenal</h3>
+          <h3 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">Technical Arsenal</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {Object.entries(profile.skills).map(([category, items], idx) => (
               <motion.div 
@@ -558,8 +602,8 @@ export default function SimpleView() {
             Projects
           </h3>
 
-          {/* ── LOCKED-IN LEVEL CATEGORY BAR (No Numbers, Identical 52px Height & Baseline!) ── */}
-          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 mb-8">
+          {/* ── LOCKED-IN LEVEL CATEGORY BAR (2x2 Grid on Phones, Single Row on Tablet/Desktop!) ── */}
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-3 md:gap-4 mb-8 max-w-md sm:max-w-none mx-auto">
             {[
               ...categoryGroups.map((cat) => ({
                 id: cat.id,
@@ -625,15 +669,18 @@ export default function SimpleView() {
                   <ChevronLeft size={28} strokeWidth={3} />
                 </button>
 
-                {/* Center-Locked Sliding Cartridge Viewport — active item ALWAYS glides to exact center! */}
+                {/* Center-Locked Sliding Cartridge Viewport — active item ALWAYS glides to exact center + touch swipe! */}
                 <div
                   ref={cartridgeViewportRef}
-                  className="relative flex-1 min-w-0 overflow-hidden py-4"
+                  onTouchStart={handleCarouselTouchStart}
+                  onTouchMove={handleCarouselTouchMove}
+                  onTouchEnd={handleCarouselTouchEnd}
+                  className="relative flex-1 min-w-0 overflow-hidden py-4 touch-pan-y"
                   style={{
                     maskImage:
-                      'linear-gradient(90deg, transparent 0px, black 28px, black calc(100% - 28px), transparent 100%)',
+                      'linear-gradient(90deg, transparent 0px, black 16px, black calc(100% - 16px), transparent 100%)',
                     WebkitMaskImage:
-                      'linear-gradient(90deg, transparent 0px, black 28px, black calc(100% - 28px), transparent 100%)'
+                      'linear-gradient(90deg, transparent 0px, black 16px, black calc(100% - 16px), transparent 100%)'
                   }}
                 >
                   <motion.div
@@ -649,7 +696,7 @@ export default function SimpleView() {
                           ref={isCurrent ? activeCartridgeRef : null}
                           type="button"
                           onClick={() => setCarouselIdx(i)}
-                          className={`relative shrink-0 h-[74px] px-4 border-[3px] flex items-center gap-3.5 cursor-pointer transition-colors text-left ${
+                          className={`relative shrink-0 h-[74px] max-w-[210px] sm:max-w-none px-3 sm:px-4 border-[3px] flex items-center gap-2.5 sm:gap-3.5 cursor-pointer transition-colors text-left ${
                             isCurrent ? 'scale-105 z-10' : 'hover:border-retro-light-blue opacity-75 hover:opacity-100'
                           }`}
                           style={
@@ -684,9 +731,9 @@ export default function SimpleView() {
                             />
                           </div>
 
-                          {/* Title Only — Cleanly Vertically Centered */}
+                          {/* Title Only — Wraps cleanly on narrow phones, single-line on desktop */}
                           <span
-                            className="font-chakra text-base md:text-lg font-bold leading-none whitespace-nowrap pr-1"
+                            className="font-chakra text-sm sm:text-base md:text-lg font-bold leading-tight sm:leading-none sm:whitespace-nowrap line-clamp-2 pr-1"
                             style={{ color: isCurrent ? '#140e02' : '#ffffff' }}
                           >
                             {item.client || item.title}
@@ -770,10 +817,10 @@ export default function SimpleView() {
             }}
             className="w-full border-t-[6px] border-retro-light-green flex flex-col items-center justify-center pt-16 pb-32 shadow-[0_-20px_40px_-10px_rgba(131,235,114,0.15)] gap-6"
           >
-            <p className="font-pixel text-retro-light-green text-xl md:text-3xl drop-shadow-[0_0_15px_rgba(131,235,114,0.8)] leading-loose text-center px-4 max-w-4xl">
+            <p className="font-pixel text-retro-light-green text-base sm:text-xl md:text-3xl drop-shadow-[0_0_15px_rgba(131,235,114,0.8)] leading-loose text-center px-4 max-w-4xl">
               “Why shouldn't people be able to teleport wherever they want?”
             </p>
-            <p className="text-retro-light-blue text-base md:text-lg tracking-widest uppercase font-bold text-center">
+            <p className="text-retro-light-blue text-sm sm:text-base md:text-lg tracking-widest uppercase font-bold text-center">
               — Palmer Luckey, Founder of Oculus VR
             </p>
           </motion.div>
@@ -784,17 +831,17 @@ export default function SimpleView() {
               hidden: { opacity: 0, scale: 0.5, filter: "blur(10px)" },
               visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { type: "spring", bounce: 0.5, duration: 1, staggerChildren: 0.2, delayChildren: 0.4 } }
             }}
-            className="w-full max-w-5xl border-[6px] md:border-[8px] border-retro-light-blue bg-retro-dark p-6 md:p-12 lg:p-20 relative shadow-[0_0_50px_rgba(86,156,235,0.4)]"
+            className="w-full max-w-5xl border-[6px] md:border-[8px] border-retro-light-blue bg-retro-dark px-5 py-10 sm:p-10 md:p-12 lg:p-20 relative shadow-[0_0_50px_rgba(86,156,235,0.4)] overflow-hidden"
           >
             {/* Teleportation aesthetic layers */}
             <div className="absolute inset-0 bg-gradient-to-t from-retro-light-blue/20 to-transparent pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 w-full h-3 bg-retro-light-blue animate-pulse"></div>
 
-            <div className="relative z-10 text-center mb-16">
-              <h3 className="font-pixel text-4xl md:text-5xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] tracking-widest uppercase mb-6">
+            <div className="relative z-10 text-center mb-12 md:mb-16">
+              <h3 className="font-pixel text-xl sm:text-3xl md:text-5xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] tracking-wide md:tracking-widest leading-relaxed uppercase mb-5 md:mb-6 break-words">
                 Teleport to Me
               </h3>
-              <p className="text-retro-light-blue text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-bold">
+              <p className="text-retro-light-blue text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-bold">
                 Always down to discuss new projects, building immersive XR experiences or games. Step into a portal below to connect!
               </p>
             </div>

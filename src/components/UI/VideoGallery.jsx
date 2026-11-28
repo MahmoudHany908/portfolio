@@ -31,39 +31,49 @@ export default function VideoGallery({ singleVideo, videos, image }) {
           ></iframe>
         </div>
         
-        {/* Video Selector Row */}
-        <div className="flex justify-center gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-retro-gray scrollbar-track-retro-dark">
-          {videos.map((vid, idx) => {
-            let thumb = vid.thumbnail || '';
-            if (!thumb && vid.url.includes('youtube.com/embed/')) {
-              const id = vid.url.split('embed/')[1].split('?')[0];
-              thumb = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
-            }
-            return (
-              <button 
-                key={idx}
-                onMouseEnter={() => setActiveIndex(idx)}
-                onClick={() => setActiveIndex(idx)}
-                className={`relative shrink-0 w-36 h-20 pixel-border border-2 transition-all duration-200 group ${activeIndex === idx ? 'border-retro-yellow shadow-[0_0_15px_rgba(244,180,27,0.5)] scale-105 z-10' : 'border-retro-gray opacity-70 hover:opacity-100 hover:border-retro-light-blue hover:scale-105'}`}
-              >
-                {thumb ? (
-                  <img src={thumb} alt={vid.title} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full bg-slate-800 flex items-center justify-center font-pixel text-[10px] text-white p-2 text-center leading-tight">
+        {/* Video Selector Row — centers when fitting, scrolls full edge-to-edge when overflowing on mobile! */}
+        <div className="w-full overflow-x-auto py-2 scrollbar-thin scrollbar-thumb-retro-gray scrollbar-track-retro-dark touch-pan-x">
+          <div className="flex items-center gap-3 w-max mx-auto px-2">
+            {videos.map((vid, idx) => {
+              let thumb = vid.thumbnail || '';
+              if (!thumb && vid.url.includes('youtube.com/embed/')) {
+                const id = vid.url.split('embed/')[1].split('?')[0];
+                thumb = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+              }
+              return (
+                <button 
+                  key={idx}
+                  type="button"
+                  onMouseEnter={() => setActiveIndex(idx)}
+                  onClick={(e) => {
+                    setActiveIndex(idx);
+                    e.currentTarget.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'nearest',
+                      inline: 'center'
+                    });
+                  }}
+                  className={`relative shrink-0 w-36 h-20 pixel-border border-2 transition-all duration-200 group ${activeIndex === idx ? 'border-retro-yellow shadow-[0_0_15px_rgba(244,180,27,0.5)] scale-105 z-10' : 'border-retro-gray opacity-70 hover:opacity-100 hover:border-retro-light-blue hover:scale-105'}`}
+                >
+                  {thumb ? (
+                    <img src={thumb} alt={vid.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-slate-800 flex items-center justify-center font-pixel text-[10px] text-white p-2 text-center leading-tight">
+                      {vid.title}
+                    </div>
+                  )}
+                  {/* Title badge */}
+                  <div className="absolute inset-x-0 bottom-0 bg-black/85 py-0.5 px-1 font-pixel text-[9px] text-retro-yellow text-center truncate pointer-events-none">
                     {vid.title}
                   </div>
-                )}
-                {/* Title badge */}
-                <div className="absolute inset-x-0 bottom-0 bg-black/85 py-0.5 px-1 font-pixel text-[9px] text-retro-yellow text-center truncate pointer-events-none">
-                  {vid.title}
-                </div>
-                {/* Play icon overlay */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-all pointer-events-none">
-                  <div className={`w-0 h-0 border-t-[6px] border-b-[6px] border-l-[10px] border-t-transparent border-b-transparent ${activeIndex === idx ? 'border-l-retro-yellow' : 'border-l-white drop-shadow-md'}`}></div>
-                </div>
-              </button>
-            );
-          })}
+                  {/* Play icon overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-all pointer-events-none">
+                    <div className={`w-0 h-0 border-t-[6px] border-b-[6px] border-l-[10px] border-t-transparent border-b-transparent ${activeIndex === idx ? 'border-l-retro-yellow' : 'border-l-white drop-shadow-md'}`}></div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     );

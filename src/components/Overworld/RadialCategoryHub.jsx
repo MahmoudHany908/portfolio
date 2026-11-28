@@ -6,41 +6,106 @@ import { MasteredLandmarkOrnament, UnifiedCheckpointTag } from './CheckpointTagS
 import { LockIcon } from './PixelAssets';
 import { GAME_SPRITES, HubIconSims, HubIconVR, HubIconJams } from './GamePixelIcons';
 
-export const LIVE_CATEGORIES = (nodeById) => [
-  {
-    id: 'cat_clients',
-    title: 'Clients',
-    color: '#38bdf8',
-    sprite: HubIconSims,
-    x: 620,
-    y: 410,
-    pX: 450,
-    pY: 1180,
-    projects: [nodeById.proj_gm, nodeById.proj2].filter(Boolean)
-  },
-  {
-    id: 'cat_vr',
-    title: 'VR',
-    color: '#c084fc',
-    sprite: HubIconVR,
-    x: 1010,
-    y: 450,
-    pX: 450,
-    pY: 1700,
-    projects: [nodeById.proj3, nodeById.proj4, nodeById.proj1].filter(Boolean)
-  },
-  {
-    id: 'cat_2d',
-    title: '2D',
-    color: '#f4b41b',
-    sprite: HubIconJams,
-    x: 1400,
-    y: 390,
-    pX: 450,
-    pY: 2220,
-    projects: [nodeById.proj6, nodeById.proj7, nodeById.proj8, nodeById.proj5].filter(Boolean)
+export const LIVE_CATEGORIES = (nodeById, isMobileLayout = false) => {
+  if (!isMobileLayout) {
+    return [
+      {
+        id: 'cat_clients',
+        title: 'Clients',
+        color: '#38bdf8',
+        sprite: HubIconSims,
+        x: 620,
+        y: 410,
+        projects: [nodeById.proj_gm, nodeById.proj2].filter(Boolean)
+      },
+      {
+        id: 'cat_vr',
+        title: 'VR',
+        color: '#c084fc',
+        sprite: HubIconVR,
+        x: 1010,
+        y: 450,
+        projects: [nodeById.proj3, nodeById.proj4, nodeById.proj1].filter(Boolean)
+      },
+      {
+        id: 'cat_2d',
+        title: '2D',
+        color: '#f4b41b',
+        sprite: HubIconJams,
+        x: 1400,
+        y: 390,
+        projects: [nodeById.proj6, nodeById.proj7, nodeById.proj8, nodeById.proj5].filter(Boolean)
+      }
+    ];
   }
-];
+
+  // Locked-in Mobile Layout: Vertical Strip (900 x 3010)
+  return [
+    {
+      id: 'cat_clients',
+      title: 'Clients',
+      color: '#38bdf8',
+      sprite: HubIconSims,
+      x: 450,
+      y: 1180,
+      projects: [nodeById.proj_gm, nodeById.proj2].filter(Boolean)
+    },
+    {
+      id: 'cat_vr',
+      title: 'VR',
+      color: '#c084fc',
+      sprite: HubIconVR,
+      x: 450,
+      y: 1700,
+      projects: [nodeById.proj3, nodeById.proj4, nodeById.proj1].filter(Boolean)
+    },
+    {
+      id: 'cat_2d',
+      title: '2D',
+      color: '#f4b41b',
+      sprite: HubIconJams,
+      x: 450,
+      y: 2220,
+      projects: [nodeById.proj6, nodeById.proj7, nodeById.proj8, nodeById.proj5].filter(Boolean)
+    }
+  ];
+};
+
+export const getWorldSpec = (nodeById, isMobileLayout = false) => {
+  const categories = LIVE_CATEGORIES(nodeById, isMobileLayout);
+
+  if (!isMobileLayout) {
+    return {
+      width: 1800,
+      height: 900,
+      spawn: { x: 460, y: 790, flipX: true },
+      about: { ...nodeById.about, x: 160, y: 680 },
+      skills: { ...nodeById.skills, x: 220, y: 320 },
+      contact: { ...nodeById.contact, x: 1650, y: 690 },
+      categories,
+      zones: {
+        skills: { x: 220, y: 320, rx: 140, ry: 140, bannerX: 220, bannerY: 120 },
+        projects: { x: 1010, y: 415, rx: 570, ry: 260, bannerX: 1010, bannerY: 75 },
+        contact: { x: 1650, y: 700, rx: 140, ry: 140, bannerX: 1650, bannerY: 855 }
+      }
+    };
+  }
+
+  return {
+    width: 900,
+    height: 3010,
+    spawn: { x: 450, y: 170, flipX: false },
+    about: { ...nodeById.about, x: 450, y: 420 },
+    skills: { ...nodeById.skills, x: 450, y: 740 },
+    contact: { ...nodeById.contact, x: 450, y: 2720 },
+    categories,
+    zones: {
+      skills: { x: 450, y: 740, rx: 140, ry: 140, bannerX: 450, bannerY: 600 },
+      projects: { x: 450, y: 1700, rx: 270, ry: 780, bannerX: 450, bannerY: 940 },
+      contact: { x: 450, y: 2720, rx: 140, ry: 140, bannerX: 450, bannerY: 2570 }
+    }
+  };
+};
 
 export const shortProjectLabel = (id, fallback) => {
   const map = {
@@ -60,9 +125,10 @@ export const shortProjectLabel = (id, fallback) => {
 /**
  * Clean 360° Circle Geometry — mathematically spaced so NO two titles or hub badges EVER touch!
  */
-export function getCircleOffset(index, total, isMobile = false, projectPx = 18) {
-  const extraRadius = Math.max(0, projectPx - 12) * 6;
-  const radius = (isMobile ? 164 : 188) + extraRadius;
+export function getCircleOffset(index, total, isMobile = false, projectPx = 18, isNarrowVertical = false) {
+  const effectivePx = isMobile ? (isNarrowVertical ? 14 : 15) : projectPx;
+  const extraRadius = Math.max(0, effectivePx - 12) * 6;
+  const radius = (isMobile ? (isNarrowVertical ? 156 : 172) : 188) + extraRadius;
   let deg;
 
   if (total === 2) {
@@ -75,10 +141,11 @@ export function getCircleOffset(index, total, isMobile = false, projectPx = 18) 
   }
 
   const rad = (deg * Math.PI) / 180;
-  const dx = Math.cos(rad) * radius;
-  const dy = Math.sin(rad) * radius;
+  // On narrow portrait vertical strip (700px visible), pull X slightly inward so side labels never clip!
+  const dx = Math.cos(rad) * radius * (isNarrowVertical ? 0.78 : 1);
+  const dy = Math.sin(rad) * radius * (isNarrowVertical ? 1.08 : 1);
   const labelAbove = dy < -15;
-  return { dx, dy, labelAbove, radius };
+  return { dx, dy, labelAbove, radius, effectivePx };
 }
 
 export default function RadialCategoryHub({
@@ -95,6 +162,8 @@ export default function RadialCategoryHub({
   setClampedHubId,
   fontSizes = { badgePx: 16, projectPx: 16, titlePx: 18 },
   isMobileLayout,
+  onOpenStageTray,
+  onFocusHub,
   muted,
   onSelectProject
 }) {
@@ -102,10 +171,11 @@ export default function RadialCategoryHub({
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredProjId, setHoveredProjId] = useState(null);
 
-  const isClamped = clampedHubId === category.id;
-  const isLockedForShot = lockedShotHubId === category.id;
-  // Stays open on hover, when click-pinned, OR while an arrow is aiming/flying/hitting a project inside!
-  const isOpen = isHovered || isClamped || isLockedForShot;
+  // Mobile uses the approved Stage-Select Bottom Tray; Desktop blooms 360° Radial Satellites!
+  const useStageTray = Boolean(isMobileLayout);
+  const isClamped = !useStageTray && clampedHubId === category.id;
+  const isLockedForShot = !useStageTray && lockedShotHubId === category.id;
+  const isOpen = !useStageTray && (isHovered || isClamped || isLockedForShot);
 
   const total = category.projects.length;
   const doneCount = category.projects.filter((p) => discovered.has(p.id)).length;
@@ -115,7 +185,7 @@ export default function RadialCategoryHub({
   const isAnyChildCelebrated = category.projects.some((p) => celebrateNodeId === p.id);
 
   const hubColor = allCompleted ? '#f4b41b' : category.color;
-  const activeRadius = getCircleOffset(0, total, isMobileLayout, fontSizes.projectPx).radius;
+  const activeRadius = getCircleOffset(0, total, isMobileLayout, fontSizes.projectPx, false).radius;
   const bridgeSize = activeRadius * 2 + 150;
 
   return (
@@ -191,7 +261,7 @@ export default function RadialCategoryHub({
             />
 
             {category.projects.map((proj, idx) => {
-              const { dx, dy } = getCircleOffset(idx, total, isMobileLayout, fontSizes.projectPx);
+              const { dx, dy } = getCircleOffset(idx, total, isMobileLayout, fontSizes.projectPx, false);
               const isProjHovered = hoveredProjId === proj.id;
               const isProjHit = hitNodeId === proj.id;
               const isProjAimed = aimingNodeId === proj.id;
@@ -227,7 +297,13 @@ export default function RadialCategoryHub({
       <AnimatePresence>
         {isOpen &&
           category.projects.map((proj, idx) => {
-            const { dx, dy, labelAbove } = getCircleOffset(idx, total, isMobileLayout, fontSizes.projectPx);
+            const { dx, dy, labelAbove, effectivePx } = getCircleOffset(
+              idx,
+              total,
+              isMobileLayout,
+              fontSizes.projectPx,
+              false
+            );
             const isDone = discovered.has(proj.id);
             const isProjHovered = hoveredProjId === proj.id;
             const isThisAimed = aimingNodeId === proj.id;
@@ -236,12 +312,15 @@ export default function RadialCategoryHub({
             const sprite = GAME_SPRITES[proj.id];
 
             const isNbe = proj.id === 'proj2';
+            const rawShortLabel = shortProjectLabel(proj.id, proj.title);
             const titlePill = (
               <div
-                style={{ fontSize: `${fontSizes.projectPx}px` }}
+                style={{ fontSize: `${effectivePx}px` }}
                 className={`${
                   labelAbove ? 'mb-2' : 'mt-2'
-                } px-3.5 py-1.5 border-2 font-pixel leading-snug text-center whitespace-nowrap shadow-[4px_4px_0_rgba(0,0,0,0.9)] transition-transform duration-150 ${
+                } ${
+                  isMobileLayout ? 'max-w-[185px] whitespace-normal px-2.5 py-1.5' : 'whitespace-nowrap px-3.5 py-1.5'
+                } border-2 font-pixel leading-snug text-center shadow-[4px_4px_0_rgba(0,0,0,0.9)] transition-transform duration-150 ${
                   isProjHovered || isThisAimed
                     ? 'bg-retro-yellow text-retro-dark border-black scale-110 z-50 font-bold'
                     : isDone
@@ -255,9 +334,9 @@ export default function RadialCategoryHub({
                     <span>of Egypt</span>
                   </span>
                 ) : isDone ? (
-                  `★ ${shortProjectLabel(proj.id, proj.title)}`
+                  `★ ${rawShortLabel}`
                 ) : (
-                  shortProjectLabel(proj.id, proj.title)
+                  rawShortLabel
                 )}
               </div>
             );
@@ -430,12 +509,30 @@ export default function RadialCategoryHub({
           e.stopPropagation();
           if (!isUnlocked) return;
           if (!muted) playSelect();
-          setClampedHubId(isClamped ? null : category.id);
+          if (useStageTray && onOpenStageTray) {
+            onOpenStageTray(category, { x, y });
+            if (onFocusHub) onFocusHub({ x, y });
+          } else {
+            const nextOpen = !isClamped;
+            setClampedHubId(nextOpen ? category.id : null);
+            if (nextOpen && isMobileLayout && onFocusHub) {
+              onFocusHub({ x, y });
+            }
+          }
         }}
         className={`relative z-30 flex flex-col items-center justify-center ${
           isUnlocked ? 'cursor-pointer group' : 'cursor-not-allowed'
         }`}
       >
+        {/* Subtle Touch-Expand Ring Cue on Mobile Hubs (since touchscreens don't have hover!) */}
+        {isMobileLayout && !isOpen && !allCompleted && (
+          <motion.div
+            animate={{ scale: [1, 1.24, 1], opacity: [0.55, 0.15, 0.55] }}
+            transition={{ duration: 2.1, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-0 w-24 h-24 rounded-full border-2 border-dashed pointer-events-none"
+            style={{ borderColor: hubColor }}
+          />
+        )}
         {/* Center Category Landmark Circle + Mastered Visual Ornament (Crown / Flag / Laurels / Stamp) */}
         <div
           className={`relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center transition-transform duration-150 ${

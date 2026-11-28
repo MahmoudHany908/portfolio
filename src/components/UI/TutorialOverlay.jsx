@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MousePointer2, Pointer } from 'lucide-react';
 
@@ -42,15 +43,25 @@ export default function TutorialOverlay() {
               HOW TO PLAY
             </h1>
             
-            <p className="font-pixel text-sm md:text-xl text-white mb-16 max-w-lg leading-relaxed tracking-wider">
+            <p className="font-pixel text-sm md:text-xl text-white mb-10 md:mb-16 max-w-lg leading-relaxed tracking-wider">
               {isMobile 
-                ? "Swipe up & down to look around. Tap the next checkpoint to move forward!" 
+                ? "Swipe up & down to look around. Tap a checkpoint to shoot & explore!" 
                 : "Click the next checkpoint to explore my portfolio!"}
             </p>
 
             <p className="font-pixel text-xs md:text-lg text-slate-400 animate-[pulse_2s_ease-in-out_infinite] tracking-widest border-2 border-slate-400/30 px-6 py-4 pixel-border">
-              {isMobile ? "[ TAP ANYWHERE TO START ]" : "[ CLICK ANYWHERE TO START ]"}
+              {isMobile ? "[ TAP ANYWHERE TO PLAY ]" : "[ CLICK ANYWHERE TO START ]"}
             </p>
+
+            {isMobile && (
+              <Link
+                to="/quick"
+                onClick={(e) => e.stopPropagation()}
+                className="mt-6 font-pixel text-[10px] text-retro-yellow border-2 border-retro-yellow/70 bg-retro-dark/90 px-4 py-3 tracking-wider shadow-[4px_4px_0_#000] active:translate-y-0.5"
+              >
+                SHORT ON TIME? OPEN QUICK MODE →
+              </Link>
+            )}
           </div>
         </motion.div>
       )}

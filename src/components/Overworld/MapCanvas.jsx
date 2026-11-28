@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, animate } from 'framer-motion';
 import NodeMarker from './NodeMarker';
-import RadialCategoryHub, { LIVE_CATEGORIES } from './RadialCategoryHub';
+import RadialCategoryHub, { getWorldSpec } from './RadialCategoryHub';
 import AnimatedArcher from './AnimatedArchers';
 import portfolioData from '../../data/portfolioData.json';
 import { TerrainGrassTile, PathTile } from './PixelAssets';
@@ -129,6 +129,9 @@ export default function MapCanvas({
   clampedHubId,
   setClampedHubId,
   fontSizes,
+  cameraFocusPos = null,
+  onCameraFocusChange,
+  onOpenStageTray,
   muted,
   onCanvasTransform
 }) {
@@ -136,33 +139,35 @@ export default function MapCanvas({
   const dragY = useMotionValue(0);
   const [isPanned, setIsPanned] = useState(false);
 
-  const CANVAS_WIDTH = isMobileLayout ? 900 : 1800;
-  const CANVAS_HEIGHT = isMobileLayout ? 3010 : 900;
-
   const nodeById = Object.fromEntries(portfolioData.nodes.map((n) => [n.id, n]));
-  const categories = LIVE_CATEGORIES(nodeById);
+  const world = getWorldSpec(nodeById, isMobileLayout);
+  const CANVAS_WIDTH = world.width;
+  const CANVAS_HEIGHT = world.height;
+  const categories = world.categories;
 
-  const spawnPoint = isMobileLayout ? { x: 450, y: 170 } : { x: 460, y: 790 };
+  const spawnPoint = world.spawn;
   const isAtSpawn =
     playerPos &&
-    ((playerPos.x === 460 && playerPos.y === 790) ||
-      (playerPos.x === 450 && playerPos.y === 170));
+    Math.abs(playerPos.x - spawnPoint.x) < 4 &&
+    Math.abs(playerPos.y - spawnPoint.y) < 4;
 
-  const aboutNode = { ...nodeById.about, x: 160, y: 680, pX: 450, pY: 420 };
-  const skillsNode = { ...nodeById.skills, x: 220, y: 320, pX: 450, pY: 740 };
-  const contactNode = { ...nodeById.contact, x: 1650, y: 690, pX: 450, pY: 2720 };
+  const aboutNode = world.about;
+  const skillsNode = world.skills;
+  const contactNode = world.contact;
 
   useEffect(() => {
     return dragY.on('change', (latest) => {
-      const panned = Math.abs(latest) > 220;
+      const panned = Math.abs(latest) > 180;
       setIsPanned((prev) => (prev !== panned ? panned : prev));
     });
   }, [dragY]);
 
+  const activeFocus = cameraFocusPos || playerPos;
+
   useEffect(() => {
-    dragY.set(0);
+    animate(dragY, 0, { type: 'spring', damping: 28, stiffness: 280 });
     setIsPanned(false);
-  }, [playerPos, dragY]);
+  }, [activeFocus?.x, activeFocus?.y, isMobileLayout, dragY]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -181,75 +186,52 @@ export default function MapCanvas({
 
   // Smooth 6-stop path (About -> Skills -> Clients -> VR -> 2D -> Contact)
   const stops = [
-    {
-      id: 'about',
-      x: aboutNode.x,
-      y: aboutNode.y,
-      pX: aboutNode.pX,
-      pY: aboutNode.pY,
-      done: discovered.has('about')
-    },
-    {
-      id: 'skills',
-      x: skillsNode.x,
-      y: skillsNode.y,
-      pX: skillsNode.pX,
-      pY: skillsNode.pY,
-      done: discovered.has('skills')
-    },
+    { id: 'about', x: aboutNode.x, y: aboutNode.y, done: discovered.has('about') },
+    { id: 'skills', x: skillsNode.x, y: skillsNode.y, done: discovered.has('skills') },
     ...categories.map((c) => ({
       id: c.id,
       x: c.x,
       y: c.y,
-      pX: c.pX,
-      pY: c.pY,
       done: c.projects.every((p) => discovered.has(p.id))
     })),
-    {
-      id: 'contact',
-      x: contactNode.x,
-      y: contactNode.y,
-      pX: contactNode.pX,
-      pY: contactNode.pY,
-      done: discovered.has('contact')
-    }
+    { id: 'contact', x: contactNode.x, y: contactNode.y, done: discovered.has('contact') }
   ];
 
   const trailSegments = [];
   for (let i = 1; i < stops.length; i++) {
     const prev = stops[i - 1];
     const curr = stops[i];
-    const pX = isMobileLayout ? prev.pX : prev.x;
-    const pY = isMobileLayout ? prev.pY : prev.y;
-    const cX = isMobileLayout ? curr.pX : curr.x;
-    const cY = isMobileLayout ? curr.pY : curr.y;
-    const midX = (pX + cX) / 2;
-    const path = `M ${pX} ${pY} C ${midX} ${pY}, ${midX} ${cY}, ${cX} ${cY}`;
+    const midX = (prev.x + curr.x) / 2;
+    const path = `M ${prev.x} ${prev.y} C ${midX} ${prev.y}, ${midX} ${curr.y}, ${curr.x} ${curr.y}`;
     trailSegments.push({ id: `trail-${curr.id}`, path, isActive: prev.done && curr.done });
   }
 
   const numericLeft =
-    isMobileLayout && playerPos
-      ? window.innerWidth / 2 - playerPos.x * scale
+    isMobileLayout && activeFocus
+      ? window.innerWidth / 2 - activeFocus.x * scale
       : window.innerWidth / 2 - (CANVAS_WIDTH / 2) * scale;
 
   const numericTop =
-    isMobileLayout && playerPos
-      ? window.innerHeight * 0.35 - playerPos.y * scale
+    isMobileLayout && activeFocus
+      ? window.innerHeight * 0.36 - activeFocus.y * scale
       : window.innerHeight / 2 - (CANVAS_HEIGHT / 2) * scale;
 
-  const buffer = 130;
-  const firstNodeY = spawnPoint.y;
-  const lastNodeY = contactNode.pY;
   const dragConstraints =
-    isMobileLayout && playerPos
+    isMobileLayout && activeFocus
       ? {
-          top: window.innerHeight * 0.35 - buffer - lastNodeY * scale - numericTop,
-          bottom: window.innerHeight * 0.35 + buffer - firstNodeY * scale - numericTop
+          top: Math.min(
+            0,
+            window.innerHeight * 0.36 - 130 - contactNode.y * scale - numericTop
+          ),
+          bottom: Math.max(
+            0,
+            window.innerHeight * 0.36 + 130 - spawnPoint.y * scale - numericTop
+          )
         }
       : undefined;
 
   const handleRecenter = () => {
+    if (onCameraFocusChange) onCameraFocusChange(null);
     animate(dragY, 0, { type: 'spring', damping: 25, stiffness: 300 });
   };
 
@@ -272,9 +254,9 @@ export default function MapCanvas({
         drag={isMobileLayout && !isWalking && !isDrawing && !isShooting ? 'y' : false}
         dragConstraints={dragConstraints}
         dragElastic={isMobileLayout ? 0.08 : false}
-        dragTransition={{ bounceStiffness: 450, bounceDamping: 30, power: 0.15, timeConstant: 200 }}
+        dragTransition={{ bounceStiffness: 420, bounceDamping: 32, power: 0.2, timeConstant: 200 }}
         animate={{ left: numericLeft, top: numericTop }}
-        transition={{ duration: 1.2, ease: 'easeInOut' }}
+        transition={{ duration: isMobileLayout ? 0.7 : 1.2, ease: 'easeInOut' }}
         className="absolute cursor-grab active:cursor-grabbing"
         style={{
           width: CANVAS_WIDTH,
@@ -311,22 +293,49 @@ export default function MapCanvas({
         </div>
 
         {/* SKILLS ZONE */}
-        <ZoneRegion x={isMobileLayout ? 450 : 220} y={isMobileLayout ? 740 : 320} rx={140} ry={140} color="#f4b41b" />
-        <SectionBanner text="SKILLS" x={isMobileLayout ? 450 : 220} y={isMobileLayout ? 600 : 120} color="#f4b41b" />
+        <ZoneRegion
+          x={world.zones.skills.x}
+          y={world.zones.skills.y}
+          rx={world.zones.skills.rx}
+          ry={world.zones.skills.ry}
+          color="#f4b41b"
+        />
+        <SectionBanner
+          text="SKILLS"
+          x={world.zones.skills.bannerX}
+          y={world.zones.skills.bannerY}
+          color="#f4b41b"
+        />
 
         {/* PROJECTS ZONE */}
         <ZoneRegion
-          x={isMobileLayout ? 450 : 1010}
-          y={isMobileLayout ? 1700 : 415}
-          rx={isMobileLayout ? 270 : 570}
-          ry={isMobileLayout ? 780 : 260}
+          x={world.zones.projects.x}
+          y={world.zones.projects.y}
+          rx={world.zones.projects.rx}
+          ry={world.zones.projects.ry}
           color="#569ceb"
         />
-        <SectionBanner text="PROJECTS" x={isMobileLayout ? 450 : 1010} y={isMobileLayout ? 940 : 75} color="#569ceb" />
+        <SectionBanner
+          text="PROJECTS"
+          x={world.zones.projects.bannerX}
+          y={world.zones.projects.bannerY}
+          color="#569ceb"
+        />
 
         {/* CONTACT ZONE */}
-        <ZoneRegion x={isMobileLayout ? 450 : 1650} y={isMobileLayout ? 2720 : 700} rx={140} ry={140} color="#83eb72" />
-        <SectionBanner text="CONTACT" x={isMobileLayout ? 450 : 1650} y={isMobileLayout ? 2570 : 855} color="#83eb72" />
+        <ZoneRegion
+          x={world.zones.contact.x}
+          y={world.zones.contact.y}
+          rx={world.zones.contact.rx}
+          ry={world.zones.contact.ry}
+          color="#83eb72"
+        />
+        <SectionBanner
+          text="CONTACT"
+          x={world.zones.contact.bannerX}
+          y={world.zones.contact.bannerY}
+          color="#83eb72"
+        />
 
         {/* Guided Dirt Trail */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
@@ -360,8 +369,8 @@ export default function MapCanvas({
           <NodeMarker
             key={node.id}
             node={node}
-            x={isMobileLayout ? node.pX : node.x}
-            y={isMobileLayout ? node.pY : node.y}
+            x={node.x}
+            y={node.y}
             isCompleted={discovered ? discovered.has(node.id) : false}
             isUnlocked={unlocked ? unlocked.has(node.id) : true}
             isAimed={aimingNodeId === node.id}
@@ -383,8 +392,8 @@ export default function MapCanvas({
           <RadialCategoryHub
             key={cat.id}
             category={cat}
-            x={isMobileLayout ? cat.pX : cat.x}
-            y={isMobileLayout ? cat.pY : cat.y}
+            x={cat.x}
+            y={cat.y}
             discovered={discovered}
             unlocked={unlocked}
             aimingNodeId={aimingNodeId}
@@ -395,6 +404,8 @@ export default function MapCanvas({
             setClampedHubId={setClampedHubId}
             fontSizes={fontSizes}
             isMobileLayout={isMobileLayout}
+            onOpenStageTray={onOpenStageTray}
+            onFocusHub={(pos) => onCameraFocusChange && onCameraFocusChange(pos)}
             muted={muted}
             onSelectProject={onCategoryProjectSelect}
           />
@@ -511,17 +522,29 @@ export default function MapCanvas({
           >
             {!isWalking && !isDrawing && !isShooting && !isAtSpawn && (
               <motion.div
-                initial={{ opacity: 0, x: -10, scale: 0.8 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ type: 'spring', delay: 0.5, damping: 12 }}
-                className="absolute -top-2 left-20 bg-white text-black font-pixel text-xs px-4 py-3 border-4 border-black whitespace-nowrap drop-shadow-xl z-50"
+                initial={{ opacity: 0, y: 6, scale: 0.85 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: 'spring', delay: 0.4, damping: 12 }}
+                className={
+                  isMobileLayout
+                    ? 'absolute -top-12 left-1/2 -translate-x-1/2 bg-white text-black font-pixel text-xs px-3.5 py-2.5 border-4 border-black whitespace-nowrap drop-shadow-xl z-50'
+                    : 'absolute -top-2 left-20 bg-white text-black font-pixel text-xs px-4 py-3 border-4 border-black whitespace-nowrap drop-shadow-xl z-50'
+                }
               >
-                {(playerPos.x === aboutNode.x && playerPos.y === aboutNode.y) ||
-                (playerPos.x === aboutNode.pX && playerPos.y === aboutNode.pY)
+                {Math.abs(playerPos.x - aboutNode.x) < 4 && Math.abs(playerPos.y - aboutNode.y) < 4
                   ? 'Hire Mahmoud!'
                   : "Still didn't hire him?"}
-                <div className="absolute top-1/2 -left-3 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-r-[12px] border-t-transparent border-b-transparent border-r-black" />
-                <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-0 h-0 border-t-[4px] border-b-[4px] border-r-[8px] border-t-transparent border-b-transparent border-r-white" />
+                {isMobileLayout ? (
+                  <>
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[7px] border-r-[7px] border-t-[11px] border-l-transparent border-r-transparent border-t-black" />
+                    <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-t-[8px] border-l-transparent border-r-transparent border-t-white" />
+                  </>
+                ) : (
+                  <>
+                    <div className="absolute top-1/2 -left-3 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-r-[12px] border-t-transparent border-b-transparent border-r-black" />
+                    <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-0 h-0 border-t-[4px] border-b-[4px] border-r-[8px] border-t-transparent border-b-transparent border-r-white" />
+                  </>
+                )}
               </motion.div>
             )}
 
@@ -538,14 +561,14 @@ export default function MapCanvas({
       </motion.div>
 
       <AnimatePresence>
-        {isMobileLayout && isPanned && !isWalking && !isDrawing && !isShooting && (
+        {isMobileLayout && (isPanned || cameraFocusPos) && !isWalking && !isDrawing && !isShooting && (
           <motion.button
             initial={{ opacity: 0, y: 15, scale: 0.85 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.85 }}
             whileTap={{ scale: 0.92 }}
             onClick={handleRecenter}
-            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-retro-dark/95 border-2 border-retro-yellow text-retro-yellow px-4 py-2 font-pixel text-[11px] flex items-center gap-2 shadow-[4px_4px_0_rgba(0,0,0,0.8)] cursor-pointer active:translate-y-1 tracking-wider"
+            className="fixed bottom-16 left-1/2 -translate-x-1/2 z-50 bg-retro-dark/95 border-2 border-retro-yellow text-retro-yellow px-4 py-2 font-pixel text-[11px] flex items-center gap-2 shadow-[4px_4px_0_rgba(0,0,0,0.8)] cursor-pointer active:translate-y-1 tracking-wider"
           >
             <span>🎯</span> RECENTER
           </motion.button>
