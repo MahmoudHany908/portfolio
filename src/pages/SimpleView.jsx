@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, Briefcase, GraduationCap, Menu, X } from 'lucide-react';
 import VideoGallery from '../components/UI/VideoGallery';
 import { HubIconSims, HubIconVR, HubIconJams, GAME_SPRITES } from '../components/Overworld/GamePixelIcons';
 import portfolioData from '../data/portfolioData.json';
@@ -253,15 +253,15 @@ const ProjectCard = ({ proj, gradInfo, compact = false }) => {
 
         <div className="space-y-4 flex-1">
           <ProjectMetaBadges proj={proj} gradInfo={gradInfo} />
-          <p className="font-chakra text-sm lg:text-base text-slate-300 leading-relaxed m-0">
+          <p className="font-chakra text-base text-slate-200 leading-relaxed m-0">
             {proj.summary}
           </p>
           {proj.keyContributions?.length > 0 && (
             <div className="pt-2 border-t border-retro-gray/30">
-              <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] uppercase mb-2.5">Key Contributions</h5>
+              <h5 className="font-pixel text-[10px] text-retro-yellow tracking-[0.2em] uppercase mb-2.5">Key Contributions</h5>
               <ul className="space-y-2 border-l-2 border-retro-yellow/40 pl-4">
                 {proj.keyContributions.map((kc, i) => (
-                  <li key={i} className="font-chakra text-xs lg:text-sm text-slate-300 leading-relaxed flex items-start gap-2">
+                  <li key={i} className="font-chakra text-sm sm:text-base text-slate-200 leading-relaxed flex items-start gap-2">
                     <span className="text-retro-yellow shrink-0 mt-0.5">▸</span>
                     <span>{kc}</span>
                   </li>
@@ -392,7 +392,25 @@ export default function SimpleView() {
 
   // Scroll spy for active navbar highlighting
   const [activeSection, setActiveSection] = useState('about');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileAboutTab, setMobileAboutTab] = useState('experience');
+  const [openMobileExpId, setOpenMobileExpId] = useState(() => internships?.[0]?.id || null);
   const navSections = ['about', 'skills', 'projects', 'contact'];
+  const navItems = [
+    { id: 'about', label: 'ABOUT', Icon: UserIcon },
+    { id: 'skills', label: 'SKILLS', Icon: WrenchIcon },
+    { id: 'projects', label: 'PROJECTS', Icon: FolderIcon },
+    { id: 'contact', label: 'CONTACT', Icon: PhoneIcon }
+  ];
+
+  const handleMobileNavJump = (id) => {
+    setActiveSection(id);
+    setMobileMenuOpen(false);
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     const observers = [];
@@ -416,32 +434,27 @@ export default function SimpleView() {
       <RetroParticles />
       
       {/* Sticky Navigation */}
-      <nav className="sticky top-0 z-50 bg-retro-dark/95 backdrop-blur-md border-b-4 border-retro-gray shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] py-2 md:py-3 px-3 md:px-8">
-        <div className="max-w-screen-2xl mx-auto flex justify-between items-center w-full px-1 lg:px-8">
-          {/* Pixel M Logo */}
-          <div className="hidden md:flex items-center mr-6 shrink-0">
+      <nav className="sticky top-0 z-50 bg-retro-dark/95 backdrop-blur-md border-b-4 border-retro-gray shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] py-2.5 md:py-3 px-4 md:px-8">
+        {/* ── DESKTOP NAVBAR (md and up — unchanged!) ── */}
+        <div className="hidden md:flex max-w-screen-2xl mx-auto justify-between items-center w-full lg:px-8">
+          <div className="flex items-center mr-6 shrink-0">
             <span className="font-pixel text-xl text-retro-yellow drop-shadow-[0_0_8px_rgba(244,180,27,0.6)] select-none">M</span>
             <span className="font-pixel text-[10px] text-retro-gray ml-1 tracking-widest hidden lg:inline">AZROA</span>
           </div>
-          <div className="flex gap-2 md:gap-6 overflow-x-auto no-scrollbar items-center flex-1">
-            {[
-              { id: 'about', label: 'ABOUT', Icon: UserIcon },
-              { id: 'skills', label: 'SKILLS', Icon: WrenchIcon },
-              { id: 'projects', label: 'PROJECTS', Icon: FolderIcon },
-              { id: 'contact', label: 'CONTACT', Icon: PhoneIcon },
-            ].map(({ id, label, Icon }) => {
+          <div className="flex gap-6 items-center flex-1">
+            {navItems.map(({ id, label, Icon }) => {
               const isActive = activeSection === id;
               return (
                 <a
                   key={id}
                   href={`#${id}`}
-                  className={`font-pixel text-[10px] md:text-sm whitespace-nowrap flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 relative transition-all duration-300 hover:scale-105 ${
+                  className={`font-pixel text-sm whitespace-nowrap flex items-center gap-2 px-3 py-2 relative transition-all duration-300 hover:scale-105 ${
                     isActive
                       ? 'text-retro-yellow drop-shadow-[0_0_10px_rgba(244,180,27,0.6)]'
                       : 'text-retro-light-blue hover:text-white'
                   }`}
                 >
-                  {isActive && <span className="text-retro-yellow text-xs md:text-sm animate-pulse">▸</span>}
+                  {isActive && <span className="text-retro-yellow text-sm animate-pulse">▸</span>}
                   <Icon /> {label}
                   {isActive && (
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-retro-yellow shadow-[0_0_8px_rgba(244,180,27,0.8)] rounded-full" />
@@ -450,11 +463,97 @@ export default function SimpleView() {
               );
             })}
           </div>
-          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform text-[9px] md:text-sm px-2.5 md:px-3 py-1.5 md:py-2 ml-1">
-            <span className="md:hidden">MAP</span>
-            <span className="hidden md:inline">RETURN TO MAP</span>
+          <Link to="/" className="pixel-btn bg-retro-red text-center shrink-0 hover:scale-105 transition-transform text-sm px-3 py-2 ml-2">
+            RETURN TO MAP
           </Link>
         </div>
+
+        {/* ── MOBILE BURGER TOP BAR (below md) ── */}
+        <div className="flex md:hidden items-center justify-between w-full">
+          {/* Brand + Active Section Readout */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            className="flex items-center gap-2.5 text-left cursor-pointer"
+          >
+            <div className="flex items-center bg-[#121626] border-2 border-retro-gray px-2.5 py-1.5 shadow-[3px_3px_0_#000]">
+              <span className="font-pixel text-base text-retro-yellow leading-none">M</span>
+              <span className="font-pixel text-[9px] text-slate-300 ml-1 tracking-wider leading-none">AZROA</span>
+            </div>
+            <span className="font-pixel text-[10px] text-retro-yellow tracking-wider flex items-center gap-1">
+              <span className="animate-pulse">▸</span>
+              {activeSection.toUpperCase()}
+            </span>
+          </button>
+
+          {/* Burger Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            aria-label="Toggle navigation menu"
+            className={`w-11 h-10 border-[3px] flex items-center justify-center transition-colors shadow-[4px_4px_0_#000] cursor-pointer active:translate-y-0.5 ${
+              mobileMenuOpen
+                ? 'bg-retro-yellow text-black border-white'
+                : 'bg-[#182036] text-white border-white'
+            }`}
+          >
+            {mobileMenuOpen ? <X size={22} strokeWidth={3} /> : <Menu size={22} strokeWidth={3} />}
+          </button>
+        </div>
+
+        {/* ── MOBILE FULL-WIDTH ARCADE CURTAIN DROPDOWN ── */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileMenuOpen(false)}
+                className="fixed inset-0 top-[60px] bg-black/60 z-40 md:hidden"
+              />
+              <motion.div
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                className="absolute left-0 right-0 top-full bg-[#111526] border-b-4 border-retro-yellow p-4 shadow-[0_18px_40px_rgba(0,0,0,0.95)] z-50 md:hidden space-y-2.5"
+              >
+                {navItems.map(({ id, label, Icon }) => {
+                  const isActive = activeSection === id;
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => handleMobileNavJump(id)}
+                      className={`w-full px-4 py-3.5 border-2 font-pixel text-xs flex items-center justify-between transition-colors cursor-pointer ${
+                        isActive
+                          ? 'bg-[#231d0c] border-retro-yellow text-retro-yellow shadow-[4px_4px_0_#000]'
+                          : 'bg-[#181f36] border-slate-600 text-white hover:border-white shadow-[4px_4px_0_#000]'
+                      }`}
+                    >
+                      <span className="flex items-center gap-3">
+                        <Icon />
+                        <span>{label}</span>
+                      </span>
+                      <span className="text-sm">{isActive ? '◂ ACTIVE' : '▸'}</span>
+                    </button>
+                  );
+                })}
+
+                <div className="pt-2 border-t-2 border-dashed border-slate-600">
+                  <Link
+                    to="/"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="pixel-btn bg-retro-red text-white w-full py-3.5 px-4 font-pixel text-xs flex items-center justify-center gap-2.5 border-2 border-white shadow-[4px_4px_0_#000]"
+                  >
+                    <GamepadIcon /> RETURN TO MAP
+                  </Link>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </nav>
 
       <div className="w-full pb-32 relative z-10 overflow-x-hidden">
@@ -513,13 +612,175 @@ export default function SimpleView() {
           </div>
         </motion.header>
 
-        <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-32 scroll-mt-28">
-          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">About</h3>
-          <p className="font-chakra text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto text-center mb-12 hover:text-white transition-colors duration-300">
+        <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="max-w-5xl mx-auto px-4 md:px-8 lg:px-12 pt-24 md:pt-32 scroll-mt-28">
+          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-10 md:mb-12 text-center pb-4 border-b-4 border-retro-gray border-dashed">About</h3>
+          <p className="font-chakra text-left md:text-center text-base md:text-lg border-l-4 md:border-l-0 border-retro-blue pl-4 md:pl-0 text-slate-200 md:text-slate-300 leading-relaxed max-w-3xl mx-auto mb-10 md:mb-12 hover:text-white transition-colors duration-300">
             {profile.summary}
           </p>
+
+          {/* ── MOBILE / TABLET (< lg): TABS + GLOW BOX [▼] EXPANDABLE CARDS ── */}
+          <div className="flex flex-col gap-6 lg:hidden">
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { id: 'experience', label: 'EXPERIENCE', Icon: Briefcase, color: '#83eb72' },
+                { id: 'education', label: 'EDUCATION', Icon: GraduationCap, color: '#f4b41b' }
+              ].map(({ id, label, Icon, color }) => {
+                const active = mobileAboutTab === id;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setMobileAboutTab(id)}
+                    className="h-[50px] px-3 border-[3px] flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                    style={{
+                      backgroundColor: active ? '#1e2538' : '#131726',
+                      borderColor: active ? '#f4b41b' : '#64748b',
+                      boxShadow: active
+                        ? '0 0 18px rgba(244,180,27,0.35), 4px 4px 0 #000'
+                        : '4px 4px 0 #000'
+                    }}
+                  >
+                    <Icon
+                      size={16}
+                      className="shrink-0"
+                      style={{ color: active ? '#fef08a' : color }}
+                    />
+                    <span
+                      className="font-pixel text-[10px] sm:text-xs leading-none"
+                      style={{ color: active ? '#fef08a' : '#ffffff' }}
+                    >
+                      {label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={mobileAboutTab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.18 }}
+                className="flex flex-col gap-4"
+              >
+                {mobileAboutTab === 'experience'
+                  ? internships.map((exp) => {
+                      const expanded = openMobileExpId === exp.id;
+                      return (
+                        <div
+                          key={exp.id}
+                          onClick={() =>
+                            setOpenMobileExpId((curr) => (curr === exp.id ? null : exp.id))
+                          }
+                          className={`bg-[#141829] border-2 transition-all cursor-pointer select-none overflow-hidden ${
+                            expanded
+                              ? 'border-retro-light-green shadow-[0_0_18px_rgba(131,235,114,0.16),5px_5px_0_rgba(0,0,0,0.6)]'
+                              : 'border-retro-gray hover:border-retro-light-green shadow-[5px_5px_0_rgba(0,0,0,0.5)]'
+                          }`}
+                        >
+                          <div className="p-5 flex flex-col gap-3">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="min-w-0 flex-1">
+                                <div className="font-pixel text-sm sm:text-base text-white leading-relaxed">
+                                  {exp.title}
+                                </div>
+                                <div className="font-chakra text-base sm:text-lg font-bold text-retro-light-green mt-1">
+                                  {exp.institution}
+                                </div>
+                                <div className="mt-2">
+                                  <span className="inline-block font-pixel text-[10px] sm:text-xs text-slate-300 bg-black/60 border border-retro-gray px-2.5 py-1 whitespace-nowrap">
+                                    {exp.date}
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Glowing Arcade Expand Square [▼] / [▲] */}
+                              <div className="pt-0.5 shrink-0">
+                                <motion.div
+                                  animate={!expanded ? { y: [0, 2.5, 0] } : { y: 0 }}
+                                  transition={{
+                                    duration: 1.2,
+                                    repeat: Infinity,
+                                    ease: 'easeInOut'
+                                  }}
+                                  className="w-9 h-9 border-2 flex items-center justify-center shrink-0 transition-colors"
+                                  style={
+                                    expanded
+                                      ? {
+                                          backgroundColor: '#f4b41b',
+                                          borderColor: '#ffffff',
+                                          color: '#0f172a',
+                                          boxShadow:
+                                            '0 0 14px rgba(244,180,27,0.6), 3px 3px 0 #000'
+                                        }
+                                      : {
+                                          backgroundColor: '#182438',
+                                          borderColor: '#83eb72',
+                                          color: '#83eb72',
+                                          boxShadow:
+                                            '0 0 14px rgba(131,235,114,0.55), 3px 3px 0 #000'
+                                        }
+                                  }
+                                >
+                                  <ChevronDown
+                                    size={22}
+                                    strokeWidth={3.5}
+                                    className={`transition-transform duration-200 ${
+                                      expanded ? 'rotate-180' : ''
+                                    }`}
+                                  />
+                                </motion.div>
+                              </div>
+                            </div>
+
+                            {expanded &&
+                              (exp.bullets ? (
+                                <ul className="space-y-2.5 border-l-2 border-retro-light-green/50 pl-3.5 pt-2 m-0 list-none">
+                                  {exp.bullets.map((b, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="font-chakra text-left text-base text-slate-200 leading-relaxed flex items-start gap-2.5"
+                                    >
+                                      <span className="text-retro-light-green shrink-0 mt-1">
+                                        ▸
+                                      </span>
+                                      <span>{b}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : exp.description ? (
+                                <p className="font-chakra text-left text-base text-slate-200 leading-relaxed border-l-2 border-retro-light-green/50 pl-3.5 pt-2 m-0">
+                                  {exp.description}
+                                </p>
+                              ) : null)}
+                          </div>
+                        </div>
+                      );
+                    })
+                  : education.map((edu) => (
+                      <div
+                        key={edu.id}
+                        className="bg-[#141829] border-2 border-retro-gray p-5 shadow-[5px_5px_0_rgba(0,0,0,0.5)] flex flex-col gap-2"
+                      >
+                        <div className="font-pixel text-sm sm:text-base text-white leading-relaxed">
+                          {edu.degree}
+                        </div>
+                        <div className="font-chakra text-base sm:text-lg font-bold text-retro-light-blue">
+                          {edu.institution}
+                        </div>
+                        <div className="font-pixel text-[10px] sm:text-xs text-slate-400 tracking-wider pt-1">
+                          {edu.date}
+                        </div>
+                      </div>
+                    ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
           
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-20">
+          {/* ── DESKTOP (lg and up): SIDE-BY-SIDE EDUCATION & EXPERIENCE STACKS ── */}
+          <div className="hidden lg:grid lg:grid-cols-2 gap-16 lg:gap-20">
             {/* Education Stack */}
             <div>
               <h4 className="font-pixel text-xl md:text-2xl text-retro-yellow mb-8 flex items-center gap-4"><span className="text-3xl">🎓</span> Education</h4>
@@ -551,9 +812,9 @@ export default function SimpleView() {
                     <div className="text-retro-light-green text-lg mb-2 font-bold">{int.institution}</div>
                     <div className="text-slate-400 text-sm font-pixel tracking-widest mb-4">{int.date}</div>
                     {(int.bullets || int.description) && (
-                      <div className="font-chakra text-slate-300 text-base leading-relaxed opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-96 group-hover:mt-4 transition-all duration-500 overflow-hidden">
+                      <div className="font-chakra text-slate-300 text-base leading-relaxed opacity-100 max-h-none mt-3 md:mt-0 md:opacity-0 md:max-h-0 md:group-hover:opacity-100 md:group-hover:max-h-96 md:group-hover:mt-4 transition-all duration-500 overflow-hidden">
                         {int.bullets ? (
-                          <ul className="space-y-1.5 list-none p-0 m-0 text-sm leading-relaxed tracking-tight">
+                          <ul className="space-y-1.5 list-none p-0 m-0 text-sm leading-relaxed tracking-tight text-left">
                             {int.bullets.map((bullet, idx) => (
                               <li key={idx} className="flex items-start gap-2">
                                 <span className="text-retro-light-green shrink-0 select-none">•</span>
@@ -562,7 +823,7 @@ export default function SimpleView() {
                             ))}
                           </ul>
                         ) : (
-                          <div className="text-justify">{int.description}</div>
+                          <div className="text-left text-sm leading-relaxed">{int.description}</div>
                         )}
                       </div>
                     )}

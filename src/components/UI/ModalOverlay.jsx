@@ -1,6 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Gamepad2, Code, Box, Braces, Star, Wrench, Brain, GitBranch, Users, Trophy } from 'lucide-react';
+import {
+  X,
+  Gamepad2,
+  Code,
+  Box,
+  Braces,
+  Star,
+  Wrench,
+  Brain,
+  GitBranch,
+  Users,
+  Trophy,
+  Download,
+  Briefcase,
+  GraduationCap,
+  ChevronDown
+} from 'lucide-react';
 import VideoGallery from './VideoGallery';
 import portfolioData from '../../data/portfolioData.json';
 
@@ -40,7 +56,98 @@ const getCategoryIcon = (category) => {
   return <Star size={20} />;
 };
 
+const ExperienceCard = ({ exp, expanded = true, onToggle }) => (
+  <div
+    onClick={onToggle}
+    className={`bg-[#141829] border-2 transition-all cursor-pointer select-none overflow-hidden ${
+      expanded
+        ? 'border-retro-light-green shadow-[0_0_18px_rgba(131,235,114,0.16),5px_5px_0_rgba(0,0,0,0.6)]'
+        : 'border-retro-gray hover:border-retro-light-green shadow-[5px_5px_0_rgba(0,0,0,0.5)]'
+    }`}
+  >
+    <div className="p-5 flex flex-col gap-3">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <div className="font-pixel text-sm md:text-base text-white leading-relaxed">
+            {exp.title}
+          </div>
+          <div className="font-chakra text-base md:text-lg font-bold text-retro-light-green mt-1">
+            {exp.institution}
+          </div>
+          <div className="mt-2">
+            <span className="inline-block font-pixel text-[10px] md:text-xs text-slate-300 bg-black/60 border border-retro-gray px-2.5 py-1 whitespace-nowrap">
+              {exp.date}
+            </span>
+          </div>
+        </div>
+
+        {/* Glowing Arcade Expand Square [▼] / [▲] */}
+        <div className="pt-0.5 shrink-0">
+          <motion.div
+            animate={!expanded ? { y: [0, 2.5, 0] } : { y: 0 }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-9 h-9 border-2 flex items-center justify-center shrink-0 transition-colors"
+            style={
+              expanded
+                ? {
+                    backgroundColor: '#f4b41b',
+                    borderColor: '#ffffff',
+                    color: '#0f172a',
+                    boxShadow: '0 0 14px rgba(244,180,27,0.6), 3px 3px 0 #000'
+                  }
+                : {
+                    backgroundColor: '#182438',
+                    borderColor: '#83eb72',
+                    color: '#83eb72',
+                    boxShadow: '0 0 14px rgba(131,235,114,0.55), 3px 3px 0 #000'
+                  }
+            }
+          >
+            <ChevronDown
+              size={22}
+              strokeWidth={3.5}
+              className={`transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      {expanded &&
+        (exp.bullets ? (
+          <ul className="space-y-2.5 border-l-2 border-retro-light-green/50 pl-3.5 pt-2 m-0 list-none">
+            {exp.bullets.map((b, idx) => (
+              <li
+                key={idx}
+                className="font-chakra text-left text-base text-slate-200 leading-relaxed flex items-start gap-2.5"
+              >
+                <span className="text-retro-light-green shrink-0 mt-1">▸</span>
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+        ) : exp.description ? (
+          <p className="font-chakra text-left text-base text-slate-200 leading-relaxed border-l-2 border-retro-light-green/50 pl-3.5 pt-2 m-0">
+            {exp.description}
+          </p>
+        ) : null)}
+    </div>
+  </div>
+);
+
+const EducationCard = ({ edu }) => (
+  <div className="bg-[#141829] border-2 border-retro-gray hover:border-retro-yellow transition-colors p-5 shadow-[5px_5px_0_rgba(0,0,0,0.5)] flex flex-col gap-2">
+    <div className="font-pixel text-sm md:text-base text-white leading-relaxed">{edu.degree}</div>
+    <div className="font-chakra text-base md:text-lg font-bold text-retro-light-blue">
+      {edu.institution}
+    </div>
+    <div className="font-pixel text-[10px] md:text-xs text-slate-400 tracking-wider pt-1">{edu.date}</div>
+  </div>
+);
+
 export default function ModalOverlay({ node, onClose }) {
+  const [aboutTab, setAboutTab] = useState('experience'); // 'experience' | 'education'
+  const [openExpId, setOpenExpId] = useState(() => portfolioData.internships?.[0]?.id || null);
+
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') onClose();
@@ -48,6 +155,9 @@ export default function ModalOverlay({ node, onClose }) {
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [onClose]);
+
+  const experiences = portfolioData.internships || [];
+  const educations = portfolioData.education || [];
 
   return (
     <AnimatePresence>
@@ -81,24 +191,126 @@ export default function ModalOverlay({ node, onClose }) {
               {node.type === 'about' && (
                 <img 
                   src="/profile.jpg" 
-                  alt="Profile" 
-                  className="w-20 h-20 md:w-32 md:h-32 object-cover object-[50%_10%] scale-[1.05] pixel-border border-2 border-retro-dark shrink-0"
+                  alt="Mahmoud Hany Mazroa" 
+                  className="w-20 h-20 md:w-28 md:h-28 object-cover object-[50%_10%] scale-[1.05] pixel-border border-2 border-retro-dark shrink-0"
                 />
               )}
-              <div>
-                <div className="flex items-center gap-3 mb-2 flex-wrap">
-                  <h2 className="text-lg md:text-xl text-retro-yellow leading-loose m-0">{node.title}</h2>
-                </div>
-                {node.role && <h3 className="text-xs text-retro-light-blue font-pixel leading-loose m-0">{node.role}</h3>}
+              <div className="min-w-0">
+                {node.type === 'about' ? (
+                  <>
+                    <div className="font-pixel text-[9px] text-retro-light-green tracking-[0.2em] uppercase mb-1.5">
+                      About Me
+                    </div>
+                    <h2 className="text-base sm:text-lg md:text-xl text-retro-yellow leading-snug m-0 mb-2">
+                      {portfolioData.profile.name}
+                    </h2>
+                    <h3 className="text-xs text-retro-light-blue font-pixel leading-relaxed m-0">
+                      {portfolioData.profile.role}
+                    </h3>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-3 mb-2 flex-wrap">
+                      <h2 className="text-lg md:text-xl text-retro-yellow leading-loose m-0">{node.title}</h2>
+                    </div>
+                    {node.role && <h3 className="text-xs text-retro-light-blue font-pixel leading-loose m-0">{node.role}</h3>}
+                  </>
+                )}
               </div>
             </div>
 
             <div className="font-chakra text-retro-text space-y-6 leading-relaxed">
               {node.type === 'about' && (
-                <div className="space-y-4">
-                  <p className="font-chakra text-justify text-lg border-l-4 border-retro-blue pl-4 text-slate-300 leading-loose">
+                <div className="flex flex-col pt-2 pb-10">
+                  {/* Bio Summary — Generous Breathing Room */}
+                  <p className="font-chakra text-left text-base md:text-lg border-l-4 border-retro-blue pl-4 py-1 text-slate-200 leading-relaxed m-0">
                     {portfolioData.profile.summary}
                   </p>
+
+                  {/* Download CV Action — Cleanly Spaced Below Bio & Above Cards */}
+                  <div className="mt-8 mb-10 pb-8 border-b-2 border-dashed border-retro-gray/60">
+                    <a
+                      href="/Mahmoud_Hany_CV.pdf"
+                      download
+                      className="pixel-btn bg-retro-yellow text-retro-dark hover:bg-white transition-colors px-5 py-4 text-xs md:text-sm shadow-[5px_5px_0_rgba(0,0,0,0.65)] w-full flex justify-center items-center gap-2.5 font-bold tracking-widest"
+                    >
+                      <Download size={18} /> DOWNLOAD CV
+                    </a>
+                  </div>
+
+                  {/* ── LOCKED-IN TABS + EXPAND ── */}
+                  <div className="flex flex-col gap-6">
+                    {/* 50/50 Retro Tab Switcher */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {[
+                        {
+                          id: 'experience',
+                          label: 'EXPERIENCE',
+                          Icon: Briefcase,
+                          color: '#83eb72'
+                        },
+                        {
+                          id: 'education',
+                          label: 'EDUCATION',
+                          Icon: GraduationCap,
+                          color: '#f4b41b'
+                        }
+                      ].map(({ id, label, Icon, color }) => {
+                        const active = aboutTab === id;
+                        return (
+                          <button
+                            key={id}
+                            type="button"
+                            onClick={() => setAboutTab(id)}
+                            className="h-[50px] px-3 border-[3px] flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                            style={{
+                              backgroundColor: active ? '#1e2538' : '#131726',
+                              borderColor: active ? '#f4b41b' : '#64748b',
+                              boxShadow: active
+                                ? '0 0 18px rgba(244,180,27,0.35), 4px 4px 0 #000'
+                                : '4px 4px 0 #000'
+                            }}
+                          >
+                            <Icon
+                              size={16}
+                              className="shrink-0"
+                              style={{ color: active ? '#fef08a' : color }}
+                            />
+                            <span
+                              className="font-pixel text-[10px] sm:text-xs leading-none"
+                              style={{ color: active ? '#fef08a' : '#ffffff' }}
+                            >
+                              {label}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={aboutTab}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.18 }}
+                        className="flex flex-col gap-4"
+                      >
+                        {aboutTab === 'experience'
+                          ? experiences.map((exp) => (
+                              <ExperienceCard
+                                key={exp.id}
+                                exp={exp}
+                                expanded={openExpId === exp.id}
+                                onToggle={() =>
+                                  setOpenExpId((curr) => (curr === exp.id ? null : exp.id))
+                                }
+                              />
+                            ))
+                          : educations.map((edu) => <EducationCard key={edu.id} edu={edu} />)}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
               )}
               
@@ -197,14 +409,14 @@ export default function ModalOverlay({ node, onClose }) {
                     </div>
                   )}
 
-                  <p className="font-chakra text-justify text-base md:text-lg border-l-4 border-retro-blue pl-4 text-slate-300 leading-loose">{node.summary}</p>
+                  <p className="font-chakra text-left text-base md:text-lg border-l-4 border-retro-blue pl-4 text-slate-300 leading-relaxed">{node.summary}</p>
 
                   {node.keyContributions && node.keyContributions.length > 0 && (
                     <div className="pt-2">
                       <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] uppercase mb-3 opacity-90">Key Contributions</h5>
                       <ul className="space-y-2 border-l-2 border-retro-yellow/40 pl-4">
                         {node.keyContributions.map((kc, i) => (
-                          <li key={i} className="font-chakra text-xs md:text-sm text-slate-300 leading-relaxed flex items-start gap-2">
+                          <li key={i} className="font-chakra text-sm md:text-base text-slate-200 leading-relaxed flex items-start gap-2">
                             <span className="text-retro-yellow select-none shrink-0 mt-0.5">▸</span>
                             <span>{kc}</span>
                           </li>

@@ -157,7 +157,7 @@ export default function MapCanvas({
 
   useEffect(() => {
     return dragY.on('change', (latest) => {
-      const panned = Math.abs(latest) > 180;
+      const panned = Math.abs(latest) > 55;
       setIsPanned((prev) => (prev !== panned ? panned : prev));
     });
   }, [dragY]);
@@ -206,6 +206,8 @@ export default function MapCanvas({
     trailSegments.push({ id: `trail-${curr.id}`, path, isActive: prev.done && curr.done });
   }
 
+  const MOBILE_ANCHOR_RATIO = 0.5;
+
   const numericLeft =
     isMobileLayout && activeFocus
       ? window.innerWidth / 2 - activeFocus.x * scale
@@ -213,7 +215,7 @@ export default function MapCanvas({
 
   const numericTop =
     isMobileLayout && activeFocus
-      ? window.innerHeight * 0.36 - activeFocus.y * scale
+      ? window.innerHeight * MOBILE_ANCHOR_RATIO - activeFocus.y * scale
       : window.innerHeight / 2 - (CANVAS_HEIGHT / 2) * scale;
 
   const dragConstraints =
@@ -221,11 +223,11 @@ export default function MapCanvas({
       ? {
           top: Math.min(
             0,
-            window.innerHeight * 0.36 - 130 - contactNode.y * scale - numericTop
+            window.innerHeight * MOBILE_ANCHOR_RATIO - contactNode.y * scale - numericTop
           ),
           bottom: Math.max(
             0,
-            window.innerHeight * 0.36 + 130 - spawnPoint.y * scale - numericTop
+            window.innerHeight * MOBILE_ANCHOR_RATIO - spawnPoint.y * scale - numericTop
           )
         }
       : undefined;
@@ -253,7 +255,7 @@ export default function MapCanvas({
       <motion.div
         drag={isMobileLayout && !isWalking && !isDrawing && !isShooting ? 'y' : false}
         dragConstraints={dragConstraints}
-        dragElastic={isMobileLayout ? 0.08 : false}
+        dragElastic={isMobileLayout ? 0.12 : false}
         dragTransition={{ bounceStiffness: 420, bounceDamping: 32, power: 0.2, timeConstant: 200 }}
         animate={{ left: numericLeft, top: numericTop }}
         transition={{ duration: isMobileLayout ? 0.7 : 1.2, ease: 'easeInOut' }}
@@ -267,6 +269,8 @@ export default function MapCanvas({
           y: dragY
         }}
       >
+        {/* Full-Viewport Extended Touch Hit-Sheet so swiping works anywhere on screen even at Spawn (top) or Contact (bottom)! */}
+        <div className="absolute -top-[2800px] -bottom-[2800px] -left-[800px] -right-[800px] pointer-events-auto z-[1]" />
         {/* Subtle Stone Spawn Pad where the Archer begins in open grass */}
         <div
           className="absolute pointer-events-none z-[6] flex items-center justify-center"
@@ -568,7 +572,8 @@ export default function MapCanvas({
             exit={{ opacity: 0, y: 15, scale: 0.85 }}
             whileTap={{ scale: 0.92 }}
             onClick={handleRecenter}
-            className="fixed bottom-16 left-1/2 -translate-x-1/2 z-50 bg-retro-dark/95 border-2 border-retro-yellow text-retro-yellow px-4 py-2 font-pixel text-[11px] flex items-center gap-2 shadow-[4px_4px_0_rgba(0,0,0,0.8)] cursor-pointer active:translate-y-1 tracking-wider"
+            style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 74px)' }}
+            className="fixed left-1/2 -translate-x-1/2 z-50 bg-retro-dark/95 border-2 border-retro-yellow text-retro-yellow px-4 py-2 font-pixel text-[11px] flex items-center gap-2 shadow-[4px_4px_0_rgba(0,0,0,0.8)] cursor-pointer active:translate-y-1 tracking-wider"
           >
             <span>🎯</span> RECENTER
           </motion.button>
