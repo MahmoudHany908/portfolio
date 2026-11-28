@@ -21,7 +21,16 @@ const colors = {
   'X': '#632e14', // Dark bronze rim shadow
   'x': '#361505', // Deep espresso / shadow
   'M': '#e8a880', // Bright bronze reflection
-  'r': '#8c2530'  // Dark red ribbon shadow
+  'r': '#8c2530', // Dark red ribbon shadow
+  'U': '#1e425e', // Deep pixel ocean
+  'u': '#275478', // Mid pixel ocean
+  'v': '#3b7aa3', // Water shimmer highlight
+  'T': '#234729', // Pine tree dark green
+  't': '#326336', // Pine tree mid green
+  'L': '#498245', // Pine tree highlight
+  'P': '#32404d', // Plateau stone base
+  'p': '#3f5061', // Plateau stone highlight
+  'q': '#27333d'  // Plateau stone shadow
 };
 
 function generateDataURI(asciiArr, width, height) {
@@ -344,6 +353,127 @@ const pathTile = [
 
 export const TerrainGrassTile = generateDataURI(grassTile, 16, 16);
 export const PathTile = generateDataURI(pathTile, 16, 16);
+
+const waterTile = [
+  "UUUUUUUUUUUUUUUU",
+  "UUuUUUUUUUUUUUUU",
+  "UUUUUUvvvUUUUUUU",
+  "UUUUUUUUUUUUuUUU",
+  "UUUUUUUUUUUUUUUU",
+  "UuUUUUUUUUUUUUUU",
+  "UUUUUUUUUUuUUUUU",
+  "UUUUUUUUUUUUUUUU",
+  "UUUUUuUUUUUUUUUU",
+  "UUUUUUUUUUUUvvvU",
+  "UUUUUUUUUUUUUUUU",
+  "UUvvvUUUUUUUUUUU",
+  "UUUUUUUUuUUUUUUU",
+  "UUUUUUUUUUUUUUUU",
+  "UUUUUUUUUUUUUuUU",
+  "UUUUUUuUUUUUUUUU"
+];
+
+const stonePlateauTile = [
+  "PPPPPPPPPPPPPPPP",
+  "PpPPPPPPqPPPPPPP",
+  "PPPPPPPPPPPPPPpP",
+  "PPPPqPPPPPPPPPPP",
+  "PPPPPPPPPPpPPPPP",
+  "PPpPPPPPPPPPPqPP",
+  "PPPPPPPPPPPPPPPP",
+  "PPPPPPqPPPPPPpPP",
+  "PPPPPPPPPPPPPPPP",
+  "PpPPPPPPPPPPqPPP",
+  "PPPPPPpPPPPPPPPP",
+  "PPPPPPPPPPPPPPPP",
+  "PPPPqPPPPPPpPPPP",
+  "PPPPPPPPPPPPPPPP",
+  "PPqPPPPpPPPPPPPP",
+  "PPPPPPPPPPPPPPPP"
+];
+
+const pixelTree = [
+  ".......BB.......",
+  "......BLLB......",
+  ".....BLttLB.....",
+  "....BLttttLB....",
+  ".....BTTTTB.....",
+  "....BLttttLB....",
+  "...BLttttttLB...",
+  "..BLttttttttLB..",
+  "...BTTTTTTTTB...",
+  "..BLttttttttLB..",
+  ".BLttttttttttLB.",
+  ".BTTTTTTTTTTTTB.",
+  "..BBBBBBBBBBBB..",
+  "......BWWB......",
+  "......BWwB......",
+  ".....BBBBBB....."
+];
+
+const pixelRock = [
+  "................",
+  "................",
+  "................",
+  "................",
+  ".....BBBBBB.....",
+  "....BSSSSSSB....",
+  "...BSCCSSSSsB...",
+  "..BSSCSSSSssSB..",
+  "..BSSSSSSsssSB..",
+  "..BsSSSSsssssB..",
+  "..BssssssssssB..",
+  "...BBBBBBBBBB...",
+  "................",
+  "................",
+  "................",
+  "................"
+];
+
+const pixelFlower = [
+  "................",
+  "................",
+  "....BB....BB....",
+  "...BYYB..BRRB...",
+  "...BYYB..BRRB...",
+  "....BB....BB....",
+  "....Bg....Bg....",
+  "...BggB..BggB...",
+  "....BB....BB....",
+  "........BB......",
+  ".......BCCB.....",
+  ".......BYYB.....",
+  "........Bg......",
+  ".......BggB.....",
+  "........BB......",
+  "................"
+];
+
+const bridgePlankTile = [
+  "BBBBBBBBBBBBBBBB",
+  "WWWWWWWWWWWWWWWW",
+  "wwwwwwwwwwwwwwww",
+  "WWWWWWBWWWWWWWWW",
+  "BBBBBBBBBBBBBBBB",
+  "WWWWWWWWWWWWWWWW",
+  "wwwwwwwwwwwwwwww",
+  "WWWWWWWWWWBWWWWW",
+  "BBBBBBBBBBBBBBBB",
+  "WWWWWWWWWWWWWWWW",
+  "wwwwwwwwwwwwwwww",
+  "WWWBWWWWWWWWWWWW",
+  "BBBBBBBBBBBBBBBB",
+  "WWWWWWWWWWWWWWWW",
+  "wwwwwwwwwwwwwwww",
+  "BBBBBBBBBBBBBBBB"
+];
+
+export const TerrainWaterTile = generateDataURI(waterTile, 16, 16);
+export const TerrainStoneTile = generateDataURI(stonePlateauTile, 16, 16);
+export const PixelTree = generateDataURI(pixelTree, 16, 16);
+export const PixelRock = generateDataURI(pixelRock, 16, 16);
+export const PixelFlower = generateDataURI(pixelFlower, 16, 16);
+export const BridgePlankTile = generateDataURI(bridgePlankTile, 16, 16);
 export const LandmarkStart = generateDataURI(startSign, 32, 32);
 export const LandmarkSkills = generateDataURI(skillsTower, 32, 32);
 export const LandmarkProjects = generateDataURI(projectsChest, 32, 32);

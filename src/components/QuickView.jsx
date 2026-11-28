@@ -98,7 +98,7 @@ export default function QuickView({ onEnter3D }) {
                     <div className="absolute w-2 h-2 bg-emerald-500 rounded-full -left-[5px] top-2 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
                     <h4 className="text-lg font-bold text-white mb-1">{edu.degree}</h4>
                     <p className="text-slate-400 mb-2">{edu.institution}</p>
-                    <span className="text-xs font-mono text-slate-500">{edu.date}</span>
+                    <span className="text-xs font-chakra text-slate-500">{edu.date}</span>
                   </motion.div>
                 ))}
               </div>

@@ -47,7 +47,7 @@ export default function ExploreHub() {
           <p className="text-slate-400 mb-8 max-w-md text-center">
             Navigate the 3D gallery to view projects and experience.
           </p>
-          <div className="flex items-center gap-6 text-sm text-slate-300 font-mono bg-white/5 px-8 py-4 rounded-xl border border-white/10 shadow-2xl">
+          <div className="flex items-center gap-6 text-sm text-slate-300 font-chakra bg-white/5 px-8 py-4 rounded-xl border border-white/10 shadow-2xl">
             <span className="flex items-center gap-2">
               <kbd className="px-2 py-1 bg-white/10 rounded">W A S D</kbd> Move
             </span>

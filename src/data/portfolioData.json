@@ -132,6 +132,7 @@
       "type": "project",
       "title": "Cyber Salvage",
       "role": "Unity Developer",
+      "date": "05/2026 - 08/2026",
       "tech": [
         "Unity",
         "C#",
@@ -170,6 +171,7 @@
       "type": "project",
       "title": "The Learning Lens",
       "role": "Unity & Backend Developer | Team Leader",
+      "date": "10/2024 - 07/2025",
       "tech": [
         "Unity",
         "C#",
@@ -227,6 +229,7 @@
       "type": "project",
       "title": "General Motors Quality Week VR Training Suite",
       "role": "Unity VR Developer",
+      "date": "10/2026 - 11/2026",
       "client": "General Motors",
       "clientLogo": "/gm-logo.svg",
       "tech": [
@@ -254,16 +257,6 @@
           "thumbnail": "https://i.vimeocdn.com/video/2231028112-94d32a6b247bf3aa0844a2442aaa74c9e0b2f774fbd17d3df988c78e5c7e3898-d_295x166?region=us"
         }
       ],
-      "vimeoLinks": [
-        {
-          "title": "VEHICLE INSPECTOR",
-          "url": "https://vimeo.com/1250395874"
-        },
-        {
-          "title": "GAP & FLUSH",
-          "url": "https://vimeo.com/1250398984"
-        }
-      ],
       "x": 600,
       "y": 220,
       "pX": 400,
@@ -275,6 +268,7 @@
       "type": "project",
       "title": "Two Bows Off Frame",
       "role": "Gameplay Systems & Level Designer",
+      "date": "09/2026",
       "jam": "KSA National Day Game Jam",
       "award": "Rank: 3rd Place & Best Innovation Award",
       "tech": [
@@ -304,6 +298,7 @@
       "type": "project",
       "title": "Night Shift Taxi",
       "role": "Unity Developer",
+      "date": "08/2026",
       "jam": "Brackeys Game Jam 2026.2",
       "tech": [
         "Unity",
@@ -330,6 +325,7 @@
       "type": "project",
       "title": "LoadNExplode",
       "role": "Gameplay & Systems Developer",
+      "date": "07/2026",
       "jam": "GMTK Game Jam 2026",
       "tech": [
         "Unity",
@@ -356,6 +352,7 @@
       "type": "project",
       "title": "ESCCTRL",
       "role": "Level Designer & Programmer",
+      "date": "12/2025",
       "tech": [
         "C++",
         "SFML",
@@ -382,6 +379,7 @@
       "type": "project",
       "title": "Subject Null",
       "role": "VR Developer & Level Designer",
+      "date": "02/2026",
       "tech": [
         "Unity",
         "C#",
@@ -408,6 +406,7 @@
       "type": "project",
       "title": "VR Wave Shooter",
       "role": "Solo Developer",
+      "date": "04/2026",
       "tech": [
         "Unity",
         "C#",

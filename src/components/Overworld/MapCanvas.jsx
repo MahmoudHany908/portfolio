@@ -1,39 +1,44 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, animate } from 'framer-motion';
 import NodeMarker from './NodeMarker';
+import RadialCategoryHub, { LIVE_CATEGORIES } from './RadialCategoryHub';
+import AnimatedArcher from './AnimatedArchers';
 import portfolioData from '../../data/portfolioData.json';
 import { TerrainGrassTile, PathTile } from './PixelAssets';
 
-// Procedural SVG grid for terrain using our pixel art grass tile
 const TerrainBackground = () => (
-  <div 
-    className="absolute inset-0 w-full h-full pointer-events-none" 
+  <div
+    className="absolute inset-0 w-full h-full pointer-events-none"
     style={{
       backgroundImage: `url("${TerrainGrassTile}")`,
       backgroundSize: '64px 64px',
       imageRendering: 'pixelated'
-    }} 
+    }}
   />
 );
 
 const SectionBanner = ({ text, x, y, color = '#569ceb' }) => (
-  <div 
+  <div
     className="absolute pointer-events-none flex flex-col items-center justify-center z-20 opacity-90"
     style={{ left: x, top: y, transform: 'translate(-50%, -50%)' }}
   >
     <div className="bg-retro-dark border-4 border-white px-8 py-3 shadow-[8px_8px_0_rgba(0,0,0,0.5)] flex items-center justify-center">
-      <span className="font-pixel text-2xl tracking-widest drop-shadow-[2px_2px_0_rgba(0,0,0,1)]" style={{ color }}>{text}</span>
+      <span
+        className="font-pixel text-2xl tracking-widest drop-shadow-[2px_2px_0_rgba(0,0,0,1)]"
+        style={{ color }}
+      >
+        {text}
+      </span>
     </div>
-    {/* Wooden poles supporting the sign */}
     <div className="absolute top-full flex gap-16 -mt-1 -z-10">
-      <div className="w-3 h-10 bg-[#8b5a2b] border-x-2 border-black"></div>
-      <div className="w-3 h-10 bg-[#8b5a2b] border-x-2 border-black"></div>
+      <div className="w-3 h-10 bg-[#8b5a2b] border-x-2 border-black" />
+      <div className="w-3 h-10 bg-[#8b5a2b] border-x-2 border-black" />
     </div>
   </div>
 );
 
 const ZoneRegion = ({ x, y, rx, ry, color }) => (
-  <div 
+  <div
     className="absolute pointer-events-none z-[2]"
     style={{
       left: x,
@@ -50,154 +55,204 @@ const ZoneRegion = ({ x, y, rx, ry, color }) => (
 
 const PixelKnight = ({ isWalking, flipX, isDrawing, isShooting }) => (
   <div className="relative" style={{ width: 64, height: 64 }}>
-    <svg width="64" height="64" viewBox="0 0 16 16" overflow="visible"
-         className={`drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] ${isWalking ? 'animate-[bounce_0.3s_infinite]' : ''} ${isDrawing ? 'animate-[pulse_0.5s_ease-in-out_infinite]' : ''}`} 
-         style={{ transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', transformOrigin: 'center' }}>
-      {/* Small Red Plume */}
+    <svg
+      width="64"
+      height="64"
+      viewBox="0 0 16 16"
+      overflow="visible"
+      className={`drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] ${
+        isWalking ? 'animate-[bounce_0.3s_infinite]' : ''
+      } ${isDrawing ? 'animate-[pulse_0.5s_ease-in-out_infinite]' : ''}`}
+      style={{ transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', transformOrigin: 'center' }}
+    >
       <rect x="7" y="0" width="2" height="1" fill="#d95763" />
       <rect x="8" y="1" width="3" height="2" fill="#d95763" />
-      {/* Silver Helmet */}
       <rect x="5" y="2" width="6" height="2" fill="#a4a5a1" />
       <rect x="4" y="4" width="8" height="4" fill="#daddd8" />
-      {/* Visor slit (T shape) */}
       <rect x="5" y="5" width="6" height="1" fill="#1a1c2c" />
       <rect x="7" y="6" width="2" height="2" fill="#1a1c2c" />
-      <rect x="8" y="5" width="1" height="1" fill="#83eb72" /> {/* Glowing Eye */}
-      {/* Silver Body Armor */}
+      <rect x="8" y="5" width="1" height="1" fill="#83eb72" />
       <rect x="5" y="8" width="6" height="4" fill="#a4a5a1" />
-      {/* Blue Cape */}
       <rect x="3" y="8" width="2" height="5" fill="#569ceb" />
-      {/* Arms/Shoulders */}
       <rect x="4" y="8" width="1" height="3" fill="#daddd8" />
       <rect x="11" y="8" width="1" height="3" fill="#daddd8" />
-      
-      {/* Weapon: Sword (idle) or nothing (drawing/shooting — bow is rendered separately) */}
-      {!isDrawing && !isShooting && (
-        <rect x="11" y="11" width="1" height="4" fill="#f4f4f4" />
-      )}
-      
-      {/* Legs */}
+      {!isDrawing && !isShooting && <rect x="11" y="11" width="1" height="4" fill="#f4f4f4" />}
       <rect x="6" y="12" width="2" height="3" fill="#1a1c2c" />
       <rect x="8" y="12" width="2" height="3" fill="#1a1c2c" />
     </svg>
 
-    {/* Large Bow — rendered as a separate overlaid element so it's VISIBLE */}
     {isDrawing && (
-      <svg 
-        width="80" height="80" viewBox="0 0 40 40" overflow="visible"
+      <svg
+        width="80"
+        height="80"
+        viewBox="0 0 40 40"
+        overflow="visible"
         className="absolute -top-2 -right-10 animate-[pulse_0.3s_ease-in-out_infinite]"
-        style={{ 
-          transform: flipX ? 'scaleX(-1)' : 'scaleX(1)', 
+        style={{
+          transform: flipX ? 'scaleX(-1)' : 'scaleX(1)',
           transformOrigin: 'center',
           filter: 'drop-shadow(0 0 6px rgba(244,180,27,0.8))'
         }}
       >
-        {/* Bow body — curved wooden arc */}
         <path d="M 20 4 Q 32 20 20 36" stroke="#8b5a2b" strokeWidth="3" fill="none" strokeLinecap="round" />
         <path d="M 20 4 Q 34 20 20 36" stroke="#a0692b" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-        {/* Bow string — pulled back */}
         <path d="M 20 4 L 8 20 L 20 36" stroke="#ffffff" strokeWidth="1" fill="none" opacity="0.9" />
-        {/* Arrow nocked on string */}
         <rect x="8" y="19" width="16" height="2" fill="#8b5a2b" />
-        {/* Arrowhead */}
         <polygon points="24,17 30,20 24,23" fill="#a4a5a1" />
-        {/* Fletching */}
         <rect x="4" y="17" width="4" height="2" fill="#d95763" />
         <rect x="4" y="21" width="4" height="2" fill="#d95763" />
-        {/* Glow at draw point */}
         <circle cx="8" cy="20" r="3" fill="#f4b41b" opacity="0.4" />
       </svg>
     )}
   </div>
 );
 
-export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPos, isWalking, walkDuration, flipX, isMobileLayout, isDrawing, isShooting, shootingTarget, hitNodeId, onCanvasTransform }) {
+export default function MapCanvas({
+  onNodeSelect,
+  onCategoryProjectSelect,
+  discovered,
+  unlocked,
+  playerPos,
+  archerType = 'gandalf',
+  archerColor = 'red',
+  isWalking,
+  walkDuration,
+  flipX,
+  isMobileLayout,
+  isDrawing,
+  isShooting,
+  shootingTarget,
+  aimingNodeId,
+  hitNodeId,
+  celebrateNodeId,
+  lockedShotHubId,
+  clampedHubId,
+  setClampedHubId,
+  fontSizes,
+  muted,
+  onCanvasTransform
+}) {
   const [scale, setScale] = useState(1);
   const dragY = useMotionValue(0);
   const [isPanned, setIsPanned] = useState(false);
-  const CANVAS_WIDTH = isMobileLayout ? 900 : 1800;
-  const CANVAS_HEIGHT = isMobileLayout ? 3200 : 900;
 
-  // Track if mobile user has panned away from the current player position
+  const CANVAS_WIDTH = isMobileLayout ? 900 : 1800;
+  const CANVAS_HEIGHT = isMobileLayout ? 3010 : 900;
+
+  const nodeById = Object.fromEntries(portfolioData.nodes.map((n) => [n.id, n]));
+  const categories = LIVE_CATEGORIES(nodeById);
+
+  const spawnPoint = isMobileLayout ? { x: 450, y: 170 } : { x: 460, y: 790 };
+  const isAtSpawn =
+    playerPos &&
+    ((playerPos.x === 460 && playerPos.y === 790) ||
+      (playerPos.x === 450 && playerPos.y === 170));
+
+  const aboutNode = { ...nodeById.about, x: 160, y: 680, pX: 450, pY: 420 };
+  const skillsNode = { ...nodeById.skills, x: 220, y: 320, pX: 450, pY: 740 };
+  const contactNode = { ...nodeById.contact, x: 1650, y: 690, pX: 450, pY: 2720 };
+
   useEffect(() => {
-    return dragY.on("change", (latest) => {
+    return dragY.on('change', (latest) => {
       const panned = Math.abs(latest) > 220;
-      setIsPanned(prev => prev !== panned ? panned : prev);
+      setIsPanned((prev) => (prev !== panned ? panned : prev));
     });
   }, [dragY]);
 
-  // Reset drag offset when player moves so camera recenters perfectly
   useEffect(() => {
     dragY.set(0);
     setIsPanned(false);
   }, [playerPos, dragY]);
 
-  // Responsive scaling to fit canvas inside the window
   useEffect(() => {
     const handleResize = () => {
       const scaleX = window.innerWidth / CANVAS_WIDTH;
       const scaleY = window.innerHeight / CANVAS_HEIGHT;
-      // In portrait, use a moderate zoom factor to show the character and upcoming checkpoints
-      const finalScale = isMobileLayout 
-        ? window.innerWidth / 700 
+      const finalScale = isMobileLayout
+        ? window.innerWidth / 700
         : Math.min(Math.min(scaleX, scaleY) * 0.75, 1.5);
       setScale(finalScale);
     };
 
     window.addEventListener('resize', handleResize);
-    handleResize(); // Initial calculation
-
+    handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, [CANVAS_WIDTH, CANVAS_HEIGHT, isMobileLayout]);
 
+  // Smooth 6-stop path (About -> Skills -> Clients -> VR -> 2D -> Contact)
+  const stops = [
+    {
+      id: 'about',
+      x: aboutNode.x,
+      y: aboutNode.y,
+      pX: aboutNode.pX,
+      pY: aboutNode.pY,
+      done: discovered.has('about')
+    },
+    {
+      id: 'skills',
+      x: skillsNode.x,
+      y: skillsNode.y,
+      pX: skillsNode.pX,
+      pY: skillsNode.pY,
+      done: discovered.has('skills')
+    },
+    ...categories.map((c) => ({
+      id: c.id,
+      x: c.x,
+      y: c.y,
+      pX: c.pX,
+      pY: c.pY,
+      done: c.projects.every((p) => discovered.has(p.id))
+    })),
+    {
+      id: 'contact',
+      x: contactNode.x,
+      y: contactNode.y,
+      pX: contactNode.pX,
+      pY: contactNode.pY,
+      done: discovered.has('contact')
+    }
+  ];
 
-
-  // Generate individual smooth cubic bezier path segments for the trail
   const trailSegments = [];
-  for (let i = 1; i < portfolioData.nodes.length; i++) {
-    const prev = portfolioData.nodes[i-1];
-    const curr = portfolioData.nodes[i];
-    
+  for (let i = 1; i < stops.length; i++) {
+    const prev = stops[i - 1];
+    const curr = stops[i];
     const pX = isMobileLayout ? prev.pX : prev.x;
     const pY = isMobileLayout ? prev.pY : prev.y;
     const cX = isMobileLayout ? curr.pX : curr.x;
     const cY = isMobileLayout ? curr.pY : curr.y;
-    
     const midX = (pX + cX) / 2;
     const path = `M ${pX} ${pY} C ${midX} ${pY}, ${midX} ${cY}, ${cX} ${cY}`;
-    
-    // A segment is active only if both connected nodes have been discovered
-    const isActive = discovered.has(prev.id) && discovered.has(curr.id);
-    trailSegments.push({ id: `trail-${curr.id}`, path, isActive });
+    trailSegments.push({ id: `trail-${curr.id}`, path, isActive: prev.done && curr.done });
   }
 
-  // Camera Follow logic: mathematically position the canvas so playerPos sits at a specific screen coordinate
-  const numericLeft = isMobileLayout && playerPos
-    ? (window.innerWidth / 2) - (playerPos.x * scale)
-    : (window.innerWidth / 2) - ((CANVAS_WIDTH / 2) * scale);
+  const numericLeft =
+    isMobileLayout && playerPos
+      ? window.innerWidth / 2 - playerPos.x * scale
+      : window.innerWidth / 2 - (CANVAS_WIDTH / 2) * scale;
 
-  const numericTop = isMobileLayout && playerPos
-    ? (window.innerHeight * 0.35) - (playerPos.y * scale)
-    : (window.innerHeight / 2) - ((CANVAS_HEIGHT / 2) * scale);
+  const numericTop =
+    isMobileLayout && playerPos
+      ? window.innerHeight * 0.35 - playerPos.y * scale
+      : window.innerHeight / 2 - (CANVAS_HEIGHT / 2) * scale;
 
-  // Dynamic vertical drag constraints for mobile mode:
-  // Strictly bounds swiping between the start checkpoint (About) and end checkpoint (Contact),
-  // with a comfortable overscroll buffer so the user NEVER goes out of the map or gets stuck.
-  const buffer = 120; // px buffer past the start and end checkpoints
-  const firstNodeY = 260; // About checkpoint pY
-  const lastNodeY = 2900; // Contact checkpoint pY
-  const dragConstraints = isMobileLayout && playerPos ? {
-    // When dragging UP (exploring towards Contact), limit so Contact doesn't go above screen
-    top: ((window.innerHeight * 0.35) - buffer) - (lastNodeY * scale) - numericTop,
-    // When dragging DOWN (exploring towards About), limit so About doesn't go below screen
-    bottom: ((window.innerHeight * 0.35) + buffer) - (firstNodeY * scale) - numericTop
-  } : undefined;
+  const buffer = 130;
+  const firstNodeY = spawnPoint.y;
+  const lastNodeY = contactNode.pY;
+  const dragConstraints =
+    isMobileLayout && playerPos
+      ? {
+          top: window.innerHeight * 0.35 - buffer - lastNodeY * scale - numericTop,
+          bottom: window.innerHeight * 0.35 + buffer - firstNodeY * scale - numericTop
+        }
+      : undefined;
 
   const handleRecenter = () => {
     animate(dragY, 0, { type: 'spring', damping: 25, stiffness: 300 });
   };
 
-  // Report transform values to parent for AimOverlay coordinate conversion
   useEffect(() => {
     if (onCanvasTransform) {
       onCanvasTransform({ scale, left: numericLeft, top: numericTop });
@@ -205,41 +260,75 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
   }, [scale, numericLeft, numericTop, onCanvasTransform]);
 
   return (
-    <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-dark relative">
-      {/* Background that fills screen regardless of scale */}
+    <div
+      className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-retro-dark relative"
+      onClick={() => {
+        if (!lockedShotHubId && setClampedHubId) setClampedHubId(null);
+      }}
+    >
       <TerrainBackground />
 
-      {/* Fixed Coordinate Canvas */}
-      <motion.div 
-        drag={isMobileLayout && !isWalking && !isDrawing && !isShooting ? "y" : false}
+      <motion.div
+        drag={isMobileLayout && !isWalking && !isDrawing && !isShooting ? 'y' : false}
         dragConstraints={dragConstraints}
         dragElastic={isMobileLayout ? 0.08 : false}
         dragTransition={{ bounceStiffness: 450, bounceDamping: 30, power: 0.15, timeConstant: 200 }}
         animate={{ left: numericLeft, top: numericTop }}
-        transition={{ duration: 1.2, ease: "easeInOut" }}
-        className="absolute cursor-grab active:cursor-grabbing" 
-        style={{ 
-          width: CANVAS_WIDTH, 
-          height: CANVAS_HEIGHT, 
+        transition={{ duration: 1.2, ease: 'easeInOut' }}
+        className="absolute cursor-grab active:cursor-grabbing"
+        style={{
+          width: CANVAS_WIDTH,
+          height: CANVAS_HEIGHT,
           originX: 0,
           originY: 0,
-          scale: scale,
+          scale,
           y: dragY
         }}
       >
+        {/* Subtle Stone Spawn Pad where the Archer begins in open grass */}
+        <div
+          className="absolute pointer-events-none z-[6] flex items-center justify-center"
+          style={{
+            left: spawnPoint.x,
+            top: spawnPoint.y,
+            transform: 'translate(-50%, -50%)'
+          }}
+        >
+          <svg
+            width="84"
+            height="36"
+            viewBox="0 0 42 18"
+            style={{ imageRendering: 'pixelated' }}
+            className="opacity-85 drop-shadow-[0_3px_0_rgba(0,0,0,0.45)]"
+          >
+            <ellipse cx="21" cy="9" rx="20" ry="8" fill="#1a1c2c" />
+            <ellipse cx="21" cy="8.5" rx="18" ry="6.5" fill="#4b5563" />
+            <ellipse cx="21" cy="8" rx="14" ry="4.5" fill="#6b7280" />
+            <rect x="13" y="6" width="4" height="2" fill="#9ca3af" />
+            <rect x="24" y="8" width="5" height="2" fill="#9ca3af" />
+            <rect x="18" y="10" width="4" height="1.5" fill="#374151" />
+          </svg>
+        </div>
+
         {/* SKILLS ZONE */}
-        <ZoneRegion x={isMobileLayout ? 450 : 180} y={isMobileLayout ? 550 : 320} rx={140} ry={140} color="#f4b41b" />
-        <SectionBanner text="SKILLS" x={isMobileLayout ? 450 : 180} y={isMobileLayout ? 420 : 140} color="#f4b41b" />
+        <ZoneRegion x={isMobileLayout ? 450 : 220} y={isMobileLayout ? 740 : 320} rx={140} ry={140} color="#f4b41b" />
+        <SectionBanner text="SKILLS" x={isMobileLayout ? 450 : 220} y={isMobileLayout ? 600 : 120} color="#f4b41b" />
 
         {/* PROJECTS ZONE */}
-        <ZoneRegion x={isMobileLayout ? 450 : 1000} y={isMobileLayout ? 1675 : 330} rx={isMobileLayout ? 260 : 700} ry={isMobileLayout ? 1000 : 250} color="#569ceb" />
-        <SectionBanner text="PROJECTS" x={isMobileLayout ? 450 : 1000} y={isMobileLayout ? 690 : 90} color="#569ceb" />
+        <ZoneRegion
+          x={isMobileLayout ? 450 : 1010}
+          y={isMobileLayout ? 1700 : 415}
+          rx={isMobileLayout ? 270 : 570}
+          ry={isMobileLayout ? 780 : 260}
+          color="#569ceb"
+        />
+        <SectionBanner text="PROJECTS" x={isMobileLayout ? 450 : 1010} y={isMobileLayout ? 940 : 75} color="#569ceb" />
 
         {/* CONTACT ZONE */}
-        <ZoneRegion x={isMobileLayout ? 450 : 1620} y={isMobileLayout ? 2850 : 700} rx={140} ry={140} color="#83eb72" />
-        <SectionBanner text="CONTACT" x={isMobileLayout ? 450 : 1620} y={isMobileLayout ? 2720 : 850} color="#83eb72" />
+        <ZoneRegion x={isMobileLayout ? 450 : 1650} y={isMobileLayout ? 2720 : 700} rx={140} ry={140} color="#83eb72" />
+        <SectionBanner text="CONTACT" x={isMobileLayout ? 450 : 1650} y={isMobileLayout ? 2570 : 855} color="#83eb72" />
 
-        {/* The Guided Trail */}
+        {/* Guided Dirt Trail */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
           <defs>
             <pattern id="dirtPattern" patternUnits="userSpaceOnUse" width="32" height="32">
@@ -248,120 +337,206 @@ export default function MapCanvas({ onNodeSelect, discovered, unlocked, playerPo
           </defs>
 
           {trailSegments.map((segment) => (
-            <path 
+            <path
               key={segment.id}
-              d={segment.path} 
-              fill="none" 
+              d={segment.path}
+              fill="none"
               stroke="url(#dirtPattern)"
-              strokeWidth="24" 
-              strokeDasharray="32 32" 
+              strokeWidth="24"
+              strokeDasharray="32 32"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className={`transition-all duration-1000 ${segment.isActive ? 'opacity-100 drop-shadow-[0_0_16px_rgba(244,180,27,1)] brightness-110' : 'opacity-80 grayscale brightness-50'}`}
+              className={`transition-all duration-1000 ${
+                segment.isActive
+                  ? 'opacity-100 drop-shadow-[0_0_16px_rgba(244,180,27,1)] brightness-110'
+                  : 'opacity-80 grayscale brightness-50'
+              }`}
             />
           ))}
         </svg>
 
-        {portfolioData.nodes.map((node) => (
-          <NodeMarker 
-            key={node.id} 
-            node={node} 
+        {/* Single Buildings: About Me, Skills, Contact */}
+        {[aboutNode, skillsNode, contactNode].map((node) => (
+          <NodeMarker
+            key={node.id}
+            node={node}
             x={isMobileLayout ? node.pX : node.x}
             y={isMobileLayout ? node.pY : node.y}
             isCompleted={discovered ? discovered.has(node.id) : false}
             isUnlocked={unlocked ? unlocked.has(node.id) : true}
+            isAimed={aimingNodeId === node.id}
             isHit={hitNodeId === node.id}
-            onSelect={() => onNodeSelect(node)} 
+            isCelebrated={celebrateNodeId === node.id}
+            showStartPrompt={
+              node.id === 'about' &&
+              (!discovered || discovered.size === 0) &&
+              !aimingNodeId &&
+              !hitNodeId
+            }
+            fontSizes={fontSizes}
+            onSelect={() => onNodeSelect(node)}
           />
         ))}
 
+        {/* 3 Radial Category Hubs: Clients · VR · 2D */}
+        {categories.map((cat) => (
+          <RadialCategoryHub
+            key={cat.id}
+            category={cat}
+            x={isMobileLayout ? cat.pX : cat.x}
+            y={isMobileLayout ? cat.pY : cat.y}
+            discovered={discovered}
+            unlocked={unlocked}
+            aimingNodeId={aimingNodeId}
+            hitNodeId={hitNodeId}
+            celebrateNodeId={celebrateNodeId}
+            lockedShotHubId={lockedShotHubId}
+            clampedHubId={clampedHubId}
+            setClampedHubId={setClampedHubId}
+            fontSizes={fontSizes}
+            isMobileLayout={isMobileLayout}
+            muted={muted}
+            onSelectProject={onCategoryProjectSelect}
+          />
+        ))}
 
-
-        {/* Arrow Projectile — large and visible with glowing trail */}
+        {/* Arrow Projectile — synced to archer bow hand height */}
         <AnimatePresence>
           {isShooting && shootingTarget && playerPos && (
             <motion.div
               key="arrow-flight"
-              initial={{ left: playerPos.x, top: playerPos.y - 40, opacity: 1 }}
+              initial={{
+                left: playerPos.x + (flipX ? -28 : 28),
+                top: playerPos.y - 46,
+                opacity: 1
+              }}
               animate={{ left: shootingTarget.x, top: shootingTarget.y, opacity: 1 }}
               exit={{ opacity: 0, scale: 2 }}
               transition={{ duration: shootingTarget.duration || 0.7, ease: [0.2, 0, 0.4, 1] }}
               className="absolute z-50 pointer-events-none"
               style={{ x: '-50%', y: '-50%' }}
             >
-              {/* Glowing trail behind arrow */}
-              <div 
+              <div
                 className="absolute inset-0 rounded-full blur-lg"
                 style={{
-                  width: 120, height: 120,
-                  marginLeft: -30, marginTop: -30,
-                  background: 'radial-gradient(circle, rgba(244,180,27,0.6) 0%, rgba(217,87,99,0.3) 40%, transparent 70%)',
+                  width: 110,
+                  height: 110,
+                  marginLeft: -25,
+                  marginTop: -25,
+                  background:
+                    archerType === 'hero'
+                      ? 'radial-gradient(circle, rgba(56,189,248,0.65) 0%, rgba(74,222,128,0.3) 45%, transparent 70%)'
+                      : 'radial-gradient(circle, rgba(244,180,27,0.65) 0%, rgba(217,87,99,0.3) 45%, transparent 70%)'
                 }}
               />
-              <svg 
-                width="96" height="96" viewBox="0 0 48 48" 
-                style={{ 
-                  transform: `rotate(${Math.atan2(shootingTarget.y - (playerPos.y - 40), shootingTarget.x - playerPos.x) * 180 / Math.PI}deg)`,
-                  filter: 'drop-shadow(0 0 8px rgba(244,180,27,0.8)) drop-shadow(0 0 16px rgba(217,87,99,0.5))',
-                  imageRendering: 'pixelated'
-                }}
-              >
-                {/* Shaft — brown wooden rod */}
-                <rect x="4" y="22" width="28" height="4" fill="#8b5a2b" />
-                <rect x="4" y="23" width="28" height="2" fill="#a0692b" />
-                {/* Arrowhead — large silver triangle */}
-                <polygon points="32,20 44,24 32,28" fill="#daddd8" />
-                <polygon points="34,21 42,24 34,27" fill="#a4a5a1" />
-                {/* Fletching — red feathers */}
-                <rect x="2" y="19" width="6" height="3" fill="#d95763" />
-                <rect x="2" y="26" width="6" height="3" fill="#d95763" />
-                <rect x="0" y="21" width="4" height="6" fill="#b03a48" />
-              </svg>
+              {archerType === 'gandalf' ? (
+                <img
+                  src="/archers/gandalf/arrow.png"
+                  alt=""
+                  style={{
+                    width: 90,
+                    height: 15,
+                    imageRendering: 'pixelated',
+                    transform: `rotate(${
+                      (Math.atan2(
+                        shootingTarget.y - (playerPos.y - 46),
+                        shootingTarget.x - (playerPos.x + (flipX ? -28 : 28))
+                      ) *
+                        180) /
+                      Math.PI
+                    }deg)`,
+                    filter: 'drop-shadow(0 0 8px rgba(244,180,27,0.95))'
+                  }}
+                />
+              ) : (
+                <svg
+                  width="92"
+                  height="92"
+                  viewBox="0 0 48 48"
+                  style={{
+                    transform: `rotate(${
+                      (Math.atan2(
+                        shootingTarget.y - (playerPos.y - 46),
+                        shootingTarget.x - (playerPos.x + (flipX ? -28 : 28))
+                      ) *
+                        180) /
+                      Math.PI
+                    }deg)`,
+                    filter:
+                      archerType === 'hero'
+                        ? 'drop-shadow(0 0 10px rgba(56,189,248,0.95))'
+                        : 'drop-shadow(0 0 10px rgba(250,204,21,0.95))',
+                    imageRendering: 'pixelated'
+                  }}
+                >
+                  <rect
+                    x="4"
+                    y="22"
+                    width="28"
+                    height="4"
+                    fill={archerType === 'hero' ? '#38bdf8' : '#fde047'}
+                  />
+                  <polygon
+                    points="32,19 45,24 32,29"
+                    fill={archerType === 'hero' ? '#e0f2fe' : '#38bdf8'}
+                  />
+                  <rect
+                    x="2"
+                    y="19"
+                    width="6"
+                    height="3"
+                    fill={archerType === 'hero' ? '#4ade80' : '#e11d48'}
+                  />
+                  <rect
+                    x="2"
+                    y="26"
+                    width="6"
+                    height="3"
+                    fill={archerType === 'hero' ? '#4ade80' : '#e11d48'}
+                  />
+                </svg>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Player Character */}
+        {/* Animated Player Archer */}
         {playerPos && (
           <motion.div
             initial={false}
             animate={{ left: playerPos.x, top: playerPos.y }}
-            transition={{ duration: walkDuration, ease: "linear" }}
+            transition={{ duration: walkDuration, ease: 'linear' }}
             style={{ x: '-50%', y: '-100%' }}
             className="absolute z-40 pointer-events-none flex flex-col items-center justify-center"
           >
-            {/* Speech Bubble */}
-            {!isWalking && !isDrawing && !isShooting && playerPos.x !== -80 && playerPos.x !== 200 && (
-              <motion.div 
+            {!isWalking && !isDrawing && !isShooting && !isAtSpawn && (
+              <motion.div
                 initial={{ opacity: 0, x: -10, scale: 0.8 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 transition={{ type: 'spring', delay: 0.5, damping: 12 }}
-                className="absolute -top-2 left-12 bg-white text-black font-pixel text-xs px-4 py-3 border-4 border-black whitespace-nowrap drop-shadow-xl z-50"
+                className="absolute -top-2 left-20 bg-white text-black font-pixel text-xs px-4 py-3 border-4 border-black whitespace-nowrap drop-shadow-xl z-50"
               >
-                {(playerPos.x === 180 && playerPos.y === 680) || (playerPos.x === 450 && playerPos.y === 300) ? "Hire Mahmoud!" : "Still didn't hire him?"}
-                {/* Arrow pointing left at the character's body */}
-                <div className="absolute top-1/2 -left-3 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-r-[12px] border-t-transparent border-b-transparent border-r-black"></div>
-                <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-0 h-0 border-t-[4px] border-b-[4px] border-r-[8px] border-t-transparent border-b-transparent border-r-white"></div>
+                {(playerPos.x === aboutNode.x && playerPos.y === aboutNode.y) ||
+                (playerPos.x === aboutNode.pX && playerPos.y === aboutNode.pY)
+                  ? 'Hire Mahmoud!'
+                  : "Still didn't hire him?"}
+                <div className="absolute top-1/2 -left-3 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-r-[12px] border-t-transparent border-b-transparent border-r-black" />
+                <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-0 h-0 border-t-[4px] border-b-[4px] border-r-[8px] border-t-transparent border-b-transparent border-r-white" />
               </motion.div>
             )}
 
-            {isWalking && (
-              <div className="absolute -bottom-2 w-10 h-3 bg-black/30 rounded-full blur-sm" />
-            )}
-            
-            <div className="pointer-events-none">
-              <PixelKnight 
-                isWalking={isWalking} 
-                flipX={flipX} 
-                isDrawing={isDrawing} 
-                isShooting={isShooting} 
-              />
-            </div>
+            <AnimatedArcher
+              archerType={archerType}
+              archerColor={archerColor}
+              isWalking={isWalking}
+              isDrawing={isDrawing}
+              isShooting={isShooting}
+              flipX={flipX}
+            />
           </motion.div>
         )}
       </motion.div>
 
-      {/* Recenter Button when panned away from player on mobile */}
       <AnimatePresence>
         {isMobileLayout && isPanned && !isWalking && !isDrawing && !isShooting && (
           <motion.button

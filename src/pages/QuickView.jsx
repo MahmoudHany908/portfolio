@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import VideoGallery from '../components/UI/VideoGallery';
 import portfolioData from '../data/portfolioData.json';
 import { Gamepad2, Mail, Download, Phone, MapPin } from 'lucide-react';
 
@@ -13,10 +14,9 @@ const LinkedinIcon = () => (
 
 const ProjectCard = ({ proj, customLogos }) => (
   <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start group">
-    {proj.video && (
-      <div className="w-full lg:w-3/5 aspect-video bg-charcoal-900 border border-charcoal-800 transition-colors duration-700 relative overflow-hidden">
-        <div className="absolute inset-0 bg-amber-500/0 group-hover:bg-amber-500/5 transition-colors duration-700 pointer-events-none z-10"></div>
-        <iframe src={proj.video} className="w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-700" allowFullScreen></iframe>
+    {(proj.video || proj.videos || proj.image) && (
+      <div className="w-full lg:w-3/5">
+        <VideoGallery singleVideo={proj.video} videos={proj.videos} image={proj.image} />
       </div>
     )}
     <div className="w-full lg:w-2/5 flex flex-col pt-2 lg:pt-8">
@@ -31,14 +31,14 @@ const ProjectCard = ({ proj, customLogos }) => (
 
       {proj.role && <p className="text-sm font-display tracking-widest text-amber-400 mb-6 uppercase">{proj.role}</p>}
       
-      <p className="text-slate-400 text-lg leading-relaxed mb-10 font-sans">{proj.summary || 'In Development'}</p>
+      <p className="text-slate-400 text-lg leading-relaxed mb-10 font-chakra">{proj.summary || 'In Development'}</p>
       
       {proj.keyContributions && (
         <div className="mb-12">
           <p className="text-xs font-display tracking-widest uppercase text-slate-500 mb-6">Key Contributions</p>
           <ul className="space-y-4">
             {proj.keyContributions.map((kc, i) => (
-              <li key={i} className="text-sm text-slate-300 font-sans leading-relaxed border-l-2 border-charcoal-700 pl-6 py-1 group-hover:border-amber-500/50 transition-colors duration-500">{kc}</li>
+              <li key={i} className="text-sm text-slate-300 font-chakra leading-relaxed border-l-2 border-charcoal-700 pl-6 py-1 group-hover:border-amber-500/50 transition-colors duration-500">{kc}</li>
             ))}
           </ul>
         </div>
@@ -68,9 +68,10 @@ export default function QuickView() {
   const { profile, education, internships, nodes } = portfolioData;
   const projects = nodes.filter(n => n.type === 'project');
 
+  const gmSuite = projects.find(n => n.id === 'proj_gm');
   const cyberSalvage = projects.find(n => n.id === 'proj2');
   const learningLens = projects.find(n => n.id === 'proj1');
-  const normalProjects = projects.filter(n => n.id !== 'proj1' && n.id !== 'proj2');
+  const normalProjects = projects.filter(n => n.id !== 'proj1' && n.id !== 'proj2' && n.id !== 'proj_gm');
 
   return (
     <div className="min-h-screen bg-charcoal-900 relative selection:bg-amber-500/30 selection:text-amber-200">
@@ -89,7 +90,7 @@ export default function QuickView() {
             <h2 className="text-lg md:text-xl text-amber-500 font-display tracking-[0.4em] uppercase mb-16 ml-1 md:ml-2">
               {profile.role}
             </h2>
-            <p className="text-slate-400 text-xl md:text-2xl max-w-3xl leading-relaxed mb-24 font-sans font-light">
+            <p className="text-slate-400 text-xl md:text-2xl max-w-3xl leading-relaxed mb-24 font-chakra font-light">
               {profile.summary}
             </p>
             
@@ -139,7 +140,7 @@ export default function QuickView() {
                     <h4 className="text-2xl md:text-3xl text-white font-light">{edu.degree}</h4>
                     <span className="text-sm font-display tracking-widest text-amber-500/70 uppercase">{edu.date}</span>
                   </div>
-                  <p className="text-lg text-slate-400 font-sans mb-4">{edu.institution}</p>
+                  <p className="text-lg text-slate-400 font-chakra mb-4">{edu.institution}</p>
                   {edu.gpa && <p className="text-sm font-display tracking-widest text-slate-500 uppercase">GPA: {edu.gpa}</p>}
                 </div>
               ))}
@@ -157,7 +158,7 @@ export default function QuickView() {
                     <h4 className="text-2xl md:text-3xl text-white font-light">{int.title}</h4>
                     <span className="text-sm font-display tracking-widest text-amber-500/70 uppercase">{int.date}</span>
                   </div>
-                  <p className="text-lg text-slate-400 font-sans">{int.institution}</p>
+                  <p className="text-lg text-slate-400 font-chakra">{int.institution}</p>
                 </div>
               ))}
             </div>
@@ -173,9 +174,15 @@ export default function QuickView() {
           
           <section className="mb-64">
             <h3 className="text-xs font-display text-slate-500 tracking-[0.3em] uppercase mb-32 border-b border-charcoal-800 pb-6 text-center max-w-xs mx-auto">
-              Graduation Projects
+              Client &amp; Graduation Projects
             </h3>
             <div className="flex flex-col space-y-48">
+              {gmSuite && (
+                <ProjectCard 
+                  proj={gmSuite} 
+                  customLogos={<img src="/gm-logo.svg" alt="General Motors" className="h-12 object-contain opacity-80 hover:opacity-100 transition-all" />} 
+                />
+              )}
               {cyberSalvage && (
                 <ProjectCard 
                   proj={cyberSalvage} 
@@ -218,7 +225,7 @@ export default function QuickView() {
                 <h4 className="text-white font-display text-xs mb-8 uppercase tracking-widest">{category.replace('_', ' ')}</h4>
                 <div className="flex flex-col gap-3">
                   {items.map(item => (
-                    <span key={item} className="text-slate-400 font-sans text-sm">{item}</span>
+                    <span key={item} className="text-slate-400 font-chakra text-sm">{item}</span>
                   ))}
                 </div>
               </div>

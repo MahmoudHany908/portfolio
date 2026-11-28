@@ -21,7 +21,7 @@ const VimeoIcon = () => (
 const getSkillIcon = (skillName) => {
   const s = skillName.toLowerCase();
   if (s.includes('unity')) return <UnityIcon />;
-  if (s.includes('unreal')) return <div className="font-bold font-sans text-xs flex items-center justify-center rounded-full bg-white text-black w-4 h-4">U</div>;
+  if (s.includes('unreal')) return <div className="font-bold font-chakra text-xs flex items-center justify-center rounded-full bg-white text-black w-4 h-4">U</div>;
   if (s.includes('git')) return <GithubIcon />;
   if (s.includes('c#') || s.includes('c++') || s === 'c' || s.includes('lua') || s.includes('gl') || s.includes('sfml')) return <Code size={16} />;
   if (s.includes('xr') || s.includes('ar') || s.includes('meta') || s.includes('vcontainer') || s.includes('toolkit')) return <Box size={16} />;
@@ -93,7 +93,7 @@ export default function ModalOverlay({ node, onClose }) {
               </div>
             </div>
 
-            <div className="font-sans text-retro-text space-y-6 leading-relaxed">
+            <div className="font-chakra text-retro-text space-y-6 leading-relaxed">
               {node.type === 'about' && (
                 <div className="space-y-4">
                   <p className="font-chakra text-justify text-lg border-l-4 border-retro-blue pl-4 text-slate-300 leading-loose">
@@ -128,9 +128,9 @@ export default function ModalOverlay({ node, onClose }) {
               )}
 
               {node.type === 'contact' && (
-                <div className="space-y-6">
-                  <p className="text-retro-yellow mb-4">You have reached a save point! Want to connect?</p>
-                  <div className="bg-retro-dark p-6 pixel-border flex flex-col gap-4 text-lg">
+                <div className="space-y-6 font-chakra">
+                  <p className="text-retro-yellow text-lg mb-4">You have reached a save point! Want to connect?</p>
+                  <div className="bg-retro-dark p-6 pixel-border flex flex-col gap-4 text-lg font-chakra">
                     <p><span className="text-retro-green font-pixel text-xs block mb-1">EMAIL</span> mazroabuss4@gmail.com</p>
                     <p><span className="text-retro-green font-pixel text-xs block mb-1">PHONE</span> +20 101 9334 442</p>
                     <p><span className="text-retro-green font-pixel text-xs block mb-1">LOCATION</span> Saray El-Kobba, Cairo, Egypt</p>
@@ -220,14 +220,14 @@ export default function ModalOverlay({ node, onClose }) {
                   <h4 className="font-pixel text-[10px] text-retro-green mb-4 mt-8">TECH STACK</h4>
                   <div className="flex flex-wrap gap-2">
                     {node.tech.map(t => (
-                      <span key={t} className="font-jetbrains bg-retro-gray px-3 py-1 text-xs border-2 border-white/20 text-white shadow-sm font-bold text-center transition-all duration-300 hover:-translate-y-1 hover:border-retro-yellow hover:text-retro-yellow hover:bg-retro-dark cursor-help">{t}</span>
+                      <span key={t} className="font-chakra bg-retro-gray px-3 py-1 text-xs border-2 border-white/20 text-white shadow-sm font-bold text-center transition-all duration-300 hover:-translate-y-1 hover:border-retro-yellow hover:text-retro-yellow hover:bg-retro-dark cursor-help">{t}</span>
                     ))}
                   </div>
                 </div>
               )}
 
               {/* Action Buttons */}
-              {(node.githubLink || node.itchLink || node.jamLink || node.vimeoLinks) && (
+              {(node.githubLink || node.itchLink || node.jamLink) && (
                 <div className="flex flex-wrap gap-4 pt-8 mt-8 border-t border-retro-gray/50">
                   {node.githubLink && (
                     <a href={node.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center">
@@ -244,11 +244,6 @@ export default function ModalOverlay({ node, onClose }) {
                       <Trophy size={16} /> JAM PAGE
                     </a>
                   )}
-                  {node.vimeoLinks && node.vimeoLinks.map((v, i) => (
-                    <a key={i} href={v.url} target="_blank" rel="noreferrer" className="pixel-btn bg-[#1ab7ea] hover:bg-white hover:text-retro-dark text-white font-bold flex gap-2 items-center">
-                      <VimeoIcon /> {v.title}
-                    </a>
-                  ))}
                 </div>
               )}
             </div>

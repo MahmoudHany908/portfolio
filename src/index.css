@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", sans-serif;
+  --font-sans: "Chakra Petch", sans-serif;
   --font-pixel: "Press Start 2P", cursive;
   --font-chakra: "Chakra Petch", sans-serif;
-  --font-jetbrains: "JetBrains Mono", monospace;
+  --font-mono: "Chakra Petch", sans-serif;
   
   --color-retro-dark: #1a1c2c;
   --color-retro-purple: #29366f;
@@ -21,7 +21,7 @@
 
 @layer base {
   body {
-    @apply bg-retro-dark text-retro-text font-sans m-0 p-0;
+    @apply bg-retro-dark text-retro-text font-chakra m-0 p-0;
     /* Optional CRT scanline overlay */
     background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
     background-size: 100% 2px, 3px 100%;

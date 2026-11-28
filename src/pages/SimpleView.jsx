@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import VideoGallery from '../components/UI/VideoGallery';
+import { HubIconSims, HubIconVR, HubIconJams, GAME_SPRITES } from '../components/Overworld/GamePixelIcons';
 import portfolioData from '../data/portfolioData.json';
 
 const GithubIcon = () => (
@@ -78,112 +80,189 @@ const sectionFocusVariant = {
   visible: { opacity: 1, filter: 'blur(0px)', scale: 1, transition: { duration: 0.8, ease: "easeOut", staggerChildren: 0.3 } }
 };
 
-const ProjectCard = ({ proj, idx, gradInfo }) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-    className="w-full h-auto xl:min-h-[85vh] flex flex-col xl:flex-row pixel-box bg-retro-dark border-[6px] border-retro-purple transition-all duration-300 hover:border-retro-light-blue hover:shadow-[14px_14px_0_rgba(86,156,235,0.4)] hover:-translate-y-2 group overflow-hidden"
-  >
-    {/* Left Column: Media & Actions */}
-    <div className="w-full xl:w-1/2 shrink-0 bg-black/40 flex flex-col justify-center border-b-[6px] xl:border-b-0 xl:border-r-[6px] border-retro-purple relative p-4 md:p-6 lg:p-8">
-      <VideoGallery singleVideo={proj.video} videos={proj.videos} image={proj.image} />
-      
-      <div className="flex flex-wrap gap-4 mt-6 justify-center">
-        {proj.githubLink && (
-          <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center px-4 py-3 text-xs md:text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
-            <GithubIcon /> REPO
-          </a>
-        )}
-        {proj.itchLink && (
-          <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center px-4 py-3 text-xs md:text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> PLAY
-          </a>
-        )}
-        {proj.jamLink && (
-          <a href={proj.jamLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-yellow text-retro-dark font-bold flex gap-2 items-center px-4 py-3 text-xs md:text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
-            <TrophyIcon /> JAM
-          </a>
-        )}
-        {proj.vimeoLinks && proj.vimeoLinks.map((v, i) => (
-          <a key={i} href={v.url} target="_blank" rel="noreferrer" className="pixel-btn bg-[#1ab7ea] hover:bg-white hover:text-retro-dark text-white font-bold flex gap-2 items-center px-4 py-3 text-xs md:text-sm shadow-[4px_4px_0_rgba(0,0,0,0.5)] transition-colors">
-            <VimeoIcon /> {v.title}
-          </a>
-        ))}
-      </div>
-    </div>
+const AllGridPixelIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 12 12" style={{ shapeRendering: 'crispEdges', imageRendering: 'pixelated' }}>
+    <rect x="1" y="1" width="4" height="4" fill="#38bdf8" />
+    <rect x="7" y="1" width="4" height="4" fill="#c084fc" />
+    <rect x="1" y="7" width="4" height="4" fill="#f4b41b" />
+    <rect x="7" y="7" width="4" height="4" fill="#83eb72" />
+  </svg>
+);
 
-    <div className="flex-1 flex flex-col p-6 md:p-8 lg:p-12 justify-between">
-      
-      <div className="flex flex-col gap-2 border-b-[4px] border-retro-gray/30 pb-4 shrink-0">
-        <h4 className="font-pixel text-xl lg:text-2xl text-retro-yellow group-hover:text-white transition-colors leading-tight">{proj.title}</h4>
-        <div className="text-retro-light-blue text-xs md:text-sm uppercase tracking-widest font-bold">{proj.role}</div>
-      </div>
-      
-      <div className="flex-1 flex flex-col justify-evenly py-6 gap-6">
-        {(gradInfo || proj.client || proj.jam) && (
-          <div className="w-full flex flex-col gap-4">
-            {gradInfo && (
-              <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-4 shadow-sm justify-center">
-                {gradInfo.logos && (
-                  <div className="flex flex-wrap gap-2 shrink-0">
-                    {gradInfo.logos.map((logo, i) => (
-                      <div key={i} className="w-10 h-10 shrink-0 bg-white rounded p-1 flex items-center justify-center border border-white/10 shadow-sm">
-                        <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="flex-1">
-                  <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] mb-1 uppercase opacity-90">{gradInfo.title || "Graduation Project"}</h5>
-                  <h3 className="font-pixel text-xs md:text-sm text-white tracking-wide leading-relaxed">{gradInfo.text}</h3>
-                </div>
-              </div>
-            )}
+const ProjectMetaBadges = ({ proj, gradInfo }) => {
+  if (!gradInfo && !proj.client && !proj.jam) return null;
+  return (
+    <div className="w-full flex flex-col gap-3">
+      {proj.client && (
+        <div className="flex items-center gap-3.5 bg-retro-dark/90 border-l-4 border-retro-green p-3 shadow-sm">
+          {proj.clientLogo && (
+            <div className="w-10 h-10 shrink-0 bg-white/5 p-1 flex items-center justify-center border border-white/10">
+              <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain" />
+            </div>
+          )}
+          <div className="min-w-0">
+            <div className="font-pixel text-[9px] text-retro-light-green tracking-[0.18em] mb-1 uppercase">Commissioned By</div>
+            <div className="font-pixel text-xs md:text-sm text-white truncate">{proj.client}</div>
+          </div>
+        </div>
+      )}
 
-            {proj.client && (
-              <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-green p-4 shadow-sm justify-center">
-                {proj.clientLogo && (
-                  <div className="w-10 h-10 shrink-0 bg-white/5 rounded p-1 flex items-center justify-center border border-white/10">
-                    <img src={proj.clientLogo} alt={proj.client} className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
-                  </div>
-                )}
-                <div className="flex-1">
-                  <h5 className="font-pixel text-[9px] text-retro-light-green tracking-[0.2em] mb-1 uppercase opacity-80">Commissioned By</h5>
-                  <h3 className="font-pixel text-xs md:text-sm text-white tracking-widest">{proj.client}</h3>
+      {gradInfo && (
+        <div className="flex items-center gap-3.5 bg-retro-dark/90 border-l-4 border-retro-yellow p-3 shadow-sm">
+          {gradInfo.logos && (
+            <div className="flex gap-1.5 shrink-0">
+              {gradInfo.logos.map((logo, i) => (
+                <div key={i} className="w-9 h-9 shrink-0 bg-white p-1 flex items-center justify-center border border-white/10">
+                  <img src={logo.src} alt={logo.alt} className="w-full h-full object-contain" />
                 </div>
-              </div>
-            )}
+              ))}
+            </div>
+          )}
+          <div className="min-w-0">
+            <div className="font-pixel text-[9px] text-retro-yellow tracking-[0.18em] mb-1 uppercase">{gradInfo.title || 'Graduation Project'}</div>
+            <div className="font-chakra text-xs md:text-sm font-bold text-white leading-snug">{gradInfo.text}</div>
+          </div>
+        </div>
+      )}
 
-            {proj.jam && (
-              <div className="flex flex-col xl:flex-row items-start xl:items-center gap-4 bg-retro-dark/80 border-l-4 border-retro-yellow p-4 shadow-sm">
-                <div className="flex-1">
-                  <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] mb-1 uppercase opacity-90 flex items-center gap-2">
-                    <TrophyIcon /> {proj.jam}
-                  </h5>
-                  {proj.award && (
-                    <h3 className="font-pixel text-xs md:text-sm text-retro-light-green tracking-wide leading-relaxed font-bold mt-1">
-                      ★ {proj.award}
-                    </h3>
-                  )}
-                </div>
+      {proj.jam && (
+        <div className="flex items-center gap-3.5 bg-retro-dark/90 border-l-4 border-retro-yellow p-3 shadow-sm">
+          <div className="min-w-0">
+            <div className="font-pixel text-[9px] text-retro-yellow tracking-[0.18em] mb-1 uppercase flex items-center gap-2">
+              <TrophyIcon /> {proj.jam}
+            </div>
+            {proj.award && (
+              <div className="font-pixel text-xs text-retro-light-green leading-relaxed font-bold mt-1">
+                ★ {proj.award}
               </div>
             )}
           </div>
-        )}
-        
-        <div className="w-full">
-          <p className="font-chakra text-sm lg:text-base text-slate-300 leading-loose group-hover:text-white transition-colors text-justify mb-4">
+        </div>
+      )}
+    </div>
+  );
+};
+
+const ProjectActionLinks = ({ proj }) => {
+  if (!proj.githubLink && !proj.itchLink && !proj.jamLink) return null;
+  return (
+    <div className="flex flex-wrap gap-3">
+      {proj.itchLink && (
+        <a href={proj.itchLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-red flex gap-2 items-center px-4 py-2.5 text-xs shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+          <GamepadIcon /> PLAY
+        </a>
+      )}
+      {proj.githubLink && (
+        <a href={proj.githubLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-blue flex gap-2 items-center px-4 py-2.5 text-xs shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+          <GithubIcon /> REPO
+        </a>
+      )}
+      {proj.jamLink && (
+        <a href={proj.jamLink} target="_blank" rel="noreferrer" className="pixel-btn bg-retro-yellow text-retro-dark font-bold flex gap-2 items-center px-4 py-2.5 text-xs shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
+          <TrophyIcon /> JAM
+        </a>
+      )}
+    </div>
+  );
+};
+
+// Strictly Aligned Card: In 2-Per-Row (`compact`), Title Header sits at the very top with uniform min-height
+// so adjacent cards' titles, video players, and bottom tech footers line up on the exact same horizontal row!
+const ProjectCard = ({ proj, gradInfo, compact = false }) => {
+  if (compact) {
+    return (
+      <div className="w-full h-full flex flex-col pixel-box bg-retro-dark border-[6px] border-retro-purple transition-colors duration-300 hover:border-retro-light-blue group overflow-hidden p-0">
+        {/* Aligned Top Header Row (Matched height across both columns!) */}
+        <div className="p-5 md:p-6 border-b-4 border-retro-purple bg-[#141726] lg:min-h-[118px] flex flex-col justify-between gap-2">
+          <div className="flex items-start justify-between gap-3">
+            <h4 className="font-pixel text-base md:text-lg text-retro-yellow group-hover:text-white transition-colors leading-snug m-0">
+              {proj.title}
+            </h4>
+            {proj.date && (
+              <span className="font-pixel text-[10px] text-slate-300 bg-black/60 border-2 border-retro-gray px-2.5 py-1 whitespace-nowrap shrink-0 leading-none">
+                {proj.date}
+              </span>
+            )}
+          </div>
+          <div className="font-chakra text-retro-light-blue text-xs md:text-sm uppercase tracking-wider font-bold">
+            {proj.role}
+          </div>
+        </div>
+
+        {/* Aligned Media Frame */}
+        <div className="w-full bg-black/50 border-b-4 border-retro-purple p-4 flex flex-col justify-center">
+          <VideoGallery singleVideo={proj.video} videos={proj.videos} image={proj.image} />
+        </div>
+
+        {/* Body & Bottom-Pinned Footer */}
+        <div className="flex-1 p-5 md:p-6 flex flex-col justify-between gap-5">
+          <div className="space-y-4">
+            <ProjectMetaBadges proj={proj} gradInfo={gradInfo} />
+            <p className="font-chakra text-sm md:text-base text-slate-300 leading-relaxed m-0">
+              {proj.summary}
+            </p>
+            {proj.keyContributions?.length > 0 && (
+              <ul className="space-y-1.5 border-l-2 border-retro-yellow/40 pl-3.5 pt-1">
+                {proj.keyContributions.map((kc, i) => (
+                  <li key={i} className="font-chakra text-xs md:text-sm text-slate-300 leading-relaxed flex items-start gap-2">
+                    <span className="text-retro-yellow shrink-0 mt-0.5">▸</span>
+                    <span>{kc}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="pt-4 border-t-2 border-retro-gray/30 space-y-4 mt-auto">
+            <div className="flex flex-wrap gap-2">
+              {proj.tech.map((t) => (
+                <span key={t} className="font-chakra bg-retro-gray px-2.5 py-1 text-xs border-2 border-white/20 text-white font-bold">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <ProjectActionLinks proj={proj} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Wide Horizontal Showcase Card (used in Arrow Carousel & Master-Detail Stage)
+  return (
+    <div className="w-full flex flex-col xl:flex-row pixel-box bg-retro-dark border-[6px] border-retro-purple transition-colors duration-300 hover:border-retro-light-blue group overflow-hidden p-0">
+      <div className="w-full xl:w-[52%] shrink-0 bg-black/45 flex flex-col justify-center border-b-[6px] xl:border-b-0 xl:border-r-[6px] border-retro-purple p-4 md:p-6">
+        <VideoGallery singleVideo={proj.video} videos={proj.videos} image={proj.image} />
+        <div className="mt-3 flex justify-center">
+          <ProjectActionLinks proj={proj} />
+        </div>
+      </div>
+
+      <div className="flex-1 flex flex-col p-6 md:p-8 justify-between gap-5">
+        <div className="flex flex-col gap-2 border-b-4 border-retro-gray/30 pb-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <h4 className="font-pixel text-lg lg:text-2xl text-retro-yellow leading-snug m-0">{proj.title}</h4>
+            {proj.date && (
+              <span className="font-pixel text-[10px] md:text-xs text-slate-300 bg-black/50 border-2 border-retro-gray px-2.5 py-1 whitespace-nowrap shrink-0 leading-none">
+                {proj.date}
+              </span>
+            )}
+          </div>
+          <div className="font-chakra text-retro-light-blue text-xs md:text-sm uppercase tracking-widest font-bold">{proj.role}</div>
+        </div>
+
+        <div className="space-y-4 flex-1">
+          <ProjectMetaBadges proj={proj} gradInfo={gradInfo} />
+          <p className="font-chakra text-sm lg:text-base text-slate-300 leading-relaxed m-0">
             {proj.summary}
           </p>
-
-          {proj.keyContributions && proj.keyContributions.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-retro-gray/30">
-              <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] uppercase mb-3 opacity-90">Key Contributions</h5>
+          {proj.keyContributions?.length > 0 && (
+            <div className="pt-2 border-t border-retro-gray/30">
+              <h5 className="font-pixel text-[9px] text-retro-yellow tracking-[0.2em] uppercase mb-2.5">Key Contributions</h5>
               <ul className="space-y-2 border-l-2 border-retro-yellow/40 pl-4">
                 {proj.keyContributions.map((kc, i) => (
                   <li key={i} className="font-chakra text-xs lg:text-sm text-slate-300 leading-relaxed flex items-start gap-2">
-                    <span className="text-retro-yellow select-none shrink-0 mt-0.5">▸</span>
+                    <span className="text-retro-yellow shrink-0 mt-0.5">▸</span>
                     <span>{kc}</span>
                   </li>
                 ))}
@@ -191,33 +270,92 @@ const ProjectCard = ({ proj, idx, gradInfo }) => (
             </div>
           )}
         </div>
-      </div>
-      
-      <div className="flex flex-wrap justify-start w-full gap-2 pt-6 border-t-[4px] border-retro-gray/30 group/tech shrink-0">
-        {proj.tech.map(t => (
-          <span 
-            key={t} 
-            title={`Click or hover to learn how ${t} was utilized (data needed)`}
-            className="font-jetbrains bg-retro-gray px-2 py-1 text-[10px] md:text-xs border-2 border-white/20 text-white shadow-sm font-bold text-center transition-all duration-300 hover:-translate-y-1 hover:border-retro-yellow hover:text-retro-yellow hover:bg-retro-dark cursor-help"
-          >
-            {t}
-          </span>
-        ))}
+
+        <div className="flex flex-wrap gap-2 pt-4 border-t-2 border-retro-gray/30">
+          {proj.tech.map((t) => (
+            <span key={t} className="font-chakra bg-retro-gray px-2.5 py-1 text-xs border-2 border-white/20 text-white font-bold">
+              {t}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
-  </motion.div>
-);
+  );
+};
 
 export default function SimpleView() {
   const { profile, education, internships, nodes } = portfolioData;
-  const projects = nodes.filter(n => n.type === 'project');
+  const nodeById = Object.fromEntries(nodes.map(n => [n.id, n]));
 
-  const gradProjects = projects.filter(n => n.isGraduationProject);
-  const normalProjects = projects.filter(n => !n.isGraduationProject);
+  // Strictly sorted newest -> oldest within each category matching CV dates & Map names!
+  const categoryGroups = [
+    {
+      id: 'clients',
+      title: 'Clients',
+      color: '#38bdf8',
+      icon: HubIconSims,
+      items: [nodeById.proj_gm, nodeById.proj2].filter(Boolean) // 11/2026 -> 08/2026
+    },
+    {
+      id: 'vr',
+      title: 'VR',
+      color: '#c084fc',
+      icon: HubIconVR,
+      items: [nodeById.proj3, nodeById.proj4, nodeById.proj1].filter(Boolean) // 04/2026 -> 02/2026 -> 07/2025
+    },
+    {
+      id: '2d',
+      title: '2D',
+      color: '#f4b41b',
+      icon: HubIconJams,
+      items: [nodeById.proj6, nodeById.proj7, nodeById.proj8, nodeById.proj5].filter(Boolean) // 09/2026 -> 08/2026 -> 07/2026 -> 12/2025
+    }
+  ];
+
+  const allSortedByCat = categoryGroups.flatMap((g) => g.items);
+
+  const [selectedCat, setSelectedCat] = useState('clients');
+  const [carouselIdx, setCarouselIdx] = useState(0);
+  const [trackOffset, setTrackOffset] = useState(0);
+  const cartridgeViewportRef = useRef(null);
+  const activeCartridgeRef = useRef(null);
+
+  const activeItems =
+    selectedCat === 'all'
+      ? allSortedByCat
+      : categoryGroups.find((c) => c.id === selectedCat)?.items || [];
+
+  const safeIdx = activeItems.length > 0 ? carouselIdx % activeItems.length : 0;
+  const currentCarouselProj = activeItems[safeIdx] || activeItems[0];
+
+  // Lock the selected golden cartridge DEAD-CENTER horizontally (even on 1/9, 9/9, or 1/2!)
+  // so its downward pointer arrow always aligns right above the centered "1/9" counter!
+  useEffect(() => {
+    const updateTrackCenter = () => {
+      if (!activeCartridgeRef.current || !cartridgeViewportRef.current) return;
+      const viewportW = cartridgeViewportRef.current.clientWidth;
+      const pill = activeCartridgeRef.current;
+      const pillCenter = pill.offsetLeft + pill.offsetWidth / 2;
+      setTrackOffset(Math.round(viewportW / 2 - pillCenter));
+    };
+
+    updateTrackCenter();
+    const raf = requestAnimationFrame(updateTrackCenter);
+    window.addEventListener('resize', updateTrackCenter);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', updateTrackCenter);
+    };
+  }, [safeIdx, selectedCat, activeItems.length]);
+
+  const handleSelectCat = (catId) => {
+    setSelectedCat(catId);
+    setCarouselIdx(0);
+  };
 
   // Scroll spy for active navbar highlighting
   const [activeSection, setActiveSection] = useState('about');
-  const navSections = ['about', 'skills', 'grad-projects', 'contact'];
+  const navSections = ['about', 'skills', 'projects', 'contact'];
 
   useEffect(() => {
     const observers = [];
@@ -237,7 +375,7 @@ export default function SimpleView() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-retro-dark text-retro-text font-sans relative">
+    <div className="min-h-screen bg-retro-dark text-retro-text font-chakra relative">
       <RetroParticles />
       
       {/* Sticky Navigation */}
@@ -252,7 +390,7 @@ export default function SimpleView() {
             {[
               { id: 'about', label: 'ABOUT', Icon: UserIcon },
               { id: 'skills', label: 'SKILLS', Icon: WrenchIcon },
-              { id: 'grad-projects', label: 'PROJECTS', Icon: FolderIcon },
+              { id: 'projects', label: 'PROJECTS', Icon: FolderIcon },
               { id: 'contact', label: 'CONTACT', Icon: PhoneIcon },
             ].map(({ id, label, Icon }) => {
               const isActive = activeSection === id;
@@ -405,7 +543,7 @@ export default function SimpleView() {
                 <h4 className="text-retro-light-blue font-bold text-lg mb-5 uppercase tracking-widest">{category.replace('_', ' ')}</h4>
                 <div className={`flex flex-wrap gap-3 ${category === 'Personal Skills' ? 'justify-center' : ''}`}>
                   {items.map(item => (
-                    <span key={item} className="font-jetbrains bg-retro-purple hover:bg-retro-yellow hover:text-retro-dark hover:-translate-y-1 transition-all duration-300 px-3 py-2 text-sm md:text-base border-2 border-retro-blue font-bold cursor-default shadow-sm">
+                    <span key={item} className="font-chakra bg-retro-purple hover:bg-retro-yellow hover:text-retro-dark hover:-translate-y-1 transition-all duration-300 px-3 py-2 text-sm md:text-base border-2 border-retro-blue font-bold cursor-default shadow-sm">
                       {item}
                     </span>
                   ))}
@@ -415,28 +553,209 @@ export default function SimpleView() {
           </div>
         </motion.section>
 
-        <motion.section id="grad-projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="w-full pt-32 scroll-mt-28 bg-retro-dark">
-          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-16 text-center pb-4 border-b-4 border-retro-gray border-dashed max-w-7xl mx-auto px-4">Graduation Projects</h3>
-          <div className="max-w-7xl mx-auto px-2 md:px-4 flex flex-col gap-16 md:gap-32">
-            {gradProjects.map((proj, idx) => (
-              <ProjectCard 
-                key={proj.id}
-                proj={proj} 
-                idx={idx}
-                gradInfo={proj.gradInfo}
-              />
-            ))}
-          </div>
-        </motion.section>
+        <div id="projects" className="scroll-mt-28 pt-32 max-w-7xl mx-auto px-3 md:px-6">
+          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-10 text-center pb-4 border-b-4 border-retro-gray border-dashed">
+            Projects
+          </h3>
 
-        <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant} className="w-full pt-32 scroll-mt-28 bg-retro-dark">
-          <h3 className="font-pixel text-3xl md:text-4xl text-retro-green mb-16 text-center pb-4 border-b-4 border-retro-gray border-dashed max-w-7xl mx-auto px-4">Projects</h3>
-          <div className="max-w-7xl mx-auto px-2 md:px-4 flex flex-col gap-16 md:gap-32">
-            {normalProjects.map((proj, idx) => (
-              <ProjectCard key={proj.id} proj={proj} idx={idx} />
-            ))}
+          {/* ── LOCKED-IN LEVEL CATEGORY BAR (No Numbers, Identical 52px Height & Baseline!) ── */}
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 mb-8">
+            {[
+              ...categoryGroups.map((cat) => ({
+                id: cat.id,
+                title: cat.title,
+                color: cat.color,
+                renderIcon: () => (
+                  <img
+                    src={cat.icon}
+                    alt=""
+                    className="w-6 h-6 shrink-0"
+                    style={{ imageRendering: 'pixelated' }}
+                  />
+                )
+              })),
+              {
+                id: 'all',
+                title: 'All',
+                color: '#f4f4f4',
+                renderIcon: () => <AllGridPixelIcon />
+              }
+            ].map((tab) => {
+              const active = selectedCat === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => handleSelectCat(tab.id)}
+                  className="h-[52px] px-5 border-[3px] flex items-center justify-center gap-3 cursor-pointer transition-colors"
+                  style={{
+                    backgroundColor: active ? '#1e2538' : '#141826',
+                    borderColor: active ? '#f4b41b' : '#ffffff',
+                    boxShadow: active
+                      ? '0 0 22px rgba(244,180,27,0.45), 5px 5px 0 #000'
+                      : '5px 5px 0 #000'
+                  }}
+                >
+                  {tab.renderIcon()}
+                  <span
+                    className="font-pixel text-sm md:text-base leading-none"
+                    style={{ color: active ? '#fef08a' : tab.color }}
+                  >
+                    {tab.title}
+                  </span>
+                </button>
+              );
+            })}
           </div>
-        </motion.section>
+
+          {/* ── CENTER-LOCKED ARCADE CARTRIDGE CAROUSEL ── */}
+          {currentCarouselProj && (
+            <div className="space-y-5">
+              {/* Single-Row Non-Wrapping Cartridge Dock: Pinned Left/Right Arrows + Auto-Centering Game Cartridges */}
+              <div className="flex items-center gap-3 w-full">
+                {/* Pinned Left Arrow Paddle */}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setCarouselIdx((i) => (i - 1 + activeItems.length) % activeItems.length)
+                  }
+                  aria-label="Previous project"
+                  className="shrink-0 w-12 md:w-14 h-[74px] bg-retro-blue hover:bg-retro-yellow hover:text-retro-dark text-white border-[3px] border-white hover:border-black flex items-center justify-center cursor-pointer transition-colors shadow-[5px_5px_0_#000]"
+                >
+                  <ChevronLeft size={28} strokeWidth={3} />
+                </button>
+
+                {/* Center-Locked Sliding Cartridge Viewport — active item ALWAYS glides to exact center! */}
+                <div
+                  ref={cartridgeViewportRef}
+                  className="relative flex-1 min-w-0 overflow-hidden py-4"
+                  style={{
+                    maskImage:
+                      'linear-gradient(90deg, transparent 0px, black 28px, black calc(100% - 28px), transparent 100%)',
+                    WebkitMaskImage:
+                      'linear-gradient(90deg, transparent 0px, black 28px, black calc(100% - 28px), transparent 100%)'
+                  }}
+                >
+                  <motion.div
+                    animate={{ x: trackOffset }}
+                    transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+                    className="relative flex items-center gap-3.5 w-max"
+                  >
+                    {activeItems.map((item, i) => {
+                      const isCurrent = i === safeIdx;
+                      return (
+                        <button
+                          key={item.id}
+                          ref={isCurrent ? activeCartridgeRef : null}
+                          type="button"
+                          onClick={() => setCarouselIdx(i)}
+                          className={`relative shrink-0 h-[74px] px-4 border-[3px] flex items-center gap-3.5 cursor-pointer transition-colors text-left ${
+                            isCurrent ? 'scale-105 z-10' : 'hover:border-retro-light-blue opacity-75 hover:opacity-100'
+                          }`}
+                          style={
+                            isCurrent
+                              ? {
+                                  background:
+                                    'linear-gradient(180deg, #fef08a 0%, #f4b41b 60%, #eab308 100%)',
+                                  borderColor: '#000000',
+                                  boxShadow:
+                                    '0 0 26px rgba(244,180,27,0.55), 5px 5px 0 #000'
+                                }
+                              : {
+                                  backgroundColor: '#151a2c',
+                                  borderColor: '#475569',
+                                  boxShadow: '5px 5px 0 #000'
+                                }
+                          }
+                        >
+                          {/* Large 44x44 Pixel Icon Box */}
+                          <div
+                            className="w-11 h-11 shrink-0 border-2 p-1.5 flex items-center justify-center"
+                            style={{
+                              backgroundColor: '#0b0e17',
+                              borderColor: isCurrent ? '#000000' : '#64748b'
+                            }}
+                          >
+                            <img
+                              src={GAME_SPRITES[item.id]}
+                              alt=""
+                              className="w-full h-full"
+                              style={{ imageRendering: 'pixelated' }}
+                            />
+                          </div>
+
+                          {/* Title Only — Cleanly Vertically Centered */}
+                          <span
+                            className="font-chakra text-base md:text-lg font-bold leading-none whitespace-nowrap pr-1"
+                            style={{ color: isCurrent ? '#140e02' : '#ffffff' }}
+                          >
+                            {item.client || item.title}
+                          </span>
+
+                          {/* Active Downward Pointer Triangle (points dead-center onto 1/9 below!) */}
+                          {isCurrent && (
+                            <div className="absolute left-1/2 -translate-x-1/2 -bottom-[11px] w-0 h-0 border-l-[10px] border-r-[10px] border-t-[10px] border-l-transparent border-r-transparent border-t-[#eab308] drop-shadow-[0_2px_0_#000]" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                </div>
+
+                {/* Pinned Right Arrow Paddle */}
+                <button
+                  type="button"
+                  onClick={() => setCarouselIdx((i) => (i + 1) % activeItems.length)}
+                  aria-label="Next project"
+                  className="shrink-0 w-12 md:w-14 h-[74px] bg-retro-blue hover:bg-retro-yellow hover:text-retro-dark text-white border-[3px] border-white hover:border-black flex items-center justify-center cursor-pointer transition-colors shadow-[5px_5px_0_#000]"
+                >
+                  <ChevronRight size={28} strokeWidth={3} />
+                </button>
+              </div>
+
+              {/* Centered Big "1/9" Counter + Centered Dots Indicator Directly Below It */}
+              <div className="flex flex-col items-center justify-center gap-2.5 py-1">
+                <span className="font-pixel text-lg md:text-2xl text-retro-yellow leading-none tracking-widest drop-shadow-[2px_2px_0_#000]">
+                  {safeIdx + 1}/{activeItems.length}
+                </span>
+
+                <div className="flex items-center justify-center gap-2">
+                  {activeItems.map((it, idx) => (
+                    <button
+                      key={it.id}
+                      type="button"
+                      onClick={() => setCarouselIdx(idx)}
+                      className={`h-3 transition-all cursor-pointer border-2 border-black ${
+                        idx === safeIdx
+                          ? 'w-9 bg-retro-yellow shadow-[0_0_10px_rgba(244,180,27,0.6)]'
+                          : 'w-3 bg-slate-600 hover:bg-slate-400'
+                      }`}
+                      aria-label={`Jump to ${it.title}`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Active Project Showcase */}
+              <div className="relative">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentCarouselProj.id}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -24 }}
+                    transition={{ duration: 0.22 }}
+                  >
+                    <ProjectCard
+                      proj={currentCarouselProj}
+                      gradInfo={currentCarouselProj.gradInfo}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+          )}
+        </div>
 
         <motion.section id="contact" 
           initial="hidden" whileInView="visible" viewport={{ margin: "-25% 0px -25% 0px" }} variants={sectionFocusVariant}
